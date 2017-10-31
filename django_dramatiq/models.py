@@ -50,7 +50,7 @@ class Task(models.Model):
     status = models.CharField(max_length=8, choices=STATUSES, default=STATUS_ENQUEUED)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    message_data = models.TextField()
+    message_data = models.BinaryField()
 
     tasks = TaskManager()
 
@@ -59,7 +59,7 @@ class Task(models.Model):
 
     @cached_property
     def message(self):
-        return Message.decode(self.message_data)
+        return Message.decode(self.message_data.tobytes())
 
     def __str__(self):
         return str(self.message)
