@@ -1,0 +1,10 @@
+/.benchmarks
+/.cache
+/.coverage
+/.tox
+/benchmark*.svg
+/build
+/dist
+/*.egg-info
+/htmlcov
+__pycache__
