@@ -158,7 +158,7 @@ def test_customers_can_be_emailed(transactional_db, broker, worker, mailoutbox):
 
   <dt>django_dramatiq.middleware.DbConnectionsMiddleware</dt>
   <dd>
-    This middleware takes case of closing up DB connections when
+    This middleware takes care of closing up DB connections when
     worker threads shut down.
   </dd>
 </dl>
