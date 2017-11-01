@@ -1,0 +1,15 @@
+language: python
+sudo: required
+python:
+  - "3.6"
+services:
+  - postgres
+install:
+  - pip install -U pipenv
+  - pipenv install --dev
+before_script:
+  - psql -c "create database django_dramatiq;" -U postgres
+script:
+  - DATABASE_NAME=django_dramatiq DATABASE_USER=postgres DATABASE_PASSWORD="" py.test
+after_success:
+  - CODECLIMATE_REPO_TOKEN=84e0a7c0f0ba45cea6c724196d98f5aeda05a41167b40940de65528e47c28290 codeclimate-test-reporter

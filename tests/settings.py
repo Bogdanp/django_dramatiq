@@ -72,9 +72,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "HOST": "127.0.0.1",
-        "NAME": "django_dramatiq",
-        "USER": "django_dramatiq",
-        "PASSWORD": "django_dramatiq",
+        "NAME": os.getenv("DATABASE_NAME", "django_dramatiq"),
+        "USER": os.getenv("DATABASE_USER", "django_dramatiq"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", "django_dramatiq"),
     }
 }
 
