@@ -146,6 +146,16 @@ def test_customers_can_be_emailed(transactional_db, broker, worker, mailoutbox):
     assert mailoutbox[0].subject == "Welcome Jim!"
 ```
 
+#### Cleaning up old tasks
+
+The `AdminMiddleware` stores task metadata in a relational DB so it's
+a good idea to garbage collect that data every once in a while.  You
+can use the `delete_old_tasks` actor to achieve this on a cron:
+
+``` python
+delete_old_tasks.send(max_task_age=86400)
+```
+
 
 ### Middleware
 

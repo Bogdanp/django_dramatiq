@@ -35,3 +35,12 @@ broker_options = broker_settings.get("OPTIONS", {})
 middleware = [load_middleware(path) for path in broker_settings.get("MIDDLEWARE", [])]
 broker = broker_class(middleware=middleware, **broker_options)
 dramatiq.set_broker(broker)
+
+
+@dramatiq.actor
+def delete_old_tasks(max_task_age=86400):
+    """This task deletes all tasks older than `max_task_age` from the
+    database.
+    """
+    from .models import Task
+    Task.tasks.delete_old_tasks(max_task_age)

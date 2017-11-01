@@ -1,8 +1,10 @@
 import json
 
+from datetime import timedelta
 from django.conf import settings
 from django.db import models, utils
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from dramatiq import Message
 
 #: The database label to use when storing task metadata.
@@ -30,6 +32,11 @@ class TaskManager(models.Manager):
 
             task.save()
             return task
+
+    def delete_old_tasks(self, max_task_age):
+        self.using(DATABASE_LABEL).filter(
+            created_at__lte=now() - timedelta(seconds=max_task_age)
+        ).delete()
 
 
 class Task(models.Model):
