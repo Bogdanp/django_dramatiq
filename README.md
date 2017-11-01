@@ -77,6 +77,13 @@ def email_customer(customer_id, subject, message):
   send_mail(subject, message, "webmaster@example.com", [customer.email])
 ```
 
+### Running workers
+
+django_dramatiq comes with a management command you can use to
+auto-discover task modules and run workers:
+
+    python manage.py rundramatiq
+
 ### Testing
 
 You should have a separate settings file for test.  In that file, you
@@ -146,13 +153,13 @@ def test_customers_can_be_emailed(broker, worker):
 ### Middleware
 
 <dl>
-  <dt>`django_dramatiq.middleware.AdminMiddleware`</dt>
+  <dt>django_dramatiq.middleware.AdminMiddleware</dt>
   <dd>
     This middleware stores metadata about tasks in flight to a
     database and exposes them via the Django admin.
   </dd>
 
-  <dt>`django_dramatiq.middleware.DbConnectionsmiddleware`</dt>
+  <dt>django_dramatiq.middleware.DbConnectionsmiddleware</dt>
   <dd>
     This middleware takes case of closing up DB connections when
     worker threads shut down.
