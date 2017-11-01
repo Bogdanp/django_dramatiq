@@ -7,6 +7,7 @@ services:
 install:
   - pip install -U codeclimate-test-reporter pipenv
   - pipenv install --dev
+  - pip install -I "coverage>4.0,<4.4"
 before_script:
   - psql -c "create database django_dramatiq;" -U postgres
 script:
