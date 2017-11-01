@@ -1,5 +1,3 @@
-import json
-
 from datetime import timedelta
 from django.conf import settings
 from django.db import models, utils
@@ -9,10 +7,6 @@ from dramatiq import Message
 
 #: The database label to use when storing task metadata.
 DATABASE_LABEL = getattr(settings, "DRAMATIQ_TASKS_DATABASE", "default")
-
-
-def to_json(data):
-    return json.dumps(data, separators=(",", ":"))
 
 
 class TaskManager(models.Manager):
