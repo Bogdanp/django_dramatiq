@@ -57,6 +57,7 @@ class Command(BaseCommand):
             # django_dramatiq.tasks app1.tasks app2.tasks ...
             *tasks_modules,
         ]
+
         self.stdout.write(f' * Running dramatiq: "{" ".join(process_args)}"\n\n')
         os.putenv("PYTHONPATH", f"{settings.BASE_DIR}")
         os.execvp("dramatiq", process_args)
