@@ -5,7 +5,7 @@ python:
 services:
   - postgres
 install:
-  - pip install -U pipenv
+  - pip install -U codeclimate-test-reporter pipenv
   - pipenv install --dev
 before_script:
   - psql -c "create database django_dramatiq;" -U postgres
