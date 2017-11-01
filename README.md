@@ -8,10 +8,12 @@
 
 **django_dramatiq** is a Django app that integrates with [Dramatiq][dramatiq].
 
+
 ## Requirements
 
 * [Django][django] 1.11+
 * [Dramatiq][dramatiq] 0.10+
+
 
 ## Installation
 
@@ -19,7 +21,7 @@ Use [pipenv][pipenv] (or plain pip) to install the package:
 
     pipenv install django_dramatiq
 
-Add `django_dramatiq` to installed apps, before any of your custom
+Add `django_dramatiq` to installed apps, *before* any of your custom
 apps:
 
 ``` python
@@ -54,6 +56,7 @@ DRAMATIQ_BROKER = {
 # AdminMiddleware is enabled.  The default value is "default".
 DRAMATIQ_TASKS_DATABASE = "default"
 ```
+
 
 ## Usage
 
@@ -131,22 +134,17 @@ In your tests, use those fixtures whenever you want background tasks
 to be executed:
 
 ``` python
-from django.core import mail
-
-from customers.tasks imoprt email_customer
-
-
-def test_customers_can_be_emailed(broker, worker):
+def test_customers_can_be_emailed(transactional_db, broker, worker, mailoutbox):
     customer = Customer(email="jim@gcpd.gov")
     # Assuming "send_welcome_email" enqueues an "email_customer" task
     customer.send_welcome_email()
 
     # Wait for all the tasks to be processed
-    broker.join(email_customer.queue_name)
+    broker.join("default")
     worker.join()
 
-    assert len(mail.outbox) == 1
-    assert mail.outbox[0].subject == "Welcome Jim!"
+    assert len(mailoutbox) == 1
+    assert mailoutbox[0].subject == "Welcome Jim!"
 ```
 
 
@@ -165,6 +163,7 @@ def test_customers_can_be_emailed(broker, worker):
     worker threads shut down.
   </dd>
 </dl>
+
 
 ## License
 
