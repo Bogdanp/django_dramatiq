@@ -21,7 +21,7 @@ Use [pipenv][pipenv] (or plain pip) to install the package:
 
     pipenv install django_dramatiq
 
-Add `django_dramatiq` to installed apps, *before* any of your custom
+Add `django_dramatiq` to installed apps *before* any of your custom
 apps:
 
 ``` python
@@ -62,10 +62,10 @@ DRAMATIQ_TASKS_DATABASE = "default"
 
 ### Declaring tasks
 
-django_dramatiq will auto-discover tasks defined in `tasks` modules
-defined in each of your installed apps.  For example, if you have an
-app named `customers`, your tasks for that app should live in a module
-called `customers.tasks`:
+django_dramatiq will auto-discover tasks defined in `tasks` modules in
+each of your installed apps.  For example, if you have an app named
+`customers`, your tasks for that app should live in a module called
+`customers.tasks`:
 
 ``` python
 import dramatiq
@@ -89,9 +89,8 @@ auto-discover task modules and run workers:
 
 ### Testing
 
-You should have a separate settings file for test.  In that file, you
-should overwrite the broker to use Dramatiq's built-in
-[StubBroker][stubbroker]:
+You should have a separate settings file for test.  In that file,
+overwrite the broker to use Dramatiq's [StubBroker][stubbroker]:
 
 ``` python
 DRAMATIQ_BROKER = {
@@ -109,7 +108,7 @@ DRAMATIQ_BROKER = {
 
 #### Using [pytest-django][pytest-django]
 
-In your `conftest` module set up fixutres for your broker and a
+In your `conftest` module set up fixtures for your broker and a
 worker:
 
 ``` python
