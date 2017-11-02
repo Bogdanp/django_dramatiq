@@ -15,6 +15,11 @@
 * [Dramatiq][dramatiq] 0.10+
 
 
+## Example
+
+You can find an example application built with django_dramatiq [here][example].
+
+
 ## Installation
 
 Use [pipenv][pipenv] (or plain pip) to install the package:
@@ -181,6 +186,7 @@ django_dramatiq is licensed under Apache 2.0.  Please see
 
 [django]: http://djangoproject.com/
 [dramatiq]: https://github.com/Bogdanp/dramatiq
+[example]: https://github.com/Bogdanp/django_dramatiq_example
 [license]: https://github.com/Bogdanp/django_dramatiq/blob/master/LICENSE
 [pipenv]: https://docs.pipenv.org
 [pytest-django]: https://pytest-django.readthedocs.io/en/latest/index.html
