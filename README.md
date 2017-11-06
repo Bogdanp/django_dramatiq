@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/Bogdanp/django_dramatiq.svg?branch=master)](https://travis-ci.org/Bogdanp/django_dramatiq)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d20f010978828b7530dd/test_coverage)](https://codeclimate.com/github/Bogdanp/django_dramatiq/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d20f010978828b7530dd/maintainability)](https://codeclimate.com/github/Bogdanp/django_dramatiq/maintainability)
-[![PyPI version](https://badge.fury.io/py/django_dramatiq.svg)](https://badge.fury.io/py/django_dramatiq)
-[![Gitter Chat](https://badges.gitter.im/django_dramatiq/django_dramatiq.svg)](https://gitter.im/dramatiq/dramatiq)
+[![PyPI version](https://badge.fury.io/py/django-dramatiq.svg)](https://badge.fury.io/py/django-dramatiq)
+[![Gitter Chat](https://badges.gitter.im/dramatiq/dramatiq.svg)](https://gitter.im/dramatiq/dramatiq)
 
 **django_dramatiq** is a Django app that integrates with [Dramatiq][dramatiq].
 
