@@ -29,6 +29,11 @@ Add `django_dramatiq` to installed apps *before* any of your custom
 apps:
 
 ``` python
+import os
+
+# django_dramatiq adds this value to append to PYTHONPATH
+BASE_DIR = os.path.dirname(__file__)
+
 INSTALLED_APPS = [
     "django_dramatiq",
 
