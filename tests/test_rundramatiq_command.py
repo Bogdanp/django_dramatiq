@@ -28,15 +28,16 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     # Then stdout should contain a message about discovered task modules
     assert "Discovered tasks module: 'tests.testapp.tasks'" in buff.getvalue()
 
-    expected_exec_path = os.path.join(
-        os.path.dirname(sys.executable),
-        'dramatiq'
-    )
-
     # And execvp should be called with the appropriate arguments
     cores = str(rundramatiq.CPU_COUNT)
+    expected_exec_name = "dramatiq"
+    expected_exec_path = os.path.join(
+        os.path.dirname(sys.executable),
+        expected_exec_name,
+    )
+
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_path, "--processes", cores, "--threads", cores,
+        expected_exec_name, "--processes", cores, "--threads", cores,
         "--watch", path_to().replace("/tests", ""),
         "django_dramatiq.setup",
         "tests.testapp.tasks",

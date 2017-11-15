@@ -1,6 +1,5 @@
 import multiprocessing
 import os
-import subprocess
 import sys
 
 from django.apps import apps
@@ -41,12 +40,13 @@ class Command(BaseCommand):
         )
 
     def handle(self, use_watcher, use_gevent, processes, threads, verbosity, *args, **options):
-        executable = "dramatiq-gevent" if use_gevent else "dramatiq"
+        executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
+        executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", os.getcwd()] if use_watcher else []
         verbosity_args = ["-v"] * (verbosity - 1)
         tasks_modules = self.discover_tasks_modules()
         process_args = [
-            self._resolve_executable(executable),
+            executable_name,
             "--processes", str(processes),
             "--threads", str(threads),
 
@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
         self.stdout.write(f' * Running dramatiq: "{" ".join(process_args)}"\n\n')
         os.putenv("PYTHONPATH", f"{settings.BASE_DIR}")
-        os.execvp(self._resolve_executable("dramatiq"), process_args)
+        os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
         app_configs = apps.get_app_configs()
