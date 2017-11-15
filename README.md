@@ -31,7 +31,8 @@ apps:
 ``` python
 import os
 
-# django_dramatiq adds this value to append to PYTHONPATH
+# This is required so that django_dramatiq can set up the correct module
+# import path when it executes Dramatiq so make sure it's present.
 BASE_DIR = os.path.dirname(__file__)
 
 INSTALLED_APPS = [
