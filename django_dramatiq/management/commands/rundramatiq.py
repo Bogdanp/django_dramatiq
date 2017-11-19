@@ -5,7 +5,7 @@ import sys
 from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
+from django.utils.module_loading import module_has_submodule
 
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
@@ -71,7 +71,7 @@ class Command(BaseCommand):
             if conf.name == "django_dramatiq":
                 continue
 
-            if os.path.exists(os.path.join(conf.path, "tasks.py")):
+            if module_has_submodule(conf.module, 'tasks'):
                 module = f"{conf.name}.tasks"
                 tasks_modules.append(module)
                 self.stdout.write(f" * Discovered tasks module: {module!r}")
