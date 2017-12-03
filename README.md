@@ -184,6 +184,14 @@ delete_old_tasks.send(max_task_age=86400)
 </dl>
 
 
+### Docker for Mac and Vagrant
+
+When using autoreload on top of a shared fs inside of Docker for Mac
+and Vagrant, inotify may block the main process, resulting in logs not
+being output.  To work around this, you can pass the
+``--reload-use-polling`` flag to `rundramatiq`.
+
+
 ## License
 
 django_dramatiq is licensed under Apache 2.0.  Please see

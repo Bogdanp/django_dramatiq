@@ -22,6 +22,15 @@ class Command(BaseCommand):
             help="Disable autoreload.",
         )
         parser.add_argument(
+            "--reload-use-polling",
+            action="store_true",
+            dest="use_polling_watcher",
+            help=(
+                "Use a poll-based file watcher for autoreload (useful under "
+                "Vagrant and Docker for Mac)."
+            ),
+        )
+        parser.add_argument(
             "--use-gevent",
             action="store_true",
             help="Use gevent for worker concurrency.",
@@ -39,10 +48,13 @@ class Command(BaseCommand):
             help=f"The number of threads per process to use (default: {CPU_COUNT})."
         )
 
-    def handle(self, use_watcher, use_gevent, processes, threads, verbosity, *args, **options):
+    def handle(self, use_watcher, use_polling_watcher, use_gevent, processes, threads, verbosity, *args, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", os.getcwd()] if use_watcher else []
+        if watch_args and use_polling_watcher:
+            watch_args.append("--watch-use-polling")
+
         verbosity_args = ["-v"] * (verbosity - 1)
         tasks_modules = self.discover_tasks_modules()
         process_args = [
@@ -50,7 +62,7 @@ class Command(BaseCommand):
             "--processes", str(processes),
             "--threads", str(threads),
 
-            # --watch /path/to/project
+            # --watch /path/to/project [--watch-use-polling]
             *watch_args,
 
             # -v -v ...

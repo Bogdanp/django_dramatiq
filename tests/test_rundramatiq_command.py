@@ -42,3 +42,28 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
         "django_dramatiq.setup",
         "tests.testapp.tasks",
     ])
+
+
+@patch("os.execvp")
+def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
+    # Given an output buffer
+    buff = StringIO()
+
+    # When I call the rundramatiq command with --reload-use-polling
+    call_command("rundramatiq", "--reload-use-polling", stdout=buff)
+
+    # Then execvp should be called with the appropriate arguments
+    cores = str(rundramatiq.CPU_COUNT)
+    expected_exec_name = "dramatiq"
+    expected_exec_path = os.path.join(
+        os.path.dirname(sys.executable),
+        expected_exec_name,
+    )
+
+    execvp_mock.assert_called_once_with(expected_exec_path, [
+        expected_exec_name, "--processes", cores, "--threads", cores,
+        "--watch", path_to().replace("/tests", ""),
+        "--watch-use-polling",
+        "django_dramatiq.setup",
+        "tests.testapp.tasks",
+    ])
