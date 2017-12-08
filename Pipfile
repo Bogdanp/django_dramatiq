@@ -1,17 +1,20 @@
 [[source]]
+
 name = "pypi"
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 
 [packages]
+
 django = "*"
 dramatiq = {extras = ["watch", "rabbitmq"]}
 
 
 [dev-packages]
+
 bumpversion = "*"
-psycopg2 = "*"
+"psycopg2" = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-django = "*"
