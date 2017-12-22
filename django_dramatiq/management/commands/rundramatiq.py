@@ -39,13 +39,13 @@ class Command(BaseCommand):
             "--processes", "-p",
             default=CPU_COUNT,
             type=int,
-            help=f"The number of processes to run (default: {CPU_COUNT})."
+            help="The number of processes to run (default: %d)." % CPU_COUNT,
         )
         parser.add_argument(
             "--threads", "-t",
             default=CPU_COUNT,
             type=int,
-            help=f"The number of threads per process to use (default: {CPU_COUNT})."
+            help="The number of threads per process to use (default: %d)." % CPU_COUNT,
         )
 
     def handle(self, use_watcher, use_polling_watcher, use_gevent, processes, threads, verbosity, *args, **options):
@@ -72,8 +72,8 @@ class Command(BaseCommand):
             *tasks_modules,
         ]
 
-        self.stdout.write(f' * Running dramatiq: "{" ".join(process_args)}"\n\n')
-        os.putenv("PYTHONPATH", f"{settings.BASE_DIR}")
+        self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
+        os.putenv("PYTHONPATH", settings.BASE_DIR)
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
@@ -84,9 +84,9 @@ class Command(BaseCommand):
                 continue
 
             if module_has_submodule(conf.module, 'tasks'):
-                module = f"{conf.name}.tasks"
+                module = conf.name + ".tasks"
                 tasks_modules.append(module)
-                self.stdout.write(f" * Discovered tasks module: {module!r}")
+                self.stdout.write(" * Discovered tasks module: %r" % module)
         return tasks_modules
 
     def _resolve_executable(self, exec_name):

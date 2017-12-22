@@ -26,10 +26,10 @@ class TaskAdmin(admin.ModelAdmin):
 
     def message_details(self, instance):
         message_details = json.dumps(instance.message._asdict(), indent=4)
-        return mark_safe(f"<pre>{message_details}</pre>")
+        return mark_safe("<pre>%s</pre>" % message_details)
 
     def traceback(self, instance):
         traceback = instance.message.options.get("traceback", None)
         if traceback:
-            return mark_safe(f"<pre>{traceback}</pre>")
+            return mark_safe("<pre>%s</pre>" % traceback)
         return None
