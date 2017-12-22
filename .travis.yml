@@ -1,16 +1,24 @@
 language: python
 sudo: required
 python:
+  - "3.5"
   - "3.6"
+  - "3.6-dev"
+  - "3.7-dev"
+  - "nightly"
+matrix:
+  allow_failures:
+    - python: "3.6-dev"
+    - python: "3.7-dev"
+    - python: "nightly"
 services:
   - postgres
 install:
-  - pip install -U codeclimate-test-reporter pipenv
-  - pipenv install --dev
+  - pip install -U codeclimate-test-reporter tox-travis
   - pip install -I "coverage>4.0,<4.4"
 before_script:
   - psql -c "create database django_dramatiq;" -U postgres
 script:
-  - PYTHONPATH=. DATABASE_NAME=django_dramatiq DATABASE_USER=postgres DATABASE_PASSWORD="" py.test
+  - TRAVIS=1 DATABASE_NAME=django_dramatiq DATABASE_USER=postgres DATABASE_PASSWORD="" tox
 after_success:
   - CODECLIMATE_REPO_TOKEN=84e0a7c0f0ba45cea6c724196d98f5aeda05a41167b40940de65528e47c28290 codeclimate-test-reporter
