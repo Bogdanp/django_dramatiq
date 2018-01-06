@@ -1,12 +1,12 @@
+import dramatiq
 import pytest
 
-from django_dramatiq import tasks
 from dramatiq import Worker
 
 
 @pytest.fixture(scope="session")
 def broker():
-    return tasks.broker
+    return dramatiq.get_broker()
 
 
 @pytest.fixture

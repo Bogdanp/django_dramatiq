@@ -7,12 +7,11 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django_dramatiq.management.commands import rundramatiq
 
-from .settings import path_to
-
 
 def test_rundramatiq_command_autodiscovers_modules():
     assert rundramatiq.Command().discover_tasks_modules() == [
         "django_dramatiq.setup",
+        "django_dramatiq.tasks",
         "tests.testapp.tasks",
     ]
 
@@ -38,8 +37,9 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--processes", cores, "--threads", cores, "--path", ".",
-        "--watch", path_to().replace("/tests", ""),
+        "--watch", ".",
         "django_dramatiq.setup",
+        "django_dramatiq.tasks",
         "tests.testapp.tasks",
     ])
 
@@ -62,8 +62,9 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--processes", cores, "--threads", cores, "--path", ".",
-        "--watch", path_to().replace("/tests", ""),
+        "--watch", ".",
         "--watch-use-polling",
         "django_dramatiq.setup",
+        "django_dramatiq.tasks",
         "tests.testapp.tasks",
     ])
