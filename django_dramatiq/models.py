@@ -1,12 +1,13 @@
 from datetime import timedelta
-from django.conf import settings
 from django.db import models, utils
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from dramatiq import Message
 
+from .apps import DjangoDramatiqConfig
+
 #: The database label to use when storing task metadata.
-DATABASE_LABEL = getattr(settings, "DRAMATIQ_TASKS_DATABASE", "default")
+DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 
 
 class TaskManager(models.Manager):

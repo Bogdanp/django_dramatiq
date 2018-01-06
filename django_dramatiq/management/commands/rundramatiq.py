@@ -57,7 +57,7 @@ class Command(BaseCommand):
     def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
-        watch_args = ["--watch", os.getcwd()] if use_watcher else []
+        watch_args = ["--watch", "."] if use_watcher else []
         if watch_args and use_polling_watcher:
             watch_args.append("--watch-use-polling")
 
@@ -86,10 +86,7 @@ class Command(BaseCommand):
         app_configs = apps.get_app_configs()
         tasks_modules = ["django_dramatiq.setup"]
         for conf in app_configs:
-            if conf.name == "django_dramatiq":
-                continue
-
-            if module_has_submodule(conf.module, 'tasks'):
+            if module_has_submodule(conf.module, "tasks"):
                 module = conf.name + ".tasks"
                 tasks_modules.append(module)
                 self.stdout.write(" * Discovered tasks module: %r" % module)

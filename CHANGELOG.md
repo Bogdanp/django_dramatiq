@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- The broker is now set up by `DjangoDramatiqConfig.ready`.
 - The minimum dramatiq version is now 0.18.
 - `BASE_DIR` is no longer a required setting.
 

@@ -1,13 +1,14 @@
+import dramatiq
 import pytest
 
-from django_dramatiq import tasks
 from dramatiq import Worker
 
 
 @pytest.fixture
 def broker():
-    yield tasks.broker
-    tasks.broker.flush_all()
+    broker = dramatiq.get_broker()
+    yield broker
+    broker.flush_all()
 
 
 @pytest.fixture
