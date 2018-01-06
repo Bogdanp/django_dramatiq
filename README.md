@@ -11,7 +11,7 @@
 ## Requirements
 
 * [Django][django] 1.11+
-* [Dramatiq][dramatiq] 0.10+
+* [Dramatiq][dramatiq] 0.18+
 
 
 ## Example
@@ -30,10 +30,6 @@ apps:
 
 ``` python
 import os
-
-# This is required so that django_dramatiq can set up the correct module
-# import path when it executes Dramatiq so make sure it's present.
-BASE_DIR = os.path.dirname(__file__)
 
 INSTALLED_APPS = [
     "django_dramatiq",

@@ -31,7 +31,7 @@ setup(
     ],
     install_requires=[
         "django>=1.11",
-        "dramatiq>=0.10.0",
+        "dramatiq>=0.18.0",
     ],
     python_requires=">=3.5",
     include_package_data=True,

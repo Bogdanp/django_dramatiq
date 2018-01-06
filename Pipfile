@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 
 django = "*"
-dramatiq = {extras = ["watch", "rabbitmq"]}
+dramatiq = {extras = ["watch"]}
 
 
 [dev-packages]

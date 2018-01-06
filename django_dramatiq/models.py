@@ -1,5 +1,3 @@
-import django
-
 from datetime import timedelta
 from django.conf import settings
 from django.db import models, utils
@@ -62,9 +60,7 @@ class Task(models.Model):
 
     @cached_property
     def message(self):
-        if django.VERSION[0] < 2:
-            return Message.decode(self.message_data.tobytes())
-        return Message.decode(self.message_data)
+        return Message.decode(bytes(self.message_data))
 
     def __str__(self):
         return str(self.message)

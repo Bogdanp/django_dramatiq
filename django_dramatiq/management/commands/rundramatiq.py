@@ -3,7 +3,6 @@ import os
 import sys
 
 from django.apps import apps
-from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
@@ -47,8 +46,15 @@ class Command(BaseCommand):
             type=int,
             help="The number of threads per process to use (default: %d)." % CPU_COUNT,
         )
+        parser.add_argument(
+            "--path", "-P",
+            default=".",
+            nargs="*",
+            type=str,
+            help="The import path (default: .).",
+        )
 
-    def handle(self, use_watcher, use_polling_watcher, use_gevent, processes, threads, verbosity, *args, **options):
+    def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", os.getcwd()] if use_watcher else []
@@ -61,6 +67,7 @@ class Command(BaseCommand):
             executable_name,
             "--processes", str(processes),
             "--threads", str(threads),
+            "--path", *path,
 
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,
@@ -73,7 +80,6 @@ class Command(BaseCommand):
         ]
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
-        os.putenv("PYTHONPATH", settings.BASE_DIR)
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):

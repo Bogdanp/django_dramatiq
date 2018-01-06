@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.0] - 2017-01-06
+### Added
+
+- `--path` command line argument.
+
+### Changed
+
+- The minimum dramatiq version is now 0.18.
+- `BASE_DIR` is no longer a required setting.
+
+### Fixed
+
+- `Task.message` no handles `memoryview`s properly.
+
 ## [0.1.5] - 2017-12-22
 ### Fixed
 
@@ -43,7 +57,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.5...v0.2.0
 [0.1.5]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.2...v0.1.3

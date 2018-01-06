@@ -8,8 +8,6 @@ def path_to(*paths):
     )
 
 
-BASE_DIR = path_to()
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
