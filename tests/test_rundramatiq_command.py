@@ -36,7 +36,7 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--processes", cores, "--threads", cores, "--path", ".",
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -61,7 +61,7 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--processes", cores, "--threads", cores, "--path", ".",
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
         "--watch", ".",
         "--watch-use-polling",
         "django_dramatiq.setup",
