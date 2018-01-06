@@ -65,9 +65,9 @@ class Command(BaseCommand):
         tasks_modules = self.discover_tasks_modules()
         process_args = [
             executable_name,
+            "--path", *path,
             "--processes", str(processes),
             "--threads", str(threads),
-            "--path", *path,
 
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,

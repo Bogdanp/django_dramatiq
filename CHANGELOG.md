@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.2] - 2017-01-06
+### Fixed
+
+- `--path` is now the first to be passed to `dramatiq`.  This fixes an
+  issue where the workers wouldn't boot when the `-no-reload` flag was
+  set.
+
 ## [0.2.0] - 2017-01-06
 ### Added
 
