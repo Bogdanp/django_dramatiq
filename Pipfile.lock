@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "16.7.0",
+            "platform_release": "17.2.0",
             "platform_system": "Darwin",
-            "platform_version": "Darwin Kernel Version 16.7.0: Mon Nov 13 21:56:25 PST 2017; root:xnu-3789.72.11~1/RELEASE_X86_64",
+            "platform_version": "Darwin Kernel Version 17.2.0: Fri Sep 29 18:27:05 PDT 2017; root:xnu-4570.20.62~3/RELEASE_X86_64",
             "python_full_version": "3.6.3",
             "python_version": "3.6",
             "sys_platform": "darwin"
@@ -43,10 +43,10 @@
         },
         "dramatiq": {
             "hashes": [
-                "sha256:529ca921df8a99e9214521beb719b4658be9a3f2bd9d4dd13954b92342bb90d5",
-                "sha256:5f2effb4052bf12435945d6d29b4aedf47414d608e4e93303743b507418ddf40"
+                "sha256:8f54d461e21ed1a6749831969083a66a65ce174db141721fd11d5206907d33d8",
+                "sha256:07286548851fa8d0b34741c91c55131b39c6a3447139853da1fd0b2036aa6182"
             ],
-            "version": "==0.18.0"
+            "version": "==0.19.0"
         },
         "gevent": {
             "hashes": [
