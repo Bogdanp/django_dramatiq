@@ -183,6 +183,37 @@ delete_old_tasks.send(max_task_age=86400)
 </dl>
 
 
+### Usage with [django-configurations]
+
+To use django_dramatiq together with [django-configurations] you need
+to define your own `rundramatiq` command as a subclass of the one in
+this package.
+
+In `YOURPACKAGE/management/commands/rundramatiq.py`:
+
+``` python
+from django_dramatiq.management.commands.rundramatiq import Command as RunDramatiqCommand
+
+
+class Command(RunDramatiqCommand):
+    def discover_tasks_modules(self):
+        tasks_modules = super().discover_tasks_modules()
+        tasks_modules[0] = "YOURPACKAGE.dramatiq_setup"
+        return tasks_modules
+```
+
+And in `YOURPACKAGE/dramatiq_setup.py`:
+
+``` python
+import django
+
+from configurations.importer import install
+
+install(check_options=True)
+django.setup()
+```
+
+
 ## License
 
 django_dramatiq is licensed under Apache 2.0.  Please see
@@ -195,3 +226,4 @@ django_dramatiq is licensed under Apache 2.0.  Please see
 [pipenv]: https://docs.pipenv.org
 [pytest-django]: https://pytest-django.readthedocs.io/en/latest/index.html
 [stubbroker]: https://dramatiq.io/reference.html#dramatiq.brokers.stub.StubBroker
+[django-configurations]: https://github.com/jazzband/django-configurations/
