@@ -2,6 +2,7 @@
 /.cache
 /.coverage
 /.tox
+/.pytest_cache
 /benchmark*.svg
 /build
 /dist
