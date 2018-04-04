@@ -69,11 +69,8 @@ WSGI_APPLICATION = "django_dramatiq.wsgi.application"
 # ========
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": "127.0.0.1",
-        "NAME": os.getenv("DATABASE_NAME", "django_dramatiq"),
-        "USER": os.getenv("DATABASE_USER", "django_dramatiq"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "django_dramatiq"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
     }
 }
 
