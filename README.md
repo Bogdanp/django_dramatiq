@@ -155,6 +155,36 @@ def test_customers_can_be_emailed(transactional_db, broker, worker, mailoutbox):
     assert mailoutbox[0].subject == "Welcome Jim!"
 ```
 
+#### Using unittest
+
+A simple test case has been provided that will automatically set up the
+broker and worker for each test, which are accessible as attributes on
+the test case. Note that `DramatiqTestCase` inherits
+[`django.test.TransactionTestCase`][transactiontestcase].
+
+
+```python
+from django.core import mail
+from django.test import override_settings
+from django_dramatiq.test import DramatiqTestCase
+
+
+class CustomerTestCase(DramatiqTestCase):
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    def test_customers_can_be_emailed(self):
+        customer = Customer(email="jim@gcpd.gov")
+        # Assuming "send_welcome_email" enqueues an "email_customer" task
+        customer.send_welcome_email()
+
+        # Wait for all the tasks to be processed
+        self.broker.join(customer.queue_name)
+        self.worker.join()
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, "Welcome Jim!")
+```
+
 #### Cleaning up old tasks
 
 The `AdminMiddleware` stores task metadata in a relational DB so it's
@@ -227,3 +257,4 @@ django_dramatiq is licensed under Apache 2.0.  Please see
 [pytest-django]: https://pytest-django.readthedocs.io/en/latest/index.html
 [stubbroker]: https://dramatiq.io/reference.html#dramatiq.brokers.stub.StubBroker
 [django-configurations]: https://github.com/jazzband/django-configurations/
+[transactiontestcase]: https://docs.djangoproject.com/en/dev/topics/testing/tools/#django.test.TransactionTestCase
