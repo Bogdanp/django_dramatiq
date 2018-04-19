@@ -44,7 +44,7 @@ Configure your broker in `settings.py`:
 
 ``` python
 DRAMATIQ_BROKER = {
-    "BROKER": "dramatiq.brokers.rabbitmq.URLRabbitmqBroker",
+    "BROKER": "dramatiq.brokers.rabbitmq.RabbitmqBroker",
     "OPTIONS": {
         "url": "amqp://localhost:5672",
     },
