@@ -24,6 +24,7 @@ DEFAULT_SETTINGS = {
         "django_dramatiq.middleware.DbConnectionsMiddleware",
     ]
 }
+DEFAULT_TASK_ENCODER = "dramatiq.encoder.JSONEncoder"
 
 
 class DjangoDramatiqConfig(AppConfig):
@@ -38,6 +39,7 @@ class DjangoDramatiqConfig(AppConfig):
         middleware = [load_middleware(path) for path in broker_settings.get("MIDDLEWARE", [])]
         broker = broker_class(middleware=middleware, **broker_options)
         dramatiq.set_broker(broker)
+        dramatiq.set_encoder(type(self).select_encoder())
 
     @classmethod
     def broker_settings(cls):
@@ -46,3 +48,8 @@ class DjangoDramatiqConfig(AppConfig):
     @classmethod
     def tasks_database(cls):
         return getattr(settings, "DRAMATIQ_TASKS_DATABASE", "default")
+
+    @classmethod
+    def select_encoder(cls):
+        encoder = getattr(settings, "DRAMATIQ_TASK_ENCODER", DEFAULT_TASK_ENCODER)
+        return load_class(encoder)()
