@@ -32,7 +32,7 @@ class DjangoDramatiqConfig(AppConfig):
     verbose_name = "Django Dramatiq"
 
     def ready(self):
-        broker_settings = type(self).broker_settings()
+        broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = load_class(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
