@@ -7,14 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.2.2] - 2017-01-06
+## [0.4.0] - 2018-07-11
+### Added
+
+- `DRAMATIQ_ENCODER` setting.
+
+## [0.3.0] - 2018-04-14
+### Added
+
+- `DramatiqTestCase`
+
+## [0.2.2] - 2018-01-06
 ### Fixed
 
 - `--path` is now the first to be passed to `dramatiq`.  This fixes an
   issue where the workers wouldn't boot when the `-no-reload` flag was
   set.
 
-## [0.2.0] - 2017-01-06
+## [0.2.0] - 2018-01-06
 ### Added
 
 - `--path` command line argument.
@@ -65,7 +75,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/Bogdanp/django_dramatiq/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.2.0...v0.2.1
 [0.1.5]: https://github.com/Bogdanp/django_dramatiq/compare/v0.1.4...v0.1.5
