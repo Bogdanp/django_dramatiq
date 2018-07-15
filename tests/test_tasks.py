@@ -1,8 +1,9 @@
 import uuid
-import pytest
-
 from datetime import timedelta
+
+import pytest
 from django.utils.timezone import now
+
 from django_dramatiq.models import Task
 from django_dramatiq.tasks import delete_old_tasks
 

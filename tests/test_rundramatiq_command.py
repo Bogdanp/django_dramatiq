@@ -1,10 +1,10 @@
 import os
 import sys
-
 from io import StringIO
 from unittest.mock import patch
 
 from django.core.management import call_command
+
 from django_dramatiq.management.commands import rundramatiq
 
 

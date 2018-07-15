@@ -1,6 +1,5 @@
 import dramatiq
 import pytest
-
 from dramatiq import Worker
 
 

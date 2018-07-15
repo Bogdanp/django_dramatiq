@@ -1,6 +1,6 @@
 import json
-
 from datetime import datetime
+
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.safestring import mark_safe
