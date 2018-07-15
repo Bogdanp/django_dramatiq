@@ -8,9 +8,12 @@ Django = "*"
 dramatiq = {extras = ["watch"]}
 
 [dev-packages]
+"flake8" = "*"
+"flake8-quotes" = "*"
 bumpversion = "*"
+isort = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-django = "*"
-twine = "*"
 tox = "*"
+twine = "*"
