@@ -1,5 +1,7 @@
 import os
 
+from dramatiq.middleware import TimeLimit
+
 
 def path_to(*paths):
     return os.path.join(
@@ -82,7 +84,7 @@ DRAMATIQ_BROKER = {
     "OPTIONS": {},
     "MIDDLEWARE": [
         "dramatiq.middleware.AgeLimit",
-        "dramatiq.middleware.TimeLimit",
+        TimeLimit(time_limit=36000000),
         "dramatiq.middleware.Retries",
         "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
