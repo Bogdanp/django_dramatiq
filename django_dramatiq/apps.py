@@ -31,6 +31,9 @@ class DjangoDramatiqConfig(AppConfig):
     verbose_name = "Django Dramatiq"
 
     def ready(self):
+        # this line should be first, to set up global encoder before any middleware is created
+        dramatiq.set_encoder(self.select_encoder())
+
         broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = load_class(broker_path)
@@ -39,7 +42,6 @@ class DjangoDramatiqConfig(AppConfig):
         broker = broker_class(middleware=middleware, **broker_options)
         self.load_results_backend(broker, broker_settings)
         dramatiq.set_broker(broker)
-        dramatiq.set_encoder(self.select_encoder())
 
     @classmethod
     def load_results_backend(self, broker, broker_settings):
