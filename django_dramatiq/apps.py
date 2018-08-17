@@ -52,8 +52,8 @@ class DjangoDramatiqConfig(AppConfig):
                 middleware.backend = backend
                 break
         else:
-            result_middleware = load_class("dramatiq.results.middleware.Results")(backend)
-            broker.add_middleware(result_middleware)
+            results_middleware = load_class("dramatiq.results.middleware.Results")(backend=backend)
+            broker.add_middleware(results_middleware)
 
     @classmethod
     def broker_settings(cls):
