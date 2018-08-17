@@ -62,6 +62,20 @@ DRAMATIQ_BROKER = {
 DRAMATIQ_TASKS_DATABASE = "default"
 ```
 
+You may also configure a result backend:
+
+``` python
+DRAMATIQ_RESULT_BACKEND = {
+    "BACKEND": "dramatiq.results.backends.redis.RedisBackend",
+    "BACKED_OPTIONS": {
+        "url": "redis://localhost:6379",
+    },
+    "MIDDLEWARE_OPTIONS": {
+        "result_ttl": 60000
+    }
+}
+```
+
 
 ## Usage
 
