@@ -53,8 +53,25 @@ class Command(BaseCommand):
             type=str,
             help="The import path (default: .).",
         )
+        parser.add_argument(
+            "--queues", "-Q",
+            nargs="*",
+            type=str,
+            help="listen to a subset of queues (default: all queues)",
+        )
+        parser.add_argument(
+            "--pid-file",
+            type=str,
+            help="write the PID of the master process to a file (default: no pid file)",
+        )
+        parser.add_argument(
+            "--log-file",
+            type=str,
+            help="write all logs to a file (default: sys.stderr)",
+        )
 
-    def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, **options):
+    def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
+               pid_file, log_file, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", "."] if use_watcher else []
@@ -78,6 +95,15 @@ class Command(BaseCommand):
             # django_dramatiq.tasks app1.tasks app2.tasks ...
             *tasks_modules,
         ]
+
+        if queues:
+            process_args.extend(["--queues", *queues])
+
+        if pid_file:
+            process_args.extend(["--pid-file", pid_file])
+
+        if log_file:
+            process_args.extend(["--log-file", log_file])
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
         os.execvp(executable_path, process_args)
