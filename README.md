@@ -243,6 +243,11 @@ install(check_options=True)
 django.setup()
 ```
 
+## Running project tests locally
+
+Install the dev dependencies with `pipenv install --dev` and then run
+`pipenv run tox`.
+
 
 ## License
 
