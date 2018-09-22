@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- `--queue`, `--pid-file` and `--log-file` arguments are now passed
+  through to the `dramatiq` command.  ([#20], [@MattBlack85])
+
+[#20]: https://github.com/Bogdanp/django_dramatiq/pull/20
+[@MattBlack85]: https://github.com/MattBlack85
+
 ## [0.4.1] - 2018-07-15
 ### Fixed
 
