@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.db import models, utils
+from django.db import models
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from dramatiq import Message
@@ -13,21 +13,14 @@ DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 
 class TaskManager(models.Manager):
     def create_or_update_from_message(self, message, **extra_fields):
-        try:
-            return self.using(DATABASE_LABEL).create(
-                id=message.message_id,
-                message_data=message.encode(),
+        task, _ = self.using(DATABASE_LABEL).update_or_create(
+            id=message.message_id,
+            defaults={
+                "message_data": message.encode(),
                 **extra_fields,
-            )
-
-        except (utils.OperationalError, utils.IntegrityError):
-            task = self.using(DATABASE_LABEL).get(id=message.message_id)
-            task.message_data = message.encode()
-            for name, value in extra_fields.items():
-                setattr(task, name, value)
-
-            task.save()
-            return task
+            }
+        )
+        return task
 
     def delete_old_tasks(self, max_task_age):
         self.using(DATABASE_LABEL).filter(
