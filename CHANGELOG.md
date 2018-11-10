@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.5.1] - 2018-11-10
+### Fixed
+
+- Tasks are now upserted more safely. ([#23], [@aericson])
+
+[#23]: https://github.com/Bogdanp/django_dramatiq/pull/23
+[#@aericson]: https://github.com/aericson
+
 ## [0.5.0] - 2018-09-22
 ### Added
 
-- support for configuring result backends in settings via
+- Support for configuring result backends in settings via
   `DRAMATIQ_RESULT_BACKEND`. ([#18], [@xdmiodz])
 - `--queue`, `--pid-file` and `--log-file` arguments are now passed
   through to the `dramatiq` command.  ([#20], [@MattBlack85])
