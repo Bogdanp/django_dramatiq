@@ -33,6 +33,19 @@ setup(
         "django>=1.11",
         "dramatiq>=0.18.0",
     ],
+    extras_require={
+        "dev": [
+            "bumpversion",
+            "flake8",
+            "flake8-quotes",
+            "isort",
+            "pytest",
+            "pytest-cov",
+            "pytest-django",
+            "tox",
+            "twine",
+        ]
+    },
     python_requires=">=3.5",
     include_package_data=True,
 )

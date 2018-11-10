@@ -19,9 +19,7 @@ You can find an example application built with django_dramatiq [here][example].
 
 ## Installation
 
-Use [pipenv][pipenv] (or plain pip) to install the package:
-
-    pipenv install django_dramatiq
+    pip install django_dramatiq
 
 Add `django_dramatiq` to installed apps *before* any of your custom
 apps:
@@ -257,8 +255,7 @@ django.setup()
 
 ## Running project tests locally
 
-Install the dev dependencies with `pipenv install --dev` and then run
-`pipenv run tox`.
+Install the dev dependencies with `pip install -e '.[dev]'` and then run `tox`.
 
 
 ## License
@@ -270,7 +267,6 @@ django_dramatiq is licensed under Apache 2.0.  Please see
 [dramatiq]: https://github.com/Bogdanp/dramatiq
 [example]: https://github.com/Bogdanp/django_dramatiq_example
 [license]: https://github.com/Bogdanp/django_dramatiq/blob/master/LICENSE
-[pipenv]: https://docs.pipenv.org
 [pytest-django]: https://pytest-django.readthedocs.io/en/latest/index.html
 [stubbroker]: https://dramatiq.io/reference.html#dramatiq.brokers.stub.StubBroker
 [django-configurations]: https://github.com/jazzband/django-configurations/
