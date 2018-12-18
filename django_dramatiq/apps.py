@@ -7,6 +7,8 @@ from .utils import load_class, load_middleware
 
 DEFAULT_ENCODER = "dramatiq.encoder.JSONEncoder"
 
+DEFAULT_RATE_LIMITER_BACKEND_SETTINGS = {}
+
 DEFAULT_RESULT_BACKEND_SETTINGS = {}
 
 DEFAULT_BROKER = "dramatiq.brokers.rabbitmq.RabbitmqBroker"
@@ -34,6 +36,10 @@ class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
+    def __init__(self):
+        super().__init__()
+        self.rate_limiter_backend = None
+
     def ready(self):
         dramatiq.set_encoder(self.select_encoder())
 
@@ -49,6 +55,15 @@ class DjangoDramatiqConfig(AppConfig):
         else:
             result_backend = None
             results_middleware = None
+
+        rate_limiter_backend_settings = self.rate_limiter_backend_settings()
+        if rate_limiter_backend_settings:
+            rate_limiter_backend_path = rate_limiter_backend_settings.get(
+                "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
+            )
+            rate_limiter_backend_class = load_class(rate_limiter_backend_path)
+            rate_limiter_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
+            self.rate_limiter_backend = rate_limiter_backend_class(**rate_limiter_backend_options)
 
         broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
@@ -69,6 +84,10 @@ class DjangoDramatiqConfig(AppConfig):
     @classmethod
     def result_backend_settings(cls):
         return getattr(settings, "DRAMATIQ_RESULT_BACKEND", DEFAULT_RESULT_BACKEND_SETTINGS)
+
+    @classmethod
+    def rate_limiter_backend_settings(cls):
+        return getattr(settings, "DRAMATIQ_RATE_LIMITER_BACKEND", DEFAULT_RESULT_BACKEND_SETTINGS)
 
     @classmethod
     def tasks_database(cls):
