@@ -7,8 +7,6 @@ from .utils import load_class, load_middleware
 
 DEFAULT_ENCODER = "dramatiq.encoder.JSONEncoder"
 
-DEFAULT_RESULT_BACKEND_SETTINGS = {}
-
 DEFAULT_BROKER = "dramatiq.brokers.rabbitmq.RabbitmqBroker"
 DEFAULT_BROKER_SETTINGS = {
     "BROKER": DEFAULT_BROKER,
@@ -34,6 +32,8 @@ class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
+    _rate_limiter_backend = None
+
     def ready(self):
         dramatiq.set_encoder(self.select_encoder())
 
@@ -50,6 +50,15 @@ class DjangoDramatiqConfig(AppConfig):
             result_backend = None
             results_middleware = None
 
+        rate_limiter_backend_settings = self.rate_limiter_backend_settings()
+        if rate_limiter_backend_settings:
+            rate_limiter_backend_path = rate_limiter_backend_settings.get(
+                "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
+            )
+            rate_limiter_backend_class = load_class(rate_limiter_backend_path)
+            rate_limiter_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
+            self._rate_limiter_backend = rate_limiter_backend_class(**rate_limiter_backend_options)
+
         broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = load_class(broker_path)
@@ -62,13 +71,24 @@ class DjangoDramatiqConfig(AppConfig):
         broker = broker_class(middleware=middleware, **broker_options)
         dramatiq.set_broker(broker)
 
+    @property
+    def rate_limiter_backend(self):
+        if self._rate_limiter_backend is None:
+            raise RuntimeError("The rate limiter backend has not been configured.")
+
+        return self._rate_limiter_backend
+
     @classmethod
     def broker_settings(cls):
         return getattr(settings, "DRAMATIQ_BROKER", DEFAULT_BROKER_SETTINGS)
 
     @classmethod
     def result_backend_settings(cls):
-        return getattr(settings, "DRAMATIQ_RESULT_BACKEND", DEFAULT_RESULT_BACKEND_SETTINGS)
+        return getattr(settings, "DRAMATIQ_RESULT_BACKEND", {})
+
+    @classmethod
+    def rate_limiter_backend_settings(cls):
+        return getattr(settings, "DRAMATIQ_RATE_LIMITER_BACKEND", {})
 
     @classmethod
     def tasks_database(cls):
