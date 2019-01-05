@@ -37,6 +37,12 @@ class DbConnectionsMiddleware(Middleware):
     """This middleware cleans up db connections on worker shutdown.
     """
 
+    def _close_old_connections(self, *args, **kwargs):
+        db.close_old_connections()
+
+    before_process_message = _close_old_connections
+    after_process_message = _close_old_connections
+
     def _close_connections(self, *args, **kwargs):
         db.connections.close_all()
 
