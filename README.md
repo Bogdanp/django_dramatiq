@@ -217,8 +217,8 @@ delete_old_tasks.send(max_task_age=86400)
 
   <dt>django_dramatiq.middleware.DbConnectionsMiddleware</dt>
   <dd>
-    This middleware takes care of closing up DB connections when
-    worker threads shut down.
+    This middleware is vital in taking care of closing expired
+    connections after each message is processed.
   </dd>
 </dl>
 
