@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.5.1] - 2019-01-05
+### Fixed
+
+- Expired connections are now closed before and after each message. ([#19])
+
+[#19]: https://github.com/Bogdanp/django_dramatiq/issues/19
+
 ## [0.5.1] - 2018-11-10
 ### Fixed
 
