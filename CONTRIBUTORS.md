@@ -10,3 +10,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@MattBlack85](https://github.com/MattBlack85) | Mattia Procopio |
 | [@xdmiodz](https://github.com/xdmiodz) | Dmitry Odzerikho |
 | [@aericson](https://github.com/aericson) | André Ericson |
+| [@stasevseev](https://github.com/StasEvseev) | Stanislav Evseev |
