@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.5.1] - 2019-01-05
+## [0.5.3] - 2019-01-31
+### Changed
+
+- A default rate limiter backend can now be configured.  ([#25], [@StasEvseev])
+
+[#25]: https://github.com/Bogdanp/django_dramatiq/pull/25
+[@StasEvseev]: https://github.com/StasEvseev
+
+## [0.5.2] - 2019-01-05
 ### Fixed
 
 - Expired connections are now closed before and after each message. ([#19])
@@ -110,7 +118,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.2...v0.5.3
+[0.5.2]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.1...v0.5.2
+[0.5.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.3.0...v0.4.0
