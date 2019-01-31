@@ -93,8 +93,8 @@ from .models import Customer
 
 @dramatiq.actor
 def email_customer(customer_id, subject, message):
-  customer = Customer.get(pk=customer_id)
-  send_mail(subject, message, "webmaster@example.com", [customer.email])
+    customer = Customer.get(pk=customer_id)
+    send_mail(subject, message, "webmaster@example.com", [customer.email])
 ```
 
 ### Running workers
