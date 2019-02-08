@@ -65,7 +65,7 @@ You may also configure a result backend:
 ``` python
 DRAMATIQ_RESULT_BACKEND = {
     "BACKEND": "dramatiq.results.backends.redis.RedisBackend",
-    "BACKED_OPTIONS": {
+    "BACKEND_OPTIONS": {
         "url": "redis://localhost:6379",
     },
     "MIDDLEWARE_OPTIONS": {
