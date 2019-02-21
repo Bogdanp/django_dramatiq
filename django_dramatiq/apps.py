@@ -27,17 +27,20 @@ DEFAULT_BROKER_SETTINGS = {
     ]
 }
 
+RATE_LIMITER_BACKEND = None
+
 
 class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
-    _rate_limiter_backend = None
+    @classmethod
+    def initialize(cls):
+        global RATE_LIMITER_BACKEND
 
-    def ready(self):
-        dramatiq.set_encoder(self.select_encoder())
+        dramatiq.set_encoder(cls.select_encoder())
 
-        result_backend_settings = self.result_backend_settings()
+        result_backend_settings = cls.result_backend_settings()
         if result_backend_settings:
             result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
             result_backend_class = load_class(result_backend_path)
@@ -50,16 +53,16 @@ class DjangoDramatiqConfig(AppConfig):
             result_backend = None
             results_middleware = None
 
-        rate_limiter_backend_settings = self.rate_limiter_backend_settings()
+        rate_limiter_backend_settings = cls.rate_limiter_backend_settings()
         if rate_limiter_backend_settings:
             rate_limiter_backend_path = rate_limiter_backend_settings.get(
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
             )
             rate_limiter_backend_class = load_class(rate_limiter_backend_path)
             rate_limiter_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
-            self._rate_limiter_backend = rate_limiter_backend_class(**rate_limiter_backend_options)
+            RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
-        broker_settings = self.broker_settings()
+        broker_settings = cls.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = load_class(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
@@ -73,10 +76,11 @@ class DjangoDramatiqConfig(AppConfig):
 
     @property
     def rate_limiter_backend(self):
-        if self._rate_limiter_backend is None:
+        global RATE_LIMITER_BACKEND
+        if RATE_LIMITER_BACKEND is None:
             raise RuntimeError("The rate limiter backend has not been configured.")
 
-        return self._rate_limiter_backend
+        return RATE_LIMITER_BACKEND
 
     @classmethod
     def broker_settings(cls):
@@ -98,3 +102,6 @@ class DjangoDramatiqConfig(AppConfig):
     def select_encoder(cls):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
         return load_class(encoder)()
+
+
+DjangoDramatiqConfig.initialize()
