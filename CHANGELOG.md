@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.0] - 2019-02-21
+### Changed
+
+- The broker is set up as soon as the `django_dramatiq` application is
+  loaded.  This fixes issue [#26] and is technically a breaking change
+  for middleware writers.
+
+[#26]: https://github.com/Bogdanp/django_dramatiq/issues/26
+
 ## [0.5.3] - 2019-01-31
 ### Changed
 
@@ -118,7 +127,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.0...v0.5.1
