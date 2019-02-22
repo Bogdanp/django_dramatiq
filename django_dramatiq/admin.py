@@ -33,3 +33,12 @@ class TaskAdmin(admin.ModelAdmin):
         if traceback:
             return mark_safe("<pre>%s</pre>" % traceback)
         return None
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, task=None):
+        return False
+
+    def has_delete_permission(self, request, task=None):
+        return False
