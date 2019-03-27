@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "django_dramatiq",
-    "tests.testapp",
+    "tests.testapp1",
+    "tests.testapp2",
 ]
 
 MIDDLEWARE = [

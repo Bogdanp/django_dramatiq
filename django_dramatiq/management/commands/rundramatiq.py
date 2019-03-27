@@ -3,6 +3,7 @@ import os
 import sys
 
 from django.apps import apps
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
@@ -111,9 +112,13 @@ class Command(BaseCommand):
     def discover_tasks_modules(self):
         app_configs = apps.get_app_configs()
         tasks_modules = ["django_dramatiq.setup"]
+        ignored = getattr(settings, 'DRAMATIQ_IGNORED_MODULES', [])
         for conf in app_configs:
             if module_has_submodule(conf.module, "tasks"):
                 module = conf.name + ".tasks"
+                if module in ignored:
+                    self.stdout.write(" * Ignored tasks module: %r" % module)
+                    continue
                 tasks_modules.append(module)
                 self.stdout.write(" * Discovered tasks module: %r" % module)
         return tasks_modules
