@@ -1,8 +1,10 @@
 /.benchmarks
 /.cache
 /.coverage
+/.idea
 /.tox
 /.pytest_cache
+/.python-version
 /benchmark*.svg
 /build
 /dist
