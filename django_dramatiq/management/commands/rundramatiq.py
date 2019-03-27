@@ -110,17 +110,20 @@ class Command(BaseCommand):
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
-        app_configs = apps.get_app_configs()
+        # Get configs of apps where there is a tasks module
+        app_configs = (
+            conf for conf in apps.get_app_configs()
+            if module_has_submodule(conf.module, "tasks")
+        )
         tasks_modules = ["django_dramatiq.setup"]
         ignored = getattr(settings, 'DRAMATIQ_IGNORED_MODULES', [])
         for conf in app_configs:
-            if module_has_submodule(conf.module, "tasks"):
-                module = conf.name + ".tasks"
-                if module in ignored:
-                    self.stdout.write(" * Ignored tasks module: %r" % module)
-                    continue
-                tasks_modules.append(module)
-                self.stdout.write(" * Discovered tasks module: %r" % module)
+            module = conf.name + ".tasks"
+            if module in ignored:
+                self.stdout.write(" * Ignored tasks module: %r" % module)
+                continue
+            tasks_modules.append(module)
+            self.stdout.write(" * Discovered tasks module: %r" % module)
         return tasks_modules
 
     def _resolve_executable(self, exec_name):
