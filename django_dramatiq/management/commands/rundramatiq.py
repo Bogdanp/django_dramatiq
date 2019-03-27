@@ -3,6 +3,7 @@ import os
 import sys
 
 from django.apps import apps
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
@@ -109,13 +110,17 @@ class Command(BaseCommand):
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
-        app_configs = apps.get_app_configs()
+        ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
+        app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
         for conf in app_configs:
-            if module_has_submodule(conf.module, "tasks"):
-                module = conf.name + ".tasks"
-                tasks_modules.append(module)
+            module = conf.name + ".tasks"
+            if module in ignored_modules:
+                self.stdout.write(" * Ignored tasks module: %r" % module)
+            else:
                 self.stdout.write(" * Discovered tasks module: %r" % module)
+                tasks_modules.append(module)
+
         return tasks_modules
 
     def _resolve_executable(self, exec_name):

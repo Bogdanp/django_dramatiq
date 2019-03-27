@@ -104,6 +104,17 @@ auto-discover task modules and run workers:
 
     python manage.py rundramatiq
 
+If your project for some reason has apps with modules named `tasks` that
+are not intended for use with Dramatiq, you can ignore them:
+
+``` python
+DRAMATIQ_IGNORED_MODULES = (
+    'app1.tasks',
+    'app2.tasks',
+    ...
+)
+```
+
 ### Testing
 
 You should have a separate settings file for test.  In that file,

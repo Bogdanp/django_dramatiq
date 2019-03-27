@@ -3,6 +3,7 @@
 /.coverage
 /.tox
 /.pytest_cache
+/.python-version
 /benchmark*.svg
 /build
 /dist

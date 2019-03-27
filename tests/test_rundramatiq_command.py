@@ -12,7 +12,8 @@ def test_rundramatiq_command_autodiscovers_modules():
     assert rundramatiq.Command().discover_tasks_modules() == [
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
     ]
 
 
@@ -25,7 +26,8 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     call_command("rundramatiq", stdout=buff)
 
     # Then stdout should contain a message about discovered task modules
-    assert "Discovered tasks module: 'tests.testapp.tasks'" in buff.getvalue()
+    assert "Discovered tasks module: 'tests.testapp1.tasks'" in buff.getvalue()
+    assert "Discovered tasks module: 'tests.testapp2.tasks'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
     cores = str(rundramatiq.CPU_COUNT)
@@ -40,7 +42,8 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
     ])
 
 
@@ -66,7 +69,8 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
         "--watch-use-polling",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
     ])
 
 
@@ -91,7 +95,8 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
         "--queues", "A B C"
     ])
 
@@ -117,7 +122,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
         "--pid-file", "drama.pid"
     ])
 
@@ -143,6 +149,41 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
-        "tests.testapp.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
         "--log-file", "drama.log"
+    ])
+
+
+@patch("os.execvp")
+def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
+    # Given an output buffer
+    buff = StringIO()
+
+    # And 'tests.testapp2.tasks' in DRAMATIQ_IGNORED_MODULES
+    settings.DRAMATIQ_IGNORED_MODULES = (
+        "tests.testapp2.tasks",
+    )
+
+    # When I call the rundramatiq command
+    call_command("rundramatiq", stdout=buff)
+
+    # Then stdout should contain a message about ignored task modules
+    assert "Discovered tasks module: 'tests.testapp1.tasks'" in buff.getvalue()
+    assert "Ignored tasks module: 'tests.testapp2.tasks'" in buff.getvalue()
+
+    # And execvp should be called with the appropriate arguments
+    cores = str(rundramatiq.CPU_COUNT)
+    expected_exec_name = "dramatiq"
+    expected_exec_path = os.path.join(
+        os.path.dirname(sys.executable),
+        expected_exec_name,
+    )
+
+    execvp_mock.assert_called_once_with(expected_exec_path, [
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        "--watch", ".",
+        "django_dramatiq.setup",
+        "django_dramatiq.tasks",
+        "tests.testapp1.tasks",
     ])
