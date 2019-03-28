@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.7.0] - 2019-03-28
+### Added
+
+- `DRAMATIQ_IGNORED_MODULES` setting.  ([@denizdogan], [#33], [#34])
+
+[@denizdogan]: https://github.com/denizdogan
+[#33]: https://github.com/Bogdanp/django_dramatiq/issues/33
+[#34]: https://github.com/Bogdanp/django_dramatiq/pull/34
+
 ### Changed
 
 - Tasks are now read-only.  ([@CapedHero], [#29], [#30])
@@ -134,7 +144,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.1...v0.5.2
