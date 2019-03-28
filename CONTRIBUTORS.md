@@ -12,3 +12,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@aericson](https://github.com/aericson)       | André Ericson       |
 | [@stasevseev](https://github.com/StasEvseev)   | Stanislav Evseev    |
 | [@CapedHero](https://github.com/CapedHero)     | Maciej Wrześniewski |
+| [@denizdogan](https://github.com/denizdogan)   | Deniz Dogan         |
