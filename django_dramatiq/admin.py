@@ -13,6 +13,7 @@ class TaskAdmin(admin.ModelAdmin):
     exclude = ("message_data",)
     readonly_fields = ("message_details", "traceback", "status")
     list_display = ("__str__", "status", "eta", "created_at", "updated_at", "queue_name", "actor_name")
+    list_filter = ("status",)
 
     def queue_name(self, instance):
         return instance.message.queue_name
