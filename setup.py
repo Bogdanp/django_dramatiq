@@ -33,6 +33,19 @@ setup(
         "django>=1.11",
         "dramatiq>=0.18.0",
     ],
+    classifiers=[
+        'Environment :: Web Environment',
+        'Operating System :: OS Independent',
+        'Framework :: Django',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+    ],
     extras_require={
         "dev": [
             "bumpversion",
