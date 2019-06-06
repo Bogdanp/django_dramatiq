@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.1] - 2019-06-06
+### Added
+
+- Tasks in the admin can now be filtered by ``status``. ([@MightySCollins], [#37])
+- The build now includes Django-specific classifiers. ([@OmenApps], [#39])
+
+[@MightySCollins]: https://github.com/MightySCollins
+[#37]: https://github.com/Bogdanp/django_dramatiq/pull/37
+[@OmenApps]: https://github.com/OmenApps
+[#39]: https://github.com/Bogdanp/django_dramatiq/pull/39
+
 ## [0.7.0] - 2019-03-28
 ### Added
 
@@ -144,7 +155,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/Bogdanp/django_dramatiq/compare/v0.5.2...v0.5.3
