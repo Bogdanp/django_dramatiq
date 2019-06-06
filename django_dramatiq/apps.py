@@ -71,7 +71,11 @@ class DjangoDramatiqConfig(AppConfig):
         if result_backend is not None:
             middleware.append(results_middleware)
 
-        broker = broker_class(middleware=middleware, **broker_options)
+        if broker_path == "dramatiq.brokers.redis.RedisBroker":
+            broker = broker_class(**broker_options)
+        else:
+            broker = broker_class(middleware=middleware, **broker_options)
+
         dramatiq.set_broker(broker)
 
     @property
