@@ -39,6 +39,31 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        "django_dramatiq.setup",
+        "django_dramatiq.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
+    ])
+
+
+@patch("os.execvp")
+def test_rundramatiq_can_run_dramatiq_reload(execvp_mock):
+    # Given an output buffer
+    buff = StringIO()
+
+    # When I call the rundramatiq command with --reload-use-polling
+    call_command("rundramatiq", "--reload", stdout=buff)
+
+    # Then execvp should be called with the appropriate arguments
+    cores = str(rundramatiq.CPU_COUNT)
+    expected_exec_name = "dramatiq"
+    expected_exec_path = os.path.join(
+        os.path.dirname(sys.executable),
+        expected_exec_name,
+    )
+
+    execvp_mock.assert_called_once_with(expected_exec_path, [
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
         "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -65,7 +90,6 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
-        "--watch", ".",
         "--watch-use-polling",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -92,7 +116,6 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
-        "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
@@ -119,7 +142,6 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
-        "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
@@ -146,7 +168,6 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
-        "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
@@ -182,7 +203,6 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
         expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
-        "--watch", ".",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",

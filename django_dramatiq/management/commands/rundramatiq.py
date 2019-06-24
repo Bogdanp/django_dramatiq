@@ -16,10 +16,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--no-reload",
-            action="store_false",
+            "--reload",
+            action="store_true",
             dest="use_watcher",
-            help="Disable autoreload.",
+            help="Enable autoreload.",
         )
         parser.add_argument(
             "--reload-use-polling",
