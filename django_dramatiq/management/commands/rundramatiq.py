@@ -1,5 +1,8 @@
+import importlib
 import multiprocessing
 import os
+from pathlib import Path
+import pkgutil
 import sys
 
 from django.apps import apps
@@ -113,15 +116,48 @@ class Command(BaseCommand):
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
         app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
+
         for conf in app_configs:
             module = conf.name + ".tasks"
+
             if module in ignored_modules:
                 self.stdout.write(" * Ignored tasks module: %r" % module)
-            else:
-                self.stdout.write(" * Discovered tasks module: %r" % module)
-                tasks_modules.append(module)
+                continue
+
+            submodules = self._get_submodules(module)
+            if submodules is not None:
+                for submodule in submodules:
+                    self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                    tasks_modules.append(submodule)
+
+                continue
+
+            self.stdout.write(" * Discovered tasks module: %r" % module)
+            tasks_modules.append(module)
 
         return tasks_modules
+
+    def _get_submodules(self, module):
+        imported_module = importlib.import_module(module)
+        module_path = getattr(imported_module, "__path__", None)
+
+        if module_path is None:
+            return None
+
+        if not Path(module_path[0]).is_dir():
+            return module
+
+        submodules = []
+
+        prefix = imported_module.__name__ + "."
+        for _, module_name, is_pkg in pkgutil.walk_packages(module_path, prefix):
+            if not is_pkg:
+                submodules.append(module_name)
+            else:
+                sub_submodules = self._get_submodules(module_name)
+                submodules.extend(sub_submodules)
+
+        return submodules
 
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
