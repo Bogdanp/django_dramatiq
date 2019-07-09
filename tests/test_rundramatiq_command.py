@@ -14,8 +14,8 @@ def test_rundramatiq_command_autodiscovers_modules():
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
     ]
 
 
@@ -48,8 +48,8 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
     ])
 
 
@@ -77,8 +77,8 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
     ])
 
 
@@ -105,8 +105,8 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
         "--queues", "A B C"
     ])
 
@@ -134,8 +134,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
         "--pid-file", "drama.pid"
     ])
 
@@ -163,8 +163,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
-        "tests.testapp3.tasks.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
         "--log-file", "drama.log"
     ])
 
