@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django_dramatiq",
     "tests.testapp1",
     "tests.testapp2",
+    "tests.testapp3",
 ]
 
 MIDDLEWARE = [
