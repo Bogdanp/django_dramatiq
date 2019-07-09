@@ -119,43 +119,44 @@ class Command(BaseCommand):
 
         for conf in app_configs:
             module = conf.name + ".tasks"
+            imported_module = importlib.import_module(module)
 
             if module in ignored_modules:
                 self.stdout.write(" * Ignored tasks module: %r" % module)
-                continue
+            elif not self._is_package(imported_module):
+                self.stdout.write(" * Discovered tasks module: %r" % module)
+                tasks_modules.append(module)
+            else:
+                submodules = self._get_submodules(imported_module)
 
-            submodules = self._get_submodules(module)
-            if submodules is not None:
                 for submodule in submodules:
                     self.stdout.write(" * Discovered tasks module: %r" % submodule)
                     tasks_modules.append(submodule)
 
-                continue
-
-            self.stdout.write(" * Discovered tasks module: %r" % module)
-            tasks_modules.append(module)
-
         return tasks_modules
 
-    def _get_submodules(self, module):
-        imported_module = importlib.import_module(module)
-        module_path = getattr(imported_module, "__path__", None)
+    def _is_package(self, module):
+        module_path = getattr(module, "__path__", None)
 
         if module_path is None:
-            return None
+            return False
+        elif Path(module_path[0]).is_dir():
+            return True
+        else:
+            return False
 
-        if not Path(module_path[0]).is_dir():
-            return module
-
+    def _get_submodules(self, package):
         submodules = []
 
-        prefix = imported_module.__name__ + "."
-        for _, module_name, is_pkg in pkgutil.walk_packages(module_path, prefix):
-            if not is_pkg:
-                submodules.append(module_name)
-            else:
+        package_path = package.__path__
+        prefix = package.__name__ + "."
+
+        for _, module_name, is_pkg in pkgutil.walk_packages(package_path, prefix):
+            if is_pkg:
                 sub_submodules = self._get_submodules(module_name)
                 submodules.extend(sub_submodules)
+            else:
+                submodules.append(module_name)
 
         return submodules
 
