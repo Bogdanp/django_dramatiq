@@ -1,5 +1,7 @@
+import importlib
 import multiprocessing
 import os
+import pkgutil
 import sys
 
 from django.apps import apps
@@ -113,15 +115,46 @@ class Command(BaseCommand):
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
         app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
+
         for conf in app_configs:
             module = conf.name + ".tasks"
+            imported_module = importlib.import_module(module)
+
             if module in ignored_modules:
                 self.stdout.write(" * Ignored tasks module: %r" % module)
-            else:
+            elif not self._is_package(imported_module):
                 self.stdout.write(" * Discovered tasks module: %r" % module)
                 tasks_modules.append(module)
+            else:
+                submodules = self._get_submodules(imported_module)
+
+                for submodule in submodules:
+                    if submodule in ignored_modules:
+                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                    else:
+                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        tasks_modules.append(submodule)
 
         return tasks_modules
+
+    def _is_package(self, module):
+        module_path = getattr(module, "__path__", None)
+        return module_path and os.path.isdir(module_path[0])
+
+    def _get_submodules(self, package):
+        submodules = []
+
+        package_path = package.__path__
+        prefix = package.__name__ + "."
+
+        for _, module_name, is_pkg in pkgutil.walk_packages(package_path, prefix):
+            if is_pkg:
+                sub_submodules = self._get_submodules(module_name)
+                submodules.extend(sub_submodules)
+            else:
+                submodules.append(module_name)
+
+        return submodules
 
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
