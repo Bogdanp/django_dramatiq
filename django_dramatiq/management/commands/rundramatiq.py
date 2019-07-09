@@ -130,8 +130,11 @@ class Command(BaseCommand):
                 submodules = self._get_submodules(imported_module)
 
                 for submodule in submodules:
-                    self.stdout.write(" * Discovered tasks module: %r" % submodule)
-                    tasks_modules.append(submodule)
+                    if module in ignored_modules:
+                        self.stdout.write(" * Ignored tasks module: %r" % module)
+                    else:
+                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        tasks_modules.append(submodule)
 
         return tasks_modules
 
