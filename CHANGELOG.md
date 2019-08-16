@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- Tasks in the admin can now be filtered by ``queue_name`` and ``actor_name``. ([@jcass77])
+
 ## [0.7.1] - 2019-06-06
 ### Added
 

@@ -14,3 +14,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@CapedHero](https://github.com/CapedHero)     | Maciej Wrześniewski |
 | [@denizdogan](https://github.com/denizdogan)   | Deniz Dogan         |
 | [@OmenApps](https://github.com/OmenApps)       | OmenApps            |
+| [@jcass77](https://github.com/jcass77)         | John Cass           |
