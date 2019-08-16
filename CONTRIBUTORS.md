@@ -15,3 +15,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@denizdogan](https://github.com/denizdogan)     | Deniz Dogan         |
 | [@OmenApps](https://github.com/OmenApps)         | OmenApps            |
 | [@ramonsaraiva](https://github.com/ramonsaraiva) | Ramon Saraiva       |
+| [@jcass77](https://github.com/jcass77)         | John Cass           |

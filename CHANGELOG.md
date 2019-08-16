@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Tasks in the admin can now be filtered by ``queue_name`` and
+  ``actor_name``. ([@jcass77], [#50])
 
+[@jcass77]: https://github.com/jcass77
+[#50]: https://github.com/Bogdanp/django_dramatiq/pull/50
+
+### Changed
 - `--no-reload` command line flag has been changed to `--reload`.
   This is a breaking change to the `rundramatiq` command.
   ([@ramonsaraiva], [#42])
