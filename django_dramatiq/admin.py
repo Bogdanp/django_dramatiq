@@ -73,8 +73,7 @@ class TaskAdmin(admin.ModelAdmin):
 
     def eta(self, instance):
         timestamp = (
-            instance.message.options.get("eta", instance.message.message_timestamp)
-            / 1_000
+            instance.message.options.get("eta", instance.message.message_timestamp) / 1000
         )
         return timezone.make_aware(datetime.utcfromtimestamp(timestamp))
 
