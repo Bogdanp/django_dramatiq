@@ -31,7 +31,7 @@ class TaskFilter(abc.ABC, SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value():
             filter_ids = (
-                str(task.id)
+                task.id
                 for task in queryset
                 if getattr(task.message, self.parameter_name) == self.value()
             )
