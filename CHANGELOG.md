@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- `--no-reload` command line flag has been changed to `--reload`.
+  This is a breaking change to the `rundramatiq` command.
+  ([@ramonsaraiva], [#42])
+
+[@ramonsaraiva]: https://github.com/ramonsaraiva
+[#42]: https://github.com/Bogdanp/django_dramatiq/pull/42
+
 ## [0.7.1] - 2019-06-06
 ### Added
 
