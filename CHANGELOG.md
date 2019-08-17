@@ -8,9 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+- `rundramatiq` now discovers task packages.  ([@AceFire6], [#46])
 - Tasks in the admin can now be filtered by ``queue_name`` and
   ``actor_name``. ([@jcass77], [#50])
 
+[@AceFire6]: https://github.com/AceFire6
+[#46]: https://github.com/Bogdanp/django_dramatiq/pull/46
 [@jcass77]: https://github.com/jcass77
 [#50]: https://github.com/Bogdanp/django_dramatiq/pull/50
 
