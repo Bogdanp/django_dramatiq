@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `rundramatiq` now discovers task packages.  ([@AceFire6], [#46])
 - Tasks in the admin can now be filtered by ``queue_name`` and
   ``actor_name``. ([@jcass77], [#50])
+- The 'ETA' column for Tasks in the admin now checks the Django `USE_TZ` configuration setting to ensure that dates
+  are displayed using the same timezone as the Django standard columns.
 
 [@AceFire6]: https://github.com/AceFire6
 [#46]: https://github.com/Bogdanp/django_dramatiq/pull/46

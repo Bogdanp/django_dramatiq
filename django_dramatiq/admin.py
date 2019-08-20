@@ -2,6 +2,7 @@ import abc
 import json
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.utils import timezone
@@ -75,7 +76,12 @@ class TaskAdmin(admin.ModelAdmin):
         timestamp = (
             instance.message.options.get("eta", instance.message.message_timestamp) / 1000
         )
-        return timezone.make_aware(datetime.utcfromtimestamp(timestamp))
+        if settings.USE_TZ:
+            # Django expects a timezone-aware datetime
+            return datetime.fromtimestamp(timestamp, timezone.utc)
+        else:
+            # Django expects a naive datetime in localtime
+            return datetime.fromtimestamp(timestamp)
 
     def message_details(self, instance):
         message_details = json.dumps(instance.message._asdict(), indent=4)
