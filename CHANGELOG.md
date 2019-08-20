@@ -26,6 +26,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@ramonsaraiva]: https://github.com/ramonsaraiva
 [#42]: https://github.com/Bogdanp/django_dramatiq/pull/42
 
+### Fixed
+
+- The 'ETA' column for Tasks in the admin now checks the Django
+  `USE_TZ` configuration setting to ensure that dates are displayed
+  using the same timezone as the Django standard columns. ([#51],
+  [@jcass77])
+
+[@jcass77]: https://github.com/jcass77
+[#51]: https://github.com/Bogdanp/django_dramatiq/pull/51
+
 ## [0.7.1] - 2019-06-06
 ### Added
 
