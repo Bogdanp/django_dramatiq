@@ -1,60 +1,18 @@
-import abc
 import json
 from datetime import datetime
 
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.admin import SimpleListFilter
 from django.utils import timezone
 from django.utils.safestring import mark_safe
-from dramatiq import Message
 
 from .models import Task
-
-
-class TaskFilter(abc.ABC, SimpleListFilter):
-    def lookups(self, request, model_admin):
-        lookup_choices = set()
-
-        messages = (
-            Message.decode(bytes(encoded_message))
-            for encoded_message in model_admin.model.tasks.values_list(
-                "message_data", flat=True
-            )
-        )
-
-        for message in messages:
-            choice = getattr(message, self.parameter_name)
-            lookup_choices.add((choice, "{} (slow)".format(choice)))
-
-        return sorted(lookup_choices)
-
-    def queryset(self, request, queryset):
-        if self.value():
-            filter_ids = (
-                task.id
-                for task in queryset
-                if getattr(task.message, self.parameter_name) == self.value()
-            )
-            return queryset.filter(id__in=filter_ids)
-
-        return queryset
-
-
-class QueueNameFilter(TaskFilter):
-    title = "queue_name"
-    parameter_name = "queue_name"
-
-
-class ActorNameFilter(TaskFilter):
-    title = "actor_name"
-    parameter_name = "actor_name"
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     exclude = ("message_data",)
-    readonly_fields = ("message_details", "traceback", "status")
+    readonly_fields = ("message_details", "traceback", "status", "queue_name", "actor_name")
     list_display = (
         "__str__",
         "status",
@@ -64,17 +22,12 @@ class TaskAdmin(admin.ModelAdmin):
         "queue_name",
         "actor_name",
     )
-    list_filter = ("status", "created_at", QueueNameFilter, ActorNameFilter)
-
-    def queue_name(self, instance):
-        return instance.message.queue_name
-
-    def actor_name(self, instance):
-        return instance.message.actor_name
+    list_filter = ("status", "created_at", "queue_name", "actor_name")
+    search_fields = ("actor_name",)
 
     def eta(self, instance):
         timestamp = (
-            instance.message.options.get("eta", instance.message.message_timestamp) / 1000
+                instance.message.options.get("eta", instance.message.message_timestamp) / 1000
         )
 
         # Django expects a timezone-aware datetime if USE_TZ is True, and a naive datetime in localtime otherwise.
