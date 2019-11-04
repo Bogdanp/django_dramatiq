@@ -18,13 +18,13 @@ class AdminMiddleware(Middleware):
         if delay:
             status = Task.STATUS_DELAYED
 
-        Task.tasks.create_or_update_from_message(message, status=status)
+        Task.tasks.create_or_update_from_message(message, status=status, actor_name=message.actor_name, queue_name=message.queue_name)
 
     def before_process_message(self, broker, message):
         from .models import Task
 
         LOGGER.debug("Updating Task from message %r.", message.message_id)
-        Task.tasks.create_or_update_from_message(message, status=Task.STATUS_RUNNING)
+        Task.tasks.create_or_update_from_message(message, status=Task.STATUS_RUNNING, actor_name=message.actor_name, queue_name=message.queue_name)
 
     def after_process_message(self, broker, message, *, result=None, exception=None):
         from .models import Task
@@ -34,7 +34,7 @@ class AdminMiddleware(Middleware):
             status = Task.STATUS_FAILED
 
         LOGGER.debug("Updating Task from message %r.", message.message_id)
-        Task.tasks.create_or_update_from_message(message, status=status)
+        Task.tasks.create_or_update_from_message(message, status=status, actor_name=message.actor_name, queue_name=message.queue_name)
 
 
 class DbConnectionsMiddleware(Middleware):

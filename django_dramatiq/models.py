@@ -45,8 +45,11 @@ class Task(models.Model):
     id = models.UUIDField(primary_key=True, editable=False)
     status = models.CharField(max_length=8, choices=STATUSES, default=STATUS_ENQUEUED)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
     message_data = models.BinaryField()
+
+    actor_name = models.CharField(max_length=300, null=True)
+    queue_name = models.CharField(max_length=100, null=True)
 
     tasks = TaskManager()
 
