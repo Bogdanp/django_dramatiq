@@ -23,6 +23,7 @@ class TaskAdmin(admin.ModelAdmin):
         "actor_name",
     )
     list_filter = ("status", "created_at", "queue_name", "actor_name")
+    search_fields = ("actor_name",)
 
     def eta(self, instance):
         timestamp = (
