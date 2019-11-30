@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+
+- The admin middleware now stores the queue and actor name in the
+  database, improving filtering performance for databases containing
+  lots of tasks.  ([@Sovetnikov], [#56])
+
+[@Sovetnikov]: https://github.com/Sovetnikov
+[#56]: https://github.com/Bogdanp/django_dramatiq/pull/56
+
+## [0.8.0] - 2019-08-31
 ### Added
 
 - `rundramatiq` now discovers task packages.  ([@AceFire6], [#46])
