@@ -119,23 +119,23 @@ class Command(BaseCommand):
         for conf in app_configs:
             module = conf.name + ".tasks"
             
-
             if module in ignored_modules:
                 self.stdout.write(" * Ignored tasks module: %r" % module)
-            else:
-                imported_module = importlib.import_module(module)
-                if not self._is_package(imported_module):
-                    self.stdout.write(" * Discovered tasks module: %r" % module)
-                    tasks_modules.append(module)
-                else:
-                    submodules = self._get_submodules(imported_module)
+                continue
 
-                    for submodule in submodules:
-                        if submodule in ignored_modules:
-                            self.stdout.write(" * Ignored tasks module: %r" % submodule)
-                        else:
-                            self.stdout.write(" * Discovered tasks module: %r" % submodule)
-                            tasks_modules.append(submodule)
+            imported_module = importlib.import_module(module)
+            if not self._is_package(imported_module):
+                self.stdout.write(" * Discovered tasks module: %r" % module)
+                tasks_modules.append(module)
+            else:
+                submodules = self._get_submodules(imported_module)
+
+                for submodule in submodules:
+                    if submodule in ignored_modules:
+                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                    else:
+                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        tasks_modules.append(submodule)
 
         return tasks_modules
 
