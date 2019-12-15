@@ -118,11 +118,13 @@ class Command(BaseCommand):
 
         for conf in app_configs:
             module = conf.name + ".tasks"
-            imported_module = importlib.import_module(module)
 
             if module in ignored_modules:
                 self.stdout.write(" * Ignored tasks module: %r" % module)
-            elif not self._is_package(imported_module):
+                continue
+
+            imported_module = importlib.import_module(module)
+            if not self._is_package(imported_module):
                 self.stdout.write(" * Discovered tasks module: %r" % module)
                 tasks_modules.append(module)
             else:
