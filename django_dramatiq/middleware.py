@@ -36,12 +36,18 @@ class AdminMiddleware(Middleware):
             queue_name=message.queue_name,
         )
 
-    def after_process_message(self, broker, message, *, result=None, exception=None):
+    def after_skip_message(self, broker, message):
         from .models import Task
 
-        status = Task.STATUS_DONE
+        self.after_process_message(broker, message, status=Task.STATUS_SKIPPED)
+
+    def after_process_message(self, broker, message, *, result=None, exception=None, status=None):
+        from .models import Task
+
         if exception is not None:
             status = Task.STATUS_FAILED
+        elif status is None:
+            status = Task.STATUS_DONE
 
         LOGGER.debug("Updating Task from message %r.", message.message_id)
         Task.tasks.create_or_update_from_message(

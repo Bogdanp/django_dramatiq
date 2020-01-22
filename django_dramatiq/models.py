@@ -34,12 +34,14 @@ class Task(models.Model):
     STATUS_RUNNING = "running"
     STATUS_FAILED = "failed"
     STATUS_DONE = "done"
+    STATUS_SKIPPED = "skipped"
     STATUSES = [
         (STATUS_ENQUEUED, "Enqueued"),
         (STATUS_DELAYED, "Delayed"),
         (STATUS_RUNNING, "Running"),
         (STATUS_FAILED, "Failed"),
         (STATUS_DONE, "Done"),
+        (STATUS_SKIPPED, "Skipped"),
     ]
 
     id = models.UUIDField(primary_key=True, editable=False)
