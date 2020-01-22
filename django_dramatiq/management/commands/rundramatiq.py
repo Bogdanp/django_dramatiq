@@ -149,7 +149,7 @@ class Command(BaseCommand):
 
         for _, module_name, is_pkg in pkgutil.walk_packages(package_path, prefix):
             if is_pkg:
-                sub_submodules = self._get_submodules(module_name)
+                sub_submodules = self._get_submodules(importlib.import_module(module_name))
                 submodules.extend(sub_submodules)
             else:
                 submodules.append(module_name)
