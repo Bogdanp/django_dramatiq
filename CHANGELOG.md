@@ -12,8 +12,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   database, improving filtering performance for databases containing
   lots of tasks.  ([@Sovetnikov], [#56])
 
+### Fixed
+
+- `rundramatiq` now properly respects `DRAMATIQ_IGNORED_MODULES`.
+  ([@OrazioPirataDelloSpazio], [#57])
+
+[@OrazioPirataDelloSpazio]: https://github.com/OrazioPirataDelloSpazio
 [@Sovetnikov]: https://github.com/Sovetnikov
 [#56]: https://github.com/Bogdanp/django_dramatiq/pull/56
+[#57]: https://github.com/Bogdanp/django_dramatiq/pull/57
 
 ## [0.8.0] - 2019-08-31
 ### Added
