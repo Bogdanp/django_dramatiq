@@ -6,7 +6,9 @@ from dramatiq import Worker
 @pytest.fixture
 def broker():
     broker = dramatiq.get_broker()
+    middleware = broker.middleware[:]
     yield broker
+    broker.middleware = middleware
     broker.flush_all()
 
 
