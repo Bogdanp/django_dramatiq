@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- Skipped messages are now properly handled by the admin
+  middleware. ([@Sovetnikov], [#59])
 - `rundramatiq` now properly respects `DRAMATIQ_IGNORED_MODULES`.
   ([@OrazioPirataDelloSpazio], [#57])
 
@@ -21,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@Sovetnikov]: https://github.com/Sovetnikov
 [#56]: https://github.com/Bogdanp/django_dramatiq/pull/56
 [#57]: https://github.com/Bogdanp/django_dramatiq/pull/57
+[#59]: https://github.com/Bogdanp/django_dramatiq/pull/59
 
 ## [0.8.0] - 2019-08-31
 ### Added
