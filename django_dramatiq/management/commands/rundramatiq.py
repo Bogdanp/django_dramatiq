@@ -72,14 +72,24 @@ class Command(BaseCommand):
             type=str,
             help="write all logs to a file (default: sys.stderr)",
         )
+        parser.add_argument(
+            "--fork-function",
+            action="append", dest="forks", default=[],
+            help="fork a subprocess to run the given function",
+        )
 
     def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
-               pid_file, log_file, **options):
+               pid_file, log_file, forks, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", "."] if use_watcher else []
         if watch_args and use_polling_watcher:
             watch_args.append("--watch-use-polling")
+
+        forks_args = []
+        if forks:
+            for function in forks:
+                forks_args += ['--fork-function', function]
 
         verbosity_args = ["-v"] * (verbosity - 1)
         tasks_modules = self.discover_tasks_modules()
@@ -91,6 +101,9 @@ class Command(BaseCommand):
 
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,
+
+            # [--fork-function import.path.function]*
+            *forks_args,
 
             # -v -v ...
             *verbosity_args,

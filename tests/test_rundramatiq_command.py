@@ -229,3 +229,32 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
         "tests.testapp1.tasks",
         "tests.testapp3.tasks.tasks",
     ])
+
+
+@patch("os.execvp")
+def test_rundramatiq_can_fork(execvp_mock, settings):
+    # Given an output buffer
+    buff = StringIO()
+
+    # When I call the rundramatiq command with --log-file
+    call_command("rundramatiq", "--fork-function", "a", "--fork-function", "b", stdout=buff)
+
+    # Then execvp should be called with the appropriate arguments
+    cores = str(rundramatiq.CPU_COUNT)
+    expected_exec_name = "dramatiq"
+    expected_exec_path = os.path.join(
+        os.path.dirname(sys.executable),
+        expected_exec_name,
+    )
+
+    execvp_mock.assert_called_once_with(expected_exec_path, [
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        "--fork-function", "a",
+        "--fork-function", "b",
+        "django_dramatiq.setup",
+        "django_dramatiq.tasks",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
+        "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks"
+    ])
