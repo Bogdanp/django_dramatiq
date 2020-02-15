@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+
+- Added the ``--fork-function`` flag to ``rundramatiq``. ([@timdrijvers], [#63])
+
+[@timdrijvers]: https://github.com/timdrijvers
+[#63]: https://github.com/Bogdanp/django_dramatiq/issues/63
 
 ## [0.9.1] - 2020-02-04
 ### Fixed
 
-- Added a missing migration for the Tasks table. [#60]
+- Added a missing migration for the Tasks table. ([#60])
 
 [#60]: https://github.com/Bogdanp/django_dramatiq/issues/60
 
