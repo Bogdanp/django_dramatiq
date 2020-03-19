@@ -3,7 +3,8 @@ from django.apps import AppConfig
 from django.conf import settings
 from django.utils.module_loading import import_string
 
-from dramatiq.results import Results
+from dramatiq.results import Results as OldResults
+from dramatiq.results_with_failures import Results as NewResults
 
 from .utils import load_middleware
 
@@ -44,13 +45,18 @@ class DjangoDramatiqConfig(AppConfig):
 
         result_backend_settings = cls.result_backend_settings()
         if result_backend_settings:
-            result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
+            result_backend_path = result_backend_settings.get("BACKEND",
+                                                              "dramatiq.results_with_failures.backends.StubBackend")
             result_backend_class = import_string(result_backend_path)
             result_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
             result_backend = result_backend_class(**result_backend_options)
 
             results_middleware_options = result_backend_settings.get("MIDDLEWARE_OPTIONS", {})
-            results_middleware = Results(backend=result_backend, **results_middleware_options)
+            results_middleware = None
+            if 'results_with_failures' in result_backend_class.__module__:
+                results_middleware = NewResults(backend=result_backend, **results_middleware_options)
+            else:
+                results_middleware = OldResults(backend=result_backend, **results_middleware_options)
         else:
             result_backend = None
             results_middleware = None
