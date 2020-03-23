@@ -1,9 +1,11 @@
 import dramatiq
 from django.apps import AppConfig
 from django.conf import settings
+from django.utils.module_loading import import_string
+
 from dramatiq.results import Results
 
-from .utils import load_class, load_middleware
+from .utils import load_middleware
 
 DEFAULT_ENCODER = "dramatiq.encoder.JSONEncoder"
 
@@ -43,7 +45,7 @@ class DjangoDramatiqConfig(AppConfig):
         result_backend_settings = cls.result_backend_settings()
         if result_backend_settings:
             result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
-            result_backend_class = load_class(result_backend_path)
+            result_backend_class = import_string(result_backend_path)
             result_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
             result_backend = result_backend_class(**result_backend_options)
 
@@ -58,13 +60,13 @@ class DjangoDramatiqConfig(AppConfig):
             rate_limiter_backend_path = rate_limiter_backend_settings.get(
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
             )
-            rate_limiter_backend_class = load_class(rate_limiter_backend_path)
+            rate_limiter_backend_class = import_string(rate_limiter_backend_path)
             rate_limiter_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
             RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
         broker_settings = cls.broker_settings()
         broker_path = broker_settings["BROKER"]
-        broker_class = load_class(broker_path)
+        broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [load_middleware(path) for path in broker_settings.get("MIDDLEWARE", [])]
 
@@ -101,7 +103,7 @@ class DjangoDramatiqConfig(AppConfig):
     @classmethod
     def select_encoder(cls):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
-        return load_class(encoder)()
+        return import_string(encoder)()
 
 
 DjangoDramatiqConfig.initialize()
