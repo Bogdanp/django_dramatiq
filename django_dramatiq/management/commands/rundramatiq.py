@@ -124,7 +124,7 @@ class Command(BaseCommand):
 
         if log_file:
             process_args.extend(["--log-file", log_file])
-        
+
         if no_daemon_workers:
             process_args.append("--no-daemon-workers")
 
