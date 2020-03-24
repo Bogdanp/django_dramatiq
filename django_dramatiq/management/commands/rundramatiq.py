@@ -77,9 +77,13 @@ class Command(BaseCommand):
             action="append", dest="forks", default=[],
             help="fork a subprocess to run the given function",
         )
+        parser.add_argument(
+            "--no-daemon-workers", action="store_true",
+            help="start worker processes with the daemon flag set to False"
+        )
 
     def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
-               pid_file, log_file, forks, **options):
+               pid_file, log_file, forks, no_daemon_workers, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", "."] if use_watcher else []
@@ -120,6 +124,9 @@ class Command(BaseCommand):
 
         if log_file:
             process_args.extend(["--log-file", log_file])
+        
+        if no_daemon_workers:
+            process_args.append("--no-daemon-workers")
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
         os.execvp(executable_path, process_args)
