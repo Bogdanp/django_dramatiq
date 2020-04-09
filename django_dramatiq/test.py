@@ -27,8 +27,8 @@ class DramatiqActorTestCase(SimpleTestCase):
     class NewActor(Actor):
         pass
 
-    def _get_task(self):
-        @actor()
+    def _get_task(self, **options):
+        @actor(**options)
         def task():
             pass
         return task
@@ -58,7 +58,8 @@ class DramatiqActorTestCase(SimpleTestCase):
         task = self._get_task()
         self.assertIsInstance(task.broker, StubBroker)
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_OPTIONS={'priority': 1337})
+    @override_settings(DRAMATIQ_TASK_DEFAULT_OPTIONS={'priority': 1338, 'queue_name': 'new_default'})
     def test_actor_default_options(self):
-        task = self._get_task()
+        task = self._get_task(priority=1337)
         self.assertIs(task.priority, 1337)
+        self.assertIs(task.queue_name, 'new_default')

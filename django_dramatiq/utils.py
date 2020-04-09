@@ -25,7 +25,8 @@ def _set_actor_defaults(kwargs):
     # special case for **options
     options = getattr(settings, 'DRAMATIQ_TASK_DEFAULT_OPTIONS', NotDefined)
     if isinstance(options, dict):
-        kwargs.update(options)
+        for k, v in options.items():
+            kwargs.setdefault(k, v)
 
 
 def actor(fn=None, **kwargs):
