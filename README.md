@@ -99,8 +99,10 @@ def email_customer(customer_id, subject, message):
 You can overwrite actor defaults in your Django configuration, e.g. 
 if you want to use a different default `queue_name` and `priority` set:
 ``` python
-DRAMATIQ_TASK_DEFAULT_QUEUE_NAME = 'new_default'
-DRAMATIQ_TASK_DEFAULT_PRIORITY = 60
+DRAMATIQ_TASK_DEFAULTS = {
+    'queue_name': 'new_default',
+    'priority': 60,
+}
 ``` 
 
 

@@ -33,33 +33,31 @@ class DramatiqActorTestCase(SimpleTestCase):
             pass
         return task
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_ACTOR_CLASS=NewActor)
-    def test_actor_default_actor_class(self):
+    @override_settings(DRAMATIQ_TASK_DEFAULTS={'actor_name': 'new_actor_name',
+                                               'actor_class': NewActor})
+    def test_actor_defaults_actor_related(self):
         task = self._get_task()
+        self.assertEqual(task.actor_name, 'new_actor_name')
         self.assertIsInstance(task, DramatiqActorTestCase.NewActor)
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_ACTOR_NAME='new_actor_name')
-    def test_actor_default_actor_name(self):
+    @override_settings(DRAMATIQ_TASK_DEFAULTS={'queue_name': 'new_default'})
+    def test_actor_defaults_queue_name(self):
         task = self._get_task()
-        self.assertIs(task.actor_name, 'new_actor_name')
+        self.assertEqual(task.queue_name, 'new_default')
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_QUEUE_NAME='new_default')
-    def test_actor_default_queue_name(self):
+    @override_settings(DRAMATIQ_TASK_DEFAULTS={'priority': 5})
+    def test_actor_defaults_priority(self):
         task = self._get_task()
-        self.assertIs(task.queue_name, 'new_default')
+        self.assertEqual(task.priority, 5)
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_PRIORITY=5)
-    def test_actor_default_priority(self):
-        task = self._get_task()
-        self.assertIs(task.priority, 5)
-
-    @override_settings(DRAMATIQ_TASK_DEFAULT_BROKER=StubBroker())
-    def test_actor_default_broker(self):
+    @override_settings(DRAMATIQ_TASK_DEFAULTS={'broker': StubBroker()})
+    def test_actor_defaults_broker(self):
         task = self._get_task()
         self.assertIsInstance(task.broker, StubBroker)
 
-    @override_settings(DRAMATIQ_TASK_DEFAULT_OPTIONS={'priority': 1338, 'queue_name': 'new_default'})
-    def test_actor_default_options(self):
+    @override_settings(DRAMATIQ_TASK_DEFAULTS={'priority': 1338,
+                                               'queue_name': 'new_default'})
+    def test_actor_defaults_not_overwriting(self):
         task = self._get_task(priority=1337)
-        self.assertIs(task.priority, 1337)
-        self.assertIs(task.queue_name, 'new_default')
+        self.assertEqual(task.priority, 1337)
+        self.assertEqual(task.queue_name, 'new_default')
