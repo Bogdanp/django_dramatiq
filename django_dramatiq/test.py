@@ -1,5 +1,5 @@
 from django.test import TransactionTestCase, SimpleTestCase, override_settings
-from dramatiq import Worker, get_broker, Actor, Broker
+from dramatiq import Worker, get_broker, Actor
 from dramatiq.brokers.stub import StubBroker
 
 from .utils import actor
