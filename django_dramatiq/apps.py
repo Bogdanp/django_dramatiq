@@ -61,7 +61,7 @@ class DjangoDramatiqConfig(AppConfig):
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
             )
             rate_limiter_backend_class = import_string(rate_limiter_backend_path)
-            rate_limiter_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
+            rate_limiter_backend_options = rate_limiter_backend_settings.get("BACKEND_OPTIONS", {})
             RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
         broker_settings = cls.broker_settings()
