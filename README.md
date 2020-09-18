@@ -85,17 +85,26 @@ each of your installed apps.  For example, if you have an app named
 `customers.tasks`:
 
 ``` python
-import dramatiq
-
 from django.core.mail import send_mail
+from django_dramatiq.utils import actor
 
 from .models import Customer
 
-@dramatiq.actor
+@actor
 def email_customer(customer_id, subject, message):
     customer = Customer.get(pk=customer_id)
     send_mail(subject, message, "webmaster@example.com", [customer.email])
 ```
+
+You can overwrite actor defaults in your Django configuration, e.g. 
+if you want to use a different default `queue_name` and `priority` set:
+``` python
+DRAMATIQ_TASK_DEFAULTS = {
+    'queue_name': 'new_default',
+    'priority': 60,
+}
+``` 
+
 
 ### Running workers
 

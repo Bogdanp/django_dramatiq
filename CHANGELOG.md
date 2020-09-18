@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [@timdrijvers]: https://github.com/timdrijvers
 [#63]: https://github.com/Bogdanp/django_dramatiq/issues/63
+- Added `utils.actor` task decorator, allowing setting task defaults in Django settings. ([@AndreCimander], [#68])
+
+[@AndreCimander]: https://github.com/AndreCimander
+[#68]: https://github.com/Bogdanp/django_dramatiq/pull/68
 
 ## [0.9.1] - 2020-02-04
 ### Fixed
