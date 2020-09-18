@@ -50,8 +50,8 @@ DRAMATIQ_BROKER = {
         "dramatiq.middleware.TimeLimit",
         "dramatiq.middleware.Callbacks",
         "dramatiq.middleware.Retries",
-        "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
+        "django_dramatiq.middleware.AdminMiddleware",
     ]
 }
 
@@ -130,8 +130,8 @@ DRAMATIQ_BROKER = {
         "dramatiq.middleware.Callbacks",
         "dramatiq.middleware.Pipelines",
         "dramatiq.middleware.Retries",
-        "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
+        "django_dramatiq.middleware.AdminMiddleware",
     ]
 }
 ```
@@ -220,16 +220,16 @@ delete_old_tasks.send(max_task_age=86400)
 ### Middleware
 
 <dl>
-  <dt>django_dramatiq.middleware.AdminMiddleware</dt>
-  <dd>
-    This middleware stores metadata about tasks in flight to a
-    database and exposes them via the Django admin.
-  </dd>
-
   <dt>django_dramatiq.middleware.DbConnectionsMiddleware</dt>
   <dd>
     This middleware is vital in taking care of closing expired
     connections after each message is processed.
+  </dd>
+
+  <dt>django_dramatiq.middleware.AdminMiddleware</dt>
+  <dd>
+    This middleware stores metadata about tasks in flight to a
+    database and exposes them via the Django admin.
   </dd>
 </dl>
 
