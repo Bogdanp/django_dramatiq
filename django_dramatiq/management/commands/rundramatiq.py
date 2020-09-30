@@ -177,7 +177,7 @@ class Command(BaseCommand):
             # Return first matching path found in directories
             dirs = [bin_dir, os.path.join(bin_dir, 'Scripts')]
             for d in dirs:
-                exec_path = os.path.join(d, exec_name))
-                if os.exists(exec_path):
+                exec_path = os.path.join(d, exec_name)
+                if os.path.isfile(exec_path):
                     return exec_path
         return exec_name
