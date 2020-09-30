@@ -3,6 +3,7 @@ import multiprocessing
 import os
 import pkgutil
 import sys
+import glob
 
 from django.apps import apps
 from django.conf import settings
@@ -174,5 +175,9 @@ class Command(BaseCommand):
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
         if bin_dir:
-            return os.path.join(bin_dir, exec_name)
+            # Return first matching path found in directories
+            dirs = [bin_dir, os.path.join(bin_dir, 'Scripts')]
+            for d in dirs:
+                for path in glob.iglob(os.path.join(d, exec_name)):
+                    return path
         return exec_name
