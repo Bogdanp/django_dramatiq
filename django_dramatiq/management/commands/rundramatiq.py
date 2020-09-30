@@ -3,7 +3,6 @@ import multiprocessing
 import os
 import pkgutil
 import sys
-import glob
 
 from django.apps import apps
 from django.conf import settings
@@ -178,6 +177,7 @@ class Command(BaseCommand):
             # Return first matching path found in directories
             dirs = [bin_dir, os.path.join(bin_dir, 'Scripts')]
             for d in dirs:
-                for path in glob.iglob(os.path.join(d, exec_name)):
-                    return path
+                exec_path = os.path.join(d, exec_name))
+                if os.exists(exec_path):
+                    return exec_path
         return exec_name
