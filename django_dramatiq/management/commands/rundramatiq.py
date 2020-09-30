@@ -174,5 +174,8 @@ class Command(BaseCommand):
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
         if bin_dir:
-            return os.path.join(bin_dir, exec_name)
+            for d in [bin_dir, os.path.join(bin_dir, 'Scripts')]:
+                exec_path = os.path.join(d, exec_name)
+                if os.path.isfile(exec_path):
+                    return exec_path
         return exec_name
