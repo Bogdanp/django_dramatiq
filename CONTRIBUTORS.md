@@ -19,3 +19,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@AceFire6](https://github.com/AceFire6)                               | Jethro Muller       |
 | [@OrazioPirataDelloSpazio](https://github.com/OrazioPirataDelloSpazio) | Lorenzo             |
 | [@timdrijvers](https://github.com/timdrijvers)                         | Tim Drijvers        |
+| [@magraeber](https://github.com/magraeber)                             | magraeber           |
