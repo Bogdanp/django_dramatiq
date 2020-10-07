@@ -2,7 +2,6 @@ import dramatiq
 from django.apps import AppConfig
 from django.conf import settings
 from django.utils.module_loading import import_string
-
 from dramatiq.results import Results
 
 from .utils import load_middleware
@@ -39,7 +38,6 @@ class DjangoDramatiqConfig(AppConfig):
     @classmethod
     def initialize(cls):
         global RATE_LIMITER_BACKEND
-
         dramatiq.set_encoder(cls.select_encoder())
 
         result_backend_settings = cls.result_backend_settings()
@@ -68,7 +66,10 @@ class DjangoDramatiqConfig(AppConfig):
         broker_path = broker_settings["BROKER"]
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
-        middleware = [load_middleware(path) for path in broker_settings.get("MIDDLEWARE", [])]
+        middleware = [
+            load_middleware(path, **cls.get_middleware_kwargs(path))
+            for path in broker_settings.get("MIDDLEWARE", [])
+        ]
 
         if result_backend is not None:
             middleware.append(results_middleware)
@@ -78,11 +79,24 @@ class DjangoDramatiqConfig(AppConfig):
 
     @property
     def rate_limiter_backend(self):
+        return type(self).get_rate_limiter_backend()
+
+    @classmethod
+    def get_rate_limiter_backend(cls):
         global RATE_LIMITER_BACKEND
         if RATE_LIMITER_BACKEND is None:
             raise RuntimeError("The rate limiter backend has not been configured.")
 
         return RATE_LIMITER_BACKEND
+
+    @classmethod
+    def get_middleware_kwargs(cls, path):
+        if isinstance(path, str):
+            middleware_path = path.rsplit(".", 1)[1].lower()
+            middleware_kwargs_method = "middleware_{}_kwargs".format(middleware_path)
+            if hasattr(cls, middleware_kwargs_method):
+                return getattr(cls, middleware_kwargs_method)()
+        return {}
 
     @classmethod
     def broker_settings(cls):

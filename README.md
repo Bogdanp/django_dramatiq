@@ -233,6 +233,57 @@ delete_old_tasks.send(max_task_age=86400)
   </dd>
 </dl>
 
+#### Custom keyword arguments to Middleware
+
+Some middleware classes require dynamic arguments.  An example of this
+would be the backend argument to `dramatiq.middleware.GroupCallbacks`.
+
+To do this, you might add the middleware to your `settings.py`:
+
+```python
+DRAMATIQ_BROKER = {
+    ...
+    "MIDDLEWARE": [
+        ...
+        "dramatiq.middleware.GroupCallbacks",
+        ...
+    ]
+    ...
+}
+```
+
+Next, you need to extend `DjangoDramatiqConfig` to provide the
+arguments for this middleware:
+
+```python
+from django_dramatiq.apps import DjangoDramatiqConfig
+
+
+class CustomDjangoDramatiqConfig(DjangoDramatiqConfig):
+    @classmethod
+    def middleware_groupcallbacks_kwargs(cls):
+        return {"rate_limiter_backend": cls.get_rate_limiter_backend()}
+
+
+CustomDjangoDramatiqConfig.initialize()
+```
+
+Notice the naming convention, to provide arguments to
+`dramatiq.middleware.GroupCallbacks` you need to add a `@classmethod`
+with the name `middleware_<middleware_name>_kwargs`, where
+`<middleware_name>` is the lowercase name of the middleware.
+
+Finally, add the custom app config to your `settings.py`, replacing
+the existing `django_dramatiq` app config:
+
+```python
+INSTALLED_APPS = [
+    ...
+    "yourapp.apps.CustomDjangoDramatiqConfig",
+    ...
+]
+```
+
 
 ### Usage with [django-configurations]
 
