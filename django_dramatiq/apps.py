@@ -29,19 +29,19 @@ DEFAULT_BROKER_SETTINGS = {
     ]
 }
 
-RATE_LIMITER_BACKEND = None
-
 
 class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
-    def ready(self):
-        global RATE_LIMITER_BACKEND
+    RATE_LIMITER_BACKEND = None
 
-        dramatiq.set_encoder(self.select_encoder())
+    @classmethod
+    def initialize(cls):
 
-        result_backend_settings = self.result_backend_settings()
+        dramatiq.set_encoder(cls.select_encoder())
+
+        result_backend_settings = cls.result_backend_settings()
         if result_backend_settings:
             result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
             result_backend_class = import_string(result_backend_path)
@@ -54,21 +54,21 @@ class DjangoDramatiqConfig(AppConfig):
             result_backend = None
             results_middleware = None
 
-        rate_limiter_backend_settings = self.rate_limiter_backend_settings()
+        rate_limiter_backend_settings = cls.rate_limiter_backend_settings()
         if rate_limiter_backend_settings:
             rate_limiter_backend_path = rate_limiter_backend_settings.get(
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
             )
             rate_limiter_backend_class = import_string(rate_limiter_backend_path)
             rate_limiter_backend_options = rate_limiter_backend_settings.get("BACKEND_OPTIONS", {})
-            RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
+            cls.RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
-        broker_settings = self.broker_settings()
+        broker_settings = cls.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [
-            load_middleware(path, **self.get_middleware_kwargs(path))
+            load_middleware(path, **cls.get_middleware_kwargs(path))
             for path in broker_settings.get("MIDDLEWARE", [])
         ]
 
@@ -78,20 +78,20 @@ class DjangoDramatiqConfig(AppConfig):
         broker = broker_class(middleware=middleware, **broker_options)
         dramatiq.set_broker(broker)
 
-    @property
-    def rate_limiter_backend(self):
-        global RATE_LIMITER_BACKEND
-        if RATE_LIMITER_BACKEND is None:
+    @classmethod
+    def get_rate_limiter_backend(cls):
+        if cls.RATE_LIMITER_BACKEND is None:
             raise RuntimeError("The rate limiter backend has not been configured.")
 
-        return RATE_LIMITER_BACKEND
+        return cls.RATE_LIMITER_BACKEND
 
-    def get_middleware_kwargs(self, path):
+    @classmethod
+    def get_middleware_kwargs(cls, path):
         if isinstance(path, str):
             middleware_path = path.rsplit('.', 1)[1].lower()
             middleware_kwargs_method = "middleware_{}_kwargs".format(middleware_path)
-            if hasattr(self, middleware_kwargs_method):
-                return getattr(self, middleware_kwargs_method)()
+            if hasattr(cls, middleware_kwargs_method):
+                return getattr(cls, middleware_kwargs_method)()
         return {}
 
     @classmethod
