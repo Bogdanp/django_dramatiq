@@ -233,6 +233,61 @@ delete_old_tasks.send(max_task_age=86400)
   </dd>
 </dl>
 
+#### Providing custom kwargs to middleware classes
+
+Some middleware classes require extra arguments (ie: rate limiter backend in `dramatiq.middleware.GroupCallbacks`).
+
+Given the above scenario, you need to setup your middleware class in your django `settings.py`:
+
+```python
+DRAMATIQ_BROKER = {
+    ...
+    "MIDDLEWARE": [
+        ...
+        "dramatiq.middleware.GroupCallbacks",
+        ...
+    ]
+    ...
+}
+```
+
+Now we need to extend the default `DjangoDramatiqConfig` class to specify the custom args for
+`dramatiq.middleware.GroupCallbacks`.
+
+
+You can create your own django app or add this class to some `app.py` module:
+
+```python
+from django_dramatiq.apps import DjangoDramatiqConfig
+
+
+class CustomDjangoDramatiqConfig(DjangoDramatiqConfig):
+
+    @classmethod
+    def middleware_groupcallbacks_kwargs(cls):
+        return {"rate_limiter_backend": cls.get_rate_limiter_backend()}
+
+
+CustomDjangoDramatiqConfig.initialize()
+```
+
+Notice the naming convention, if you need to provide arguments to `dramatiq.middleware.GroupCallbacks`
+you will need to add a `@classmethod` with the name `middleware_<middleware_name>_kwargs`,
+where `<middleware_name>` is the class name of the middleware in lowercase.
+
+In this class method, you need to return a `dict` of kwargs for your middleware.
+
+The final step is setup this new custom *dramatiq* app config instead of the default one in your `settings.py`:
+
+
+```python
+INSTALLED_APPS = [
+    ...
+    "yourapp.apps.CustomDjangoDramatiqConfig",
+    ...
+]
+```
+
 
 ### Usage with [django-configurations]
 
