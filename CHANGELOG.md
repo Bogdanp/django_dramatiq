@@ -9,9 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Added the ``--fork-function`` flag to ``rundramatiq``. ([@timdrijvers], [#63])
+- Added support for setting middleware kwargs at runtime. ([@dnmellen], [#83])
 
+[@dnmellen]: https://github.com/dnmellen
 [@timdrijvers]: https://github.com/timdrijvers
 [#63]: https://github.com/Bogdanp/django_dramatiq/issues/63
+[#83]: https://github.com/Bogdanp/django_dramatiq/issues/83
 
 ## [0.9.1] - 2020-02-04
 ### Fixed
