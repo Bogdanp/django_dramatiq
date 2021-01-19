@@ -172,10 +172,9 @@ class Command(BaseCommand):
         return submodules
 
     def _resolve_executable(self, exec_name):
-        bin_dir = os.path.dirname(sys.executable)
-        if bin_dir:
-            for d in [bin_dir, os.path.join(bin_dir, 'Scripts')]:
-                exec_path = os.path.join(d, exec_name)
-                if os.path.isfile(exec_path):
-                    return exec_path
+        env_paths = os.environ.get("PATH", os.defpath).split(os.pathsep)
+        for path in env_paths:
+            path = os.path.join(path, exec_name)
+            if os.path.exists(path) and os.access(path, os.X_OK):
+                return path
         return exec_name
