@@ -19,7 +19,7 @@ You can find an example application built with django_dramatiq [here][example].
 
 ## Installation
 
-    pip install django_dramatiq
+    pip install django-dramatiq
 
 Add `django_dramatiq` to installed apps *before* any of your custom
 apps:
