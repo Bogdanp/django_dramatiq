@@ -9,12 +9,32 @@ from django_dramatiq.management.commands import rundramatiq
 
 
 def test_rundramatiq_command_autodiscovers_modules():
-    assert rundramatiq.Command().discover_tasks_modules() == [
+    cmd = rundramatiq.Command()
+    assert cmd.discover_tasks_modules() == [
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.tasks",
+    ]
+
+    assert cmd.discover_tasks_modules(['balance']) == [
+        "django_dramatiq.setup",
+        "tests.testapp1.tasks",
+        "tests.testapp3.tasks.tasks",
+    ]
+
+    assert cmd.discover_tasks_modules(['qwerty']) == [
+        "django_dramatiq.setup",
+        "tests.testapp2.tasks",
+        "tests.testapp3.tasks.tasks",
+    ]
+
+    assert cmd.discover_tasks_modules(['balance', 'qwerty']) == [
+        "django_dramatiq.setup",
+        "tests.testapp1.tasks",
+        "tests.testapp2.tasks",
         "tests.testapp3.tasks.tasks",
     ]
 
