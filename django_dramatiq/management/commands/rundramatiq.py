@@ -8,6 +8,7 @@ from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
+from dramatiq import Actor
 
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
@@ -92,7 +93,7 @@ class Command(BaseCommand):
                 forks_args += ['--fork-function', function]
 
         verbosity_args = ["-v"] * (verbosity - 1)
-        tasks_modules = self.discover_tasks_modules()
+        tasks_modules = self.discover_tasks_modules(queues=queues)
         process_args = [
             executable_name,
             "--path", *path,
@@ -124,7 +125,7 @@ class Command(BaseCommand):
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
         os.execvp(executable_path, process_args)
 
-    def discover_tasks_modules(self):
+    def discover_tasks_modules(self, queues=None):
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
         app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
@@ -137,39 +138,48 @@ class Command(BaseCommand):
                 continue
 
             imported_module = importlib.import_module(module)
-            if not self._is_package(imported_module):
+            if self._is_package(imported_module):
+                submodules = self._get_submodules(imported_module)
+
+                for submodule, imported_submodule in submodules:
+                    if submodule in ignored_modules:
+                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                    elif self._should_append_module(imported_submodule, queues):
+                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        tasks_modules.append(submodule)
+                    else:
+                        self.stdout.write(" * Ignored tasks module as no actors: %r" % submodule)
+            elif self._should_append_module(imported_module, queues):
                 self.stdout.write(" * Discovered tasks module: %r" % module)
                 tasks_modules.append(module)
             else:
-                submodules = self._get_submodules(imported_module)
-
-                for submodule in submodules:
-                    if submodule in ignored_modules:
-                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
-                    else:
-                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
-                        tasks_modules.append(submodule)
+                self.stdout.write(" * Ignored tasks module as no actors: %r" % module)
 
         return tasks_modules
+
+    def _should_append_module(self, module, queues):
+        if not queues:
+            return True
+
+        for val in module.__dict__.values():
+            if isinstance(val, Actor) and val.queue_name in queues:
+                return True
+        return False
 
     def _is_package(self, module):
         module_path = getattr(module, "__path__", None)
         return module_path and os.path.isdir(module_path[0])
 
     def _get_submodules(self, package):
-        submodules = []
-
         package_path = package.__path__
         prefix = package.__name__ + "."
 
         for _, module_name, is_pkg in pkgutil.walk_packages(package_path, prefix):
+            imported_module = importlib.import_module(module_name)
             if is_pkg:
-                sub_submodules = self._get_submodules(importlib.import_module(module_name))
-                submodules.extend(sub_submodules)
+                yield from self._get_submodules(imported_module)
             else:
-                submodules.append(module_name)
-
-        return submodules
+                yield module_name, imported_module
 
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
