@@ -125,7 +125,8 @@ class Command(BaseCommand):
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
 
         if sys.platform == 'win32':
-            sys.exit(subprocess.call(process_args))
+            command = [executable_path] + process_args[1:]
+            sys.exit(subprocess.call(command))
 
         os.execvp(executable_path, process_args)
 
