@@ -126,7 +126,7 @@ class Command(BaseCommand):
 
         if sys.platform == 'win32':
             command = [executable_path] + process_args[1:]
-            sys.exit(subprocess.call(command))
+            sys.exit(subprocess.run(command))
 
         os.execvp(executable_path, process_args)
 
