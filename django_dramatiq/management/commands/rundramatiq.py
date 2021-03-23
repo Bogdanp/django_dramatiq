@@ -3,6 +3,7 @@ import multiprocessing
 import os
 import pkgutil
 import sys
+import subprocess
 
 from django.apps import apps
 from django.conf import settings
@@ -122,6 +123,11 @@ class Command(BaseCommand):
             process_args.extend(["--log-file", log_file])
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
+
+        if sys.platform == 'win32':
+            command = [executable_path] + process_args[1:]
+            sys.exit(subprocess.run(command))
+
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
