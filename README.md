@@ -298,8 +298,8 @@ from django_dramatiq.management.commands.rundramatiq import Command as RunDramat
 
 
 class Command(RunDramatiqCommand):
-    def discover_tasks_modules(self):
-        tasks_modules = super().discover_tasks_modules()
+    def discover_tasks_modules(self, *args, **kwargs):
+        tasks_modules = super().discover_tasks_modules(*args, **kwargs)
         tasks_modules[0] = "YOURPACKAGE.dramatiq_setup"
         return tasks_modules
 ```
