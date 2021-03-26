@@ -2,8 +2,8 @@ import importlib
 import multiprocessing
 import os
 import pkgutil
-import sys
 import subprocess
+import sys
 
 from django.apps import apps
 from django.conf import settings
@@ -90,7 +90,7 @@ class Command(BaseCommand):
         forks_args = []
         if forks:
             for function in forks:
-                forks_args += ['--fork-function', function]
+                forks_args += ["--fork-function", function]
 
         verbosity_args = ["-v"] * (verbosity - 1)
         tasks_modules = self.discover_tasks_modules()
@@ -124,7 +124,7 @@ class Command(BaseCommand):
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
 
-        if sys.platform == 'win32':
+        if sys.platform == "win32":
             command = [executable_path] + process_args[1:]
             sys.exit(subprocess.run(command))
 
@@ -180,7 +180,7 @@ class Command(BaseCommand):
     def _resolve_executable(self, exec_name):
         bin_dir = os.path.dirname(sys.executable)
         if bin_dir:
-            for d in [bin_dir, os.path.join(bin_dir, 'Scripts')]:
+            for d in [bin_dir, os.path.join(bin_dir, "Scripts")]:
                 exec_path = os.path.join(d, exec_name)
                 if os.path.isfile(exec_path):
                     return exec_path
