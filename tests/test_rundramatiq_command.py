@@ -16,6 +16,8 @@ def test_rundramatiq_command_autodiscovers_modules():
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
     ]
 
 
@@ -49,6 +51,8 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
     ])
 
 
@@ -77,6 +81,8 @@ def test_rundramatiq_can_run_dramatiq_reload(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
     ])
 
 
@@ -106,6 +112,8 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
     ])
 
 
@@ -133,6 +141,8 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
         "--queues", "A B C"
     ])
 
@@ -161,6 +171,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
         "--pid-file", "drama.pid"
     ])
 
@@ -189,6 +201,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
         "--log-file", "drama.log"
     ])
 
@@ -256,5 +270,7 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
         "tests.testapp1.tasks",
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks"
+        "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
+        "tests.testapp3.tasks.utils.not_a_task",
     ])
