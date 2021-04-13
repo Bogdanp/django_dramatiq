@@ -135,10 +135,26 @@ class Command(BaseCommand):
         app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
 
+        def is_ignored_module(module_name):
+            if not ignored_modules:
+                return False
+
+            if module_name in ignored_modules:
+                return True
+
+            name_parts = module_name.split(".")
+
+            for c in range(1, len(name_parts)):
+                part_name = ".".join(name_parts[:c]) + ".*"
+                if part_name in ignored_modules:
+                    return True
+
+            return False
+
         for conf in app_configs:
             module = conf.name + ".tasks"
 
-            if module in ignored_modules:
+            if is_ignored_module(module):
                 self.stdout.write(" * Ignored tasks module: %r" % module)
                 continue
 
@@ -150,7 +166,7 @@ class Command(BaseCommand):
                 submodules = self._get_submodules(imported_module)
 
                 for submodule in submodules:
-                    if submodule in ignored_modules:
+                    if is_ignored_module(submodule):
                         self.stdout.write(" * Ignored tasks module: %r" % submodule)
                     else:
                         self.stdout.write(" * Discovered tasks module: %r" % submodule)
@@ -169,7 +185,7 @@ class Command(BaseCommand):
         prefix = package.__name__ + "."
 
         for _, module_name, _ in pkgutil.walk_packages(package_path, prefix):
-                submodules.append(module_name)
+            submodules.append(module_name)
 
         return submodules
 
