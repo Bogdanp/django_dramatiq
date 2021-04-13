@@ -111,9 +111,15 @@ are not intended for use with Dramatiq, you can ignore them:
 DRAMATIQ_IGNORED_MODULES = (
     'app1.tasks',
     'app2.tasks',
+    'app3.tasks.utils',
+    'app3.tasks.utils.*',
     ...
 )
 ```
+
+The wildcard detection will ignore all sub modules from that point on. You
+will need to ignore the module itself if you don't want the `__init__.py` to
+be processed.
 
 ### Testing
 
