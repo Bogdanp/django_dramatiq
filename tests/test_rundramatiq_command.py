@@ -217,6 +217,7 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
     settings.DRAMATIQ_IGNORED_MODULES = (
         "tests.testapp2.tasks",
         "tests.testapp3.tasks.other_tasks",
+        "tests.testapp3.tasks.utils.*",
     )
 
     # When I call the rundramatiq command
@@ -225,8 +226,10 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
     # Then stdout should contain a message about ignored task modules
     assert "Discovered tasks module: 'tests.testapp1.tasks'" in buff.getvalue()
     assert "Discovered tasks module: 'tests.testapp3.tasks.tasks'" in buff.getvalue()
+    assert "Discovered tasks module: 'tests.testapp3.tasks.utils'" in buff.getvalue()
     assert "Ignored tasks module: 'tests.testapp2.tasks'" in buff.getvalue()
     assert "Ignored tasks module: 'tests.testapp3.tasks.other_tasks'" in buff.getvalue()
+    assert "Ignored tasks module: 'tests.testapp3.tasks.utils.not_a_task'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
     cores = str(rundramatiq.CPU_COUNT)
@@ -242,6 +245,7 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
         "django_dramatiq.tasks",
         "tests.testapp1.tasks",
         "tests.testapp3.tasks.tasks",
+        "tests.testapp3.tasks.utils",
     ])
 
 
