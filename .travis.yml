@@ -1,10 +1,10 @@
 language: python
 sudo: false
 python:
-  - "3.5"
   - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
+  - "3.7"
+  - "3.8"
+  - "3.9"
   - "nightly"
 matrix:
   include:
@@ -13,8 +13,6 @@ matrix:
     - python: 3.6
       env: TOXENV=migrations
   allow_failures:
-    - python: "3.6-dev"
-    - python: "3.7-dev"
     - python: "nightly"
 install:
   - pip install -U tox-travis
