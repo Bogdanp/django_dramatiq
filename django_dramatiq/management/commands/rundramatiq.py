@@ -2,6 +2,7 @@ import importlib
 import multiprocessing
 import os
 import pkgutil
+import subprocess
 import sys
 
 from django.apps import apps
@@ -89,7 +90,7 @@ class Command(BaseCommand):
         forks_args = []
         if forks:
             for function in forks:
-                forks_args += ['--fork-function', function]
+                forks_args += ["--fork-function", function]
 
         verbosity_args = ["-v"] * (verbosity - 1)
         tasks_modules = self.discover_tasks_modules()
@@ -122,6 +123,11 @@ class Command(BaseCommand):
             process_args.extend(["--log-file", log_file])
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
+
+        if sys.platform == "win32":
+            command = [executable_path] + process_args[1:]
+            sys.exit(subprocess.run(command))
+
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
@@ -129,10 +135,26 @@ class Command(BaseCommand):
         app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
         tasks_modules = ["django_dramatiq.setup"]
 
+        def is_ignored_module(module_name):
+            if not ignored_modules:
+                return False
+
+            if module_name in ignored_modules:
+                return True
+
+            name_parts = module_name.split(".")
+
+            for c in range(1, len(name_parts)):
+                part_name = ".".join(name_parts[:c]) + ".*"
+                if part_name in ignored_modules:
+                    return True
+
+            return False
+
         for conf in app_configs:
             module = conf.name + ".tasks"
 
-            if module in ignored_modules:
+            if is_ignored_module(module):
                 self.stdout.write(" * Ignored tasks module: %r" % module)
                 continue
 
@@ -144,7 +166,7 @@ class Command(BaseCommand):
                 submodules = self._get_submodules(imported_module)
 
                 for submodule in submodules:
-                    if submodule in ignored_modules:
+                    if is_ignored_module(submodule):
                         self.stdout.write(" * Ignored tasks module: %r" % submodule)
                     else:
                         self.stdout.write(" * Discovered tasks module: %r" % submodule)
@@ -162,12 +184,8 @@ class Command(BaseCommand):
         package_path = package.__path__
         prefix = package.__name__ + "."
 
-        for _, module_name, is_pkg in pkgutil.walk_packages(package_path, prefix):
-            if is_pkg:
-                sub_submodules = self._get_submodules(importlib.import_module(module_name))
-                submodules.extend(sub_submodules)
-            else:
-                submodules.append(module_name)
+        for _, module_name, _ in pkgutil.walk_packages(package_path, prefix):
+            submodules.append(module_name)
 
         return submodules
 
