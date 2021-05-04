@@ -131,8 +131,17 @@ class Command(BaseCommand):
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
+        task_module_names = getattr(settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",))
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
-        app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
+        app_configs = []
+        for conf in apps.get_app_configs():
+            # Always find our own tasks, regardless of the configured module names.
+            if conf.name == "django_dramatiq":
+                app_configs.append((conf, "tasks"))
+            else:
+                for task_module in task_module_names:
+                    if module_has_submodule(conf.module, task_module):
+                        app_configs.append((conf, task_module))
         tasks_modules = ["django_dramatiq.setup"]
 
         def is_ignored_module(module_name):
@@ -151,9 +160,8 @@ class Command(BaseCommand):
 
             return False
 
-        for conf in app_configs:
-            module = conf.name + ".tasks"
-
+        for conf, task_module in app_configs:
+            module = conf.name + "." + task_module
             if is_ignored_module(module):
                 self.stdout.write(" * Ignored tasks module: %r" % module)
                 continue
@@ -175,8 +183,7 @@ class Command(BaseCommand):
         return tasks_modules
 
     def _is_package(self, module):
-        module_path = getattr(module, "__path__", None)
-        return module_path and os.path.isdir(module_path[0])
+        return hasattr(module, "__path__")
 
     def _get_submodules(self, package):
         submodules = []
