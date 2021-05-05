@@ -35,6 +35,9 @@ class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
+    def ready(self):
+        self.initialize()
+
     @classmethod
     def initialize(cls):
         global RATE_LIMITER_BACKEND
@@ -119,5 +122,3 @@ class DjangoDramatiqConfig(AppConfig):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
         return import_string(encoder)()
 
-
-DjangoDramatiqConfig.initialize()
