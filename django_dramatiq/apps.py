@@ -25,7 +25,7 @@ DEFAULT_BROKER_SETTINGS = {
         "dramatiq.middleware.Retries",
         "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
-    ]
+    ],
 }
 
 RATE_LIMITER_BACKEND = None
@@ -67,7 +67,7 @@ class DjangoDramatiqConfig(AppConfig):
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [
-            load_middleware(path, **cls.get_middleware_kwargs(path))
+            load_middleware(path, **cls.get_middleware_kwargs(path, broker_settings))
             for path in broker_settings.get("MIDDLEWARE", [])
         ]
 
@@ -90,12 +90,28 @@ class DjangoDramatiqConfig(AppConfig):
         return RATE_LIMITER_BACKEND
 
     @classmethod
-    def get_middleware_kwargs(cls, path):
+    def get_middleware_kwargs(cls, path, broker_settings):
         if isinstance(path, str):
             middleware_path = path.rsplit(".", 1)[1].lower()
             middleware_kwargs_method = "middleware_{}_kwargs".format(middleware_path)
             if hasattr(cls, middleware_kwargs_method):
                 return getattr(cls, middleware_kwargs_method)()
+
+            if "MIDDLEWARE_OPTIONS" in broker_settings:
+                if path in broker_settings["MIDDLEWARE_OPTIONS"]:
+                    middleware_options = broker_settings["MIDDLEWARE_OPTIONS"][path]
+
+                    if isinstance(middleware_options, str):
+                        return import_string(middleware_options)(cls)
+
+                    if callable(middleware_options):
+                        return middleware_options(cls)
+
+                    if not isinstance(middleware_options, dict):
+                        raise RuntimeError(
+                            f"MIDDLEWARE_OPTIONS for {path!r} must be a dict, callable or importable string. Received {type(middleware_options)}"
+                        )
+                    return middleware_options
         return {}
 
     @classmethod

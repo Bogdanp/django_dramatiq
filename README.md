@@ -258,7 +258,71 @@ DRAMATIQ_BROKER = {
 }
 ```
 
-Next, you need to extend `DjangoDramatiqConfig` to provide the
+Next, you need to define the options for this. You have a couple of choices
+here. You can either define the function elsewhere and use a typical django
+dotted path string to that function. If you only need static options passed to
+your middleware, you can pass in a dict directly. Otherwise, you can pass a
+callable directly to the middleware options.
+
+This is done by defining a new dictionary key `MIDDLEWARE_OPTIONS` on the
+`DRAMATIQ_BROKER` setting as a top level, with the key of each setting matching
+the name of the middleware it's passing the kwargs to.
+
+Some examples:
+
+##### The dotted path import
+
+```python
+# dramatiq_options.py
+def groupcallbacks_kwargs(cls):
+    return {"rate_limiter_backend": cls.get_rate_limiter_backend()}
+
+# settings.py
+DRAMATIQ_BROKER = {
+    ...
+    "MIDDLEWARE_OPTIONS": { 
+        "dramatiq.middleware.GroupCallbacks": "myapp.dramatiq_options.groupcallbacks_kwargs"
+    }
+    ...
+}
+```
+
+##### With a static dictionary
+
+```python
+DRAMATIQ_BROKER = {
+    ...
+    "MIDDLEWARE_OPTIONS": { 
+        "myapp.middleware.CustomMiddleware": {"things": True, "stuff": 10}
+    }
+    ...
+}
+```
+
+##### Passing in a function
+
+```python
+# dramatiq_options.py
+def groupcallbacks_kwargs(cls):
+    return {"rate_limiter_backend": cls.get_rate_limiter_backend()}
+
+# settings.py
+from myapp.dramatiq_options import groupcallbacks_kwargs
+
+...
+
+DRAMATIQ_BROKER = {
+    ...
+    "MIDDLEWARE_OPTIONS": { 
+        "dramatiq.middleware.GroupCallbacks": groupcallbacks_kwargs,
+    }
+    ...
+}
+```
+
+##### Sub-classing the app
+
+Alternatively, you can extend `DjangoDramatiqConfig` to provide the
 arguments for this middleware:
 
 ```python
