@@ -10,6 +10,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
+#: The name of the task module
+DJANGO_DRAMATIQ_TASK_MODULE = getattr(settings, 'DJANGO_DRAMATIQ_TASK_MODULE', 'tasks')
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
 
@@ -152,13 +154,24 @@ class Command(BaseCommand):
             return False
 
         for conf in app_configs:
-            module = conf.name + ".tasks"
+            if conf.name == "django_dramatiq":
+                # we want to find our own tasks, even if the user has overridden
+                # the tasks module name
+                module = "django_dramatiq.tasks"
+            else:
+                module = conf.name + "." + DJANGO_DRAMATIQ_TASK_MODULE
 
             if is_ignored_module(module):
                 self.stdout.write(" * Ignored tasks module: %r" % module)
                 continue
 
-            imported_module = importlib.import_module(module)
+            try:
+                imported_module = importlib.import_module(module)
+            except ImportError:
+                self.stdout.write(" * Could not import %s from %s" % (
+                    DJANGO_DRAMATIQ_TASK_MODULE, module
+                ))
+                continue
             if not self._is_package(imported_module):
                 self.stdout.write(" * Discovered tasks module: %r" % module)
                 tasks_modules.append(module)
@@ -176,7 +189,11 @@ class Command(BaseCommand):
 
     def _is_package(self, module):
         module_path = getattr(module, "__path__", None)
-        return module_path and os.path.isdir(module_path[0])
+        try:
+            return module_path and os.path.isdir(module_path[0])
+        except:
+            # Implicit Namespace Package?
+            return False
 
     def _get_submodules(self, package):
         submodules = []

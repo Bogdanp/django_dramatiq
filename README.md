@@ -97,6 +97,13 @@ def email_customer(customer_id, subject, message):
     send_mail(subject, message, "webmaster@example.com", [customer.email])
 ```
 
+You can override the name of the `tasks` module by setting a different name
+in settings:
+
+``` python
+DJANGO_DRAMATIQ_TASK_MODULE = "dqtasks"
+```
+
 ### Running workers
 
 django_dramatiq comes with a management command you can use to
