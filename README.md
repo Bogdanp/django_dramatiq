@@ -1,6 +1,6 @@
 # django_dramatiq
 
-[![Build Status](https://travis-ci.org/Bogdanp/django_dramatiq.svg?branch=master)](https://travis-ci.org/Bogdanp/django_dramatiq)
+[![Build Status](https://github.com/Bogdanp/django_dramatiq/actions/workflows/push.yml/badge.svg)](https://github.com/Bogdanp/django_dramatiq/actions/workflows/push.yml)
 [![PyPI version](https://badge.fury.io/py/django-dramatiq.svg)](https://badge.fury.io/py/django-dramatiq)
 
 **django_dramatiq** is a Django app that integrates with [Dramatiq][dramatiq].
