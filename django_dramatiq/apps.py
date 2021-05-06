@@ -35,12 +35,11 @@ class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
-    @classmethod
-    def initialize(cls):
+    def ready(self):
         global RATE_LIMITER_BACKEND
-        dramatiq.set_encoder(cls.select_encoder())
+        dramatiq.set_encoder(self.select_encoder())
 
-        result_backend_settings = cls.result_backend_settings()
+        result_backend_settings = self.result_backend_settings()
         if result_backend_settings:
             result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
             result_backend_class = import_string(result_backend_path)
@@ -53,7 +52,7 @@ class DjangoDramatiqConfig(AppConfig):
             result_backend = None
             results_middleware = None
 
-        rate_limiter_backend_settings = cls.rate_limiter_backend_settings()
+        rate_limiter_backend_settings = self.rate_limiter_backend_settings()
         if rate_limiter_backend_settings:
             rate_limiter_backend_path = rate_limiter_backend_settings.get(
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
@@ -62,12 +61,12 @@ class DjangoDramatiqConfig(AppConfig):
             rate_limiter_backend_options = rate_limiter_backend_settings.get("BACKEND_OPTIONS", {})
             RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
-        broker_settings = cls.broker_settings()
+        broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [
-            load_middleware(path, **cls.get_middleware_kwargs(path))
+            load_middleware(path, **self.get_middleware_kwargs(path))
             for path in broker_settings.get("MIDDLEWARE", [])
         ]
 
@@ -118,6 +117,3 @@ class DjangoDramatiqConfig(AppConfig):
     def select_encoder(cls):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
         return import_string(encoder)()
-
-
-DjangoDramatiqConfig.initialize()
