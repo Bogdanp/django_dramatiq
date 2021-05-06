@@ -109,7 +109,8 @@ class DjangoDramatiqConfig(AppConfig):
 
                     if not isinstance(middleware_options, dict):
                         raise RuntimeError(
-                            f"MIDDLEWARE_OPTIONS for {path!r} must be a dict, callable or importable string. Received {type(middleware_options)}"
+                            f"MIDDLEWARE_OPTIONS for {path!r} must be a dict, callable or importable string."
+                            f"Received {type(middleware_options)}"
                         )
                     return middleware_options
         return {}
