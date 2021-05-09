@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
 #: The name of the task module
-DJANGO_DRAMATIQ_TASK_MODULE = getattr(settings, 'DJANGO_DRAMATIQ_TASK_MODULE', 'tasks')
+DRAMATIQ_AUTODISCOVER_MODULES = getattr(settings, 'DRAMATIQ_AUTODISCOVER_MODULES', ('tasks',))
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
 
@@ -154,36 +154,37 @@ class Command(BaseCommand):
             return False
 
         for conf in app_configs:
-            if conf.name == "django_dramatiq":
-                # we want to find our own tasks, even if the user has overridden
-                # the tasks module name
-                module = "django_dramatiq.tasks"
-            else:
-                module = conf.name + "." + DJANGO_DRAMATIQ_TASK_MODULE
+            for task_module in DRAMATIQ_AUTODISCOVER_MODULES:
+                if conf.name == "django_dramatiq":
+                    # we want to find our own tasks, even if the user has overridden
+                    # the tasks module name
+                    module = "django_dramatiq.tasks"
+                else:
+                    module = conf.name + "." + task_module
 
-            if is_ignored_module(module):
-                self.stdout.write(" * Ignored tasks module: %r" % module)
-                continue
+                if is_ignored_module(module):
+                    self.stdout.write(" * Ignored tasks module: %r" % module)
+                    continue
 
-            try:
-                imported_module = importlib.import_module(module)
-            except ImportError:
-                self.stdout.write(" * Could not import %s from %s" % (
-                    DJANGO_DRAMATIQ_TASK_MODULE, module
-                ))
-                continue
-            if not self._is_package(imported_module):
-                self.stdout.write(" * Discovered tasks module: %r" % module)
-                tasks_modules.append(module)
-            else:
-                submodules = self._get_submodules(imported_module)
+                try:
+                    imported_module = importlib.import_module(module)
+                except ImportError:
+                    self.stdout.write(" * Could not import %s from %s" % (
+                        task_module, module
+                    ))
+                    continue
+                if not self._is_package(imported_module):
+                    self.stdout.write(" * Discovered tasks module: %r" % module)
+                    tasks_modules.append(module)
+                else:
+                    submodules = self._get_submodules(imported_module)
 
-                for submodule in submodules:
-                    if is_ignored_module(submodule):
-                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
-                    else:
-                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
-                        tasks_modules.append(submodule)
+                    for submodule in submodules:
+                        if is_ignored_module(submodule):
+                            self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                        else:
+                            self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                            tasks_modules.append(submodule)
 
         return tasks_modules
 

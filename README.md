@@ -97,11 +97,11 @@ def email_customer(customer_id, subject, message):
     send_mail(subject, message, "webmaster@example.com", [customer.email])
 ```
 
-You can override the name of the `tasks` module by setting a different name
-in settings:
+You can override the name of the `tasks` module by setting one or more
+names in settings:
 
 ``` python
-DJANGO_DRAMATIQ_TASK_MODULE = "dqtasks"
+DRAMATIQ_AUTODISCOVER_MODULES = ["tasks", "services"]
 ```
 
 ### Running workers
