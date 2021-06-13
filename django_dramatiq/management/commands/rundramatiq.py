@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
 #: The name of the task module
-DRAMATIQ_AUTODISCOVER_MODULES = getattr(settings, 'DRAMATIQ_AUTODISCOVER_MODULES', ('tasks',))
+DRAMATIQ_AUTODISCOVER_MODULES = getattr(settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",))
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
 
@@ -134,7 +134,16 @@ class Command(BaseCommand):
 
     def discover_tasks_modules(self):
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
-        app_configs = (c for c in apps.get_app_configs() if module_has_submodule(c.module, "tasks"))
+        app_configs = []
+        for conf in apps.get_app_configs():
+            if conf.name == "django_dramatiq":
+                # we want to find our own tasks, even if the user has overridden
+                # the tasks module name
+                app_configs.append(("tasks", conf))
+            else:
+                for task_module in DRAMATIQ_AUTODISCOVER_MODULES:
+                    if module_has_submodule(conf.module, task_module):
+                        app_configs.append((task_module, conf))
         tasks_modules = ["django_dramatiq.setup"]
 
         def is_ignored_module(module_name):
@@ -153,48 +162,31 @@ class Command(BaseCommand):
 
             return False
 
-        for conf in app_configs:
-            for task_module in DRAMATIQ_AUTODISCOVER_MODULES:
-                if conf.name == "django_dramatiq":
-                    # we want to find our own tasks, even if the user has overridden
-                    # the tasks module name
-                    module = "django_dramatiq.tasks"
-                else:
-                    module = conf.name + "." + task_module
+        for task_module, conf in app_configs:
+            module = conf.name + "." + task_module
 
-                if is_ignored_module(module):
-                    self.stdout.write(" * Ignored tasks module: %r" % module)
-                    continue
+            if is_ignored_module(module):
+                self.stdout.write(" * Ignored tasks module: %r" % module)
+                continue
 
-                try:
-                    imported_module = importlib.import_module(module)
-                except ImportError:
-                    self.stdout.write(" * Could not import %s from %s" % (
-                        task_module, module
-                    ))
-                    continue
-                if not self._is_package(imported_module):
-                    self.stdout.write(" * Discovered tasks module: %r" % module)
-                    tasks_modules.append(module)
-                else:
-                    submodules = self._get_submodules(imported_module)
+            imported_module = importlib.import_module(module)
+            if not self._is_package(imported_module):
+                self.stdout.write(" * Discovered tasks module: %r" % module)
+                tasks_modules.append(module)
+            else:
+                submodules = self._get_submodules(imported_module)
 
-                    for submodule in submodules:
-                        if is_ignored_module(submodule):
-                            self.stdout.write(" * Ignored tasks module: %r" % submodule)
-                        else:
-                            self.stdout.write(" * Discovered tasks module: %r" % submodule)
-                            tasks_modules.append(submodule)
+                for submodule in submodules:
+                    if is_ignored_module(submodule):
+                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                    else:
+                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        tasks_modules.append(submodule)
 
         return tasks_modules
 
     def _is_package(self, module):
-        module_path = getattr(module, "__path__", None)
-        try:
-            return module_path and os.path.isdir(module_path[0])
-        except:
-            # Implicit Namespace Package?
-            return False
+        return hasattr(module, "__path__")
 
     def _get_submodules(self, package):
         submodules = []
