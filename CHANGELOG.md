@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+### Added
+
+- The ``DRAMATIQ_AUTODISCOVER_MODULES`` setting. ([@thebjorn], [#97], [#98], [#99])
+
+[@thebjorn]: https://github.com/thebjorn
+[#97]: https://github.com/Bogdanp/django_dramatiq/issues/97
+[#98]: https://github.com/Bogdanp/django_dramatiq/issues/98
+[#99]: https://github.com/Bogdanp/django_dramatiq/issues/99
+
 ## [0.10.0] - 2021-03-21
 ### Added
 
