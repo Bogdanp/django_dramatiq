@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name='description' content='{% block description %}{% endblock %}}'/>
+        <meta name="robots" content="{% block robots %}none{% endblock %}">
+    {% endblock %}
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+{% block content %}
+    page content
+{% endblock %}
+{% block extrabottom %}
+{% endblock %}
+</body>
+</html>

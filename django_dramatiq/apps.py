@@ -115,6 +115,18 @@ class DjangoDramatiqConfig(AppConfig):
         return getattr(settings, "DRAMATIQ_TASKS_DATABASE", "default")
 
     @classmethod
+    def tasks_write_fn(cls):
+        return getattr(settings, "DRAMATIQ_TASKS_WRITE_FN", None)
+
+    @classmethod
+    def load_graph_perm_fn(cls):
+        return getattr(settings, "DRAMATIQ_LOAD_GRAPH_PERM_FN", None)
+
+    @classmethod
+    def load_graph_plotly_lib(cls):
+        return getattr(settings, "DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB", 'https://cdn.plot.ly/plotly-2.0.0.min.js')
+
+    @classmethod
     def select_encoder(cls):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
         return import_string(encoder)()

@@ -7,19 +7,27 @@ from dramatiq import Message
 
 from .apps import DjangoDramatiqConfig
 
-#: The database label to use when storing task metadata.
+# The database label to use when storing task metadata.
 DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
+
+# Function for update task data
+DATABASE_WRITE_FN = DjangoDramatiqConfig.tasks_write_fn()
+
+
+def _create_or_update_from_message(self, database_label, message, **extra_fields):
+    task, _ = self.using(database_label).update_or_create(
+        id=message.message_id,
+        defaults={
+            "message_data": message.encode(),
+            **extra_fields,
+        }
+    )
+    return task
 
 
 class TaskManager(models.Manager):
     def create_or_update_from_message(self, message, **extra_fields):
-        task, _ = self.using(DATABASE_LABEL).update_or_create(
-            id=message.message_id,
-            defaults={
-                "message_data": message.encode(),
-                **extra_fields,
-            }
-        )
+        task, _ = (DATABASE_WRITE_FN or _create_or_update_from_message)(DATABASE_LABEL, message, **extra_fields)
         return task
 
     def delete_old_tasks(self, max_task_age):

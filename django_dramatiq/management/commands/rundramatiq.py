@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
-#: The number of available CPUs.
+# The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
 
 
