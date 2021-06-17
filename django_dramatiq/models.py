@@ -14,8 +14,9 @@ DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 DATABASE_WRITE_FN = DjangoDramatiqConfig.tasks_write_fn()
 
 
-def _create_or_update_from_message(manager, database_label, message, **extra_fields):
-    task, _ = manager.using(database_label).update_or_create(
+def _create_or_update_from_message(self, message, **extra_fields):
+    DATABASE_LABEL = globals()['DATABASE_LABEL']
+    task, _ = self.using(DATABASE_LABEL).update_or_create(
         id=message.message_id,
         defaults={
             "message_data": message.encode(),
@@ -26,9 +27,7 @@ def _create_or_update_from_message(manager, database_label, message, **extra_fie
 
 
 class TaskManager(models.Manager):
-    def create_or_update_from_message(self, message, **extra_fields):
-        task, _ = (DATABASE_WRITE_FN or _create_or_update_from_message)(self, DATABASE_LABEL, message, **extra_fields)
-        return task
+    create_or_update_from_message = DATABASE_WRITE_FN or _create_or_update_from_message
 
     def delete_old_tasks(self, max_task_age):
         self.using(DATABASE_LABEL).filter(
