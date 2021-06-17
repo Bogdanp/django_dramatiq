@@ -10,24 +10,25 @@ from .apps import DjangoDramatiqConfig
 # The database label to use when storing task metadata.
 DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 
-# Function for update task data
-DATABASE_WRITE_FN = DjangoDramatiqConfig.tasks_write_fn()
-
-
-def _create_or_update_from_message(self, message, **extra_fields):
-    DATABASE_LABEL = globals()['DATABASE_LABEL']
-    task, _ = self.using(DATABASE_LABEL).update_or_create(
-        id=message.message_id,
-        defaults={
-            "message_data": message.encode(),
-            **extra_fields,
-        }
-    )
-    return task
+# Prevent ora-01461 and same
+DATABASE_PREVENT_LONG_UPDATE = DjangoDramatiqConfig.tasks_database_prevent_long_update()
 
 
 class TaskManager(models.Manager):
-    create_or_update_from_message = DATABASE_WRITE_FN or _create_or_update_from_message
+    def create_or_update_from_message(self, message, **extra_fields):
+        if DATABASE_PREVENT_LONG_UPDATE:
+            # ORA-01461: can bind a LONG value only for insert into a LONG column
+            # https://stackoverflow.com/questions/9156019/
+            # decision : insert without big data, then update
+            self.using(DATABASE_LABEL).get_or_create(id=message.message_id)
+        task, _ = self.using(DATABASE_LABEL).update_or_create(
+            id=message.message_id,
+            defaults={
+                "message_data": message.encode(),
+                **extra_fields,
+            }
+        )
+        return task
 
     def delete_old_tasks(self, max_task_age):
         self.using(DATABASE_LABEL).filter(

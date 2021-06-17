@@ -115,8 +115,8 @@ class DjangoDramatiqConfig(AppConfig):
         return getattr(settings, "DRAMATIQ_TASKS_DATABASE", "default")
 
     @classmethod
-    def tasks_write_fn(cls):
-        return getattr(settings, "DRAMATIQ_TASKS_WRITE_FN", None)
+    def tasks_database_prevent_long_update(cls):
+        return getattr(settings, "DRAMATIQ_TASKS_DATABASE_PREVENT_LONG_UPDATE", False)
 
     @classmethod
     def load_graph_perm_fn(cls):
