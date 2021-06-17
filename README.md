@@ -74,6 +74,30 @@ DRAMATIQ_RESULT_BACKEND = {
 }
 ```
 
+You may use option for prevent DB error on update tasks, like ORA-01461
+
+``` python
+# settings.py
+DRAMATIQ_TASKS_DATABASE_PREVENT_LONG_UPDATE = True  # by default = False 
+```
+
+You may to use load graph. It uses js lib https://plotly.com
+
+``` python
+# urls.py
+from django_dramatiq.views import load_graph
+urlpatterns = [
+    path('dramatiq_load_graph/', load_graph, name='django_dramatiq_load_graph'),
+]
+# settings.py
+DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB = 'https://cdn.plot.ly/plotly-2.0.0.min.js'  # by default
+DRAMATIQ_LOAD_GRAPH_PERM_FN = custom_perm_fn  # by default for user.is_superuser
+```
+
+*Load graph example:*
+
+![Screenshot][load_graph]
+
 
 ## Usage
 
@@ -346,3 +370,4 @@ django_dramatiq is licensed under Apache 2.0.  Please see
 [stubbroker]: https://dramatiq.io/reference.html#dramatiq.brokers.stub.StubBroker
 [django-configurations]: https://github.com/jazzband/django-configurations/
 [transactiontestcase]: https://docs.djangoproject.com/en/dev/topics/testing/tools/#django.test.TransactionTestCase
+[load_graph]: https://github.com/Bogdanp/django_dramatiq/blob/master/images/load_graph.png
