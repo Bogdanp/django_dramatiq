@@ -2,3 +2,4 @@ include LICENSE.txt
 include README.rst
 include setup.cfg
 include setup.py
+recursive-include django_dramatiq/templates *.html

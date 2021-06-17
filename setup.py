@@ -28,8 +28,6 @@ setup(
         "django_dramatiq.management",
         "django_dramatiq.management.commands",
         "django_dramatiq.migrations",
-        "django_dramatiq.templates",
-        "django_dramatiq.templates.django_dramatiq",
     ],
     install_requires=[
         "django>=2.2",
