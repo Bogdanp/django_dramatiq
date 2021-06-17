@@ -16,9 +16,9 @@ def _has_load_graph_perm(request):
 
 def load_graph(request):
     if request.method != "GET":
-        return HttpResponse('GET only')
+        return HttpResponse('<h3>GET only</h3>')
     if not (DRAMATIQ_LOAD_GRAPH_PERM_FN or _has_load_graph_perm)(request):
-        return HttpResponse('Access denied, <a href="/">go home 🏠</a>')
+        return HttpResponse('<h3>Access denied, <a href="/">go home 🏠</a></h3>')
     response = {}
     if request.GET:
         form = DramatiqLoadGraphForm(request.GET)
