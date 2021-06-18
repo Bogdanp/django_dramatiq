@@ -30,15 +30,13 @@ setup(
         "django_dramatiq.migrations",
     ],
     install_requires=[
-        "django>=2.2",
-        "dramatiq>=0.18.0",
+        "django>=3.2",
+        "dramatiq>=1.11",
     ],
     classifiers=[
         "Environment :: Web Environment",
         "Operating System :: OS Independent",
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
-        "Framework :: Django :: 3.1",
         "Framework :: Django :: 3.2",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",

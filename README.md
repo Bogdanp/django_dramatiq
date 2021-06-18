@@ -8,8 +8,8 @@
 
 ## Requirements
 
-* [Django][django] 1.11+
-* [Dramatiq][dramatiq] 0.18+
+* [Django][django] 3.2+
+* [Dramatiq][dramatiq] 1.11+
 
 
 ## Example
