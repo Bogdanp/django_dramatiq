@@ -62,8 +62,8 @@ class DramatiqLoadGraphForm(forms.Form):
 
     def get_graph_data(self) -> dict:
         cd = self.cleaned_data
-        start_date = cd['start_date']
-        end_date = cd['end_date']
+        start_date = cd['start_date'].replace(second=0, microsecond=0)
+        end_date = cd['end_date'].replace(second=0, microsecond=0)
         tick_sec = cd['time_interval']
         actor = cd.get('actor')
         queue = cd.get('queue')
@@ -103,7 +103,6 @@ class DramatiqLoadGraphForm(forms.Form):
                     # actor can run longer than the final dt of the graph
                     continue
                 else:
-                    # todo bug
                     timestamp = (start_time + datetime.timedelta(seconds=tick_sec * sec)).strftime(dt_format)
                     actor_wt_by_ticks[timestamp].append(task.actor_name)
         categories = sorted(categories, reverse=True)

@@ -1,4 +1,5 @@
 import time
+import json
 import datetime
 
 import dramatiq
@@ -26,7 +27,7 @@ class TestDramatiqLoadGraph(DramatiqTestCase):
         tasks = Task.tasks.all()
         self.assertEqual(3, tasks.count())
 
-        # And form context for graph built for 2 items
+        # And form context for graph built for 3 items
         utcnow = datetime.datetime.utcnow()
         form = DramatiqLoadGraphForm(data=dict(
             start_date=utcnow - datetime.timedelta(minutes=1),
@@ -38,4 +39,11 @@ class TestDramatiqLoadGraph(DramatiqTestCase):
         ))
         self.assertTrue(form.is_valid())
         graph_data = form.get_graph_data()
-        self.assertEqual({}, graph_data)
+        self.assertIs(str, type(graph_data['graph_title']))
+        self.assertEqual('225', graph_data['graph_height'])
+        self.assertEqual(False, graph_data['empty_qs'])
+        self.assertEqual(["do_work"], json.loads(graph_data['categories']))
+        self.assertEqual(13, len(json.loads(graph_data['dates'])))
+        working_actors_count = json.loads(graph_data['working_actors_count'])
+        self.assertEqual(13, len(working_actors_count[0]))
+        self.assertEqual(3, sum(i for i in working_actors_count[0] if i))
