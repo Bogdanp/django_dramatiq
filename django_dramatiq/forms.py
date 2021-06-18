@@ -64,7 +64,7 @@ class DramatiqLoadGraphForm(forms.Form):
         cd = self.cleaned_data
         start_date = cd['start_date']
         end_date = cd['end_date']
-        time_tick = cd['time_interval']
+        tick_sec = cd['time_interval']
         actor = cd.get('actor')
         queue = cd.get('queue')
         status = cd.get('status')
@@ -80,8 +80,9 @@ class DramatiqLoadGraphForm(forms.Form):
             return {"empty_qs": True}
         categories = []
         # dt: a list of actors that worked at this time
-        actor_wt_by_ticks = {(start_date + datetime.timedelta(seconds=i)).strftime("%Y-%m-%d %H:%M:%S"): []
-                             for i in range(0, int((end_date - start_date).total_seconds() + 1), time_tick)}
+        dt_format = "%Y-%m-%d %H:%M:%S"
+        actor_wt_by_ticks = {(start_date + datetime.timedelta(seconds=i)).strftime(dt_format): []
+                             for i in range(0, int((end_date - start_date).total_seconds() + 1), tick_sec)}
         for task in task_qs:
             if (task.updated_at - task.created_at).days >= 1:
                 # miss tasks that "work" for more than a day (most likely an error)
@@ -93,16 +94,17 @@ class DramatiqLoadGraphForm(forms.Form):
                 # show momental
                 actor_work_secs = 1
             # seconds to next tick interval
-            stonti = math.ceil(task.created_at.second / time_tick) * time_tick - task.created_at.second
+            stonti = math.ceil(task.created_at.second / tick_sec) * tick_sec - task.created_at.second
             start_time = (task.created_at + datetime.timedelta(seconds=stonti)).replace(microsecond=0)
             # what ticks should this actor be assigned to
-            for sec in range(0, math.ceil(actor_work_secs / time_tick)):
-                calculating_dt = start_time + datetime.timedelta(seconds=time_tick * sec)
+            for sec in range(0, math.ceil(actor_work_secs / tick_sec)):
+                calculating_dt = start_time + datetime.timedelta(seconds=tick_sec * sec)
                 if calculating_dt > end_date:
                     # actor can run longer than the final dt of the graph
                     continue
                 else:
-                    timestamp = (start_time + datetime.timedelta(seconds=time_tick * sec)).strftime("%Y-%m-%d %H:%M:%S")
+                    # todo bug
+                    timestamp = (start_time + datetime.timedelta(seconds=tick_sec * sec)).strftime(dt_format)
                     actor_wt_by_ticks[timestamp].append(task.actor_name)
         categories = sorted(categories, reverse=True)
         working_actors_count = [[] for _ in categories]
