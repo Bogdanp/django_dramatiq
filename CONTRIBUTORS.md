@@ -20,4 +20,4 @@ This file lists the contributors to the `django_dramatiq` project.
 | [@OrazioPirataDelloSpazio](https://github.com/OrazioPirataDelloSpazio) | Lorenzo             |
 | [@timdrijvers](https://github.com/timdrijvers)                         | Tim Drijvers        |
 | [@magraeber](https://github.com/magraeber)                             | magraeber           |
-| [@ikvk](https://github.com/ikvk)                             | magraeber           |
+| [@ikvk](https://github.com/ikvk)                                       | Vladimir Kaukin     |
