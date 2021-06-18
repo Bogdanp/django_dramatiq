@@ -43,7 +43,7 @@ class DramatiqLoadGraphForm(forms.Form):
         ),
         initial=_now_dt
     )
-    time_interval = forms.IntegerField(label='Interval, sec', initial=10, max_value=60 * 60 * 24)
+    time_interval = forms.IntegerField(label='Interval sec', initial=10, max_value=60 * 60 * 24)
     queue = forms.ChoiceField(choices=_get_queue_choices, required=False, label='Queue')
     actor = forms.ChoiceField(choices=_get_actor_choices, required=False, label='Actor')
     status = forms.ChoiceField(choices=[('', '<All statuses>')] + models.Task.STATUSES, required=False,
