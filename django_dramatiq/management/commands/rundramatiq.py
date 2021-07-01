@@ -78,9 +78,13 @@ class Command(BaseCommand):
             action="append", dest="forks", default=[],
             help="fork a subprocess to run the given function",
         )
+        parser.add_argument(
+            "--worker-shutdown-timeout", type=int, default=600000,
+            help="timeout for worker shutdown, in milliseconds (default: 10 minutes)"
+        )
 
     def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
-               pid_file, log_file, forks, **options):
+               pid_file, log_file, forks, worker_shutdown_timeout, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", "."] if use_watcher else []
@@ -99,6 +103,7 @@ class Command(BaseCommand):
             "--path", *path,
             "--processes", str(processes),
             "--threads", str(threads),
+            "--worker-shutdown-timeout", str(worker_shutdown_timeout),
 
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,
