@@ -8,17 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Added
 
-- The ``DRAMATIQ_AUTODISCOVER_MODULES`` setting. ([@thebjorn], [#97], [#98], [#99])
+- The `DRAMATIQ_AUTODISCOVER_MODULES` setting. ([@thebjorn], [#97], [#98], [#99])
+- The `--worker-shutdown-timeout` flag to `rundramatiq`. ([@b1ngz], [#110])
 
+[@b1ngz]: https://github.com/b1ngz
 [@thebjorn]: https://github.com/thebjorn
 [#97]: https://github.com/Bogdanp/django_dramatiq/issues/97
 [#98]: https://github.com/Bogdanp/django_dramatiq/issues/98
 [#99]: https://github.com/Bogdanp/django_dramatiq/issues/99
+[#110]: https://github.com/Bogdanp/django_dramatiq/pull/110
 
 ## [0.10.0] - 2021-03-21
 ### Added
 
-- Added the ``--fork-function`` flag to ``rundramatiq``. ([@timdrijvers], [#63])
+- Added the `--fork-function` flag to `rundramatiq`. ([@timdrijvers], [#63])
 - Added support for setting middleware kwargs at runtime. ([@dnmellen], [#83])
 
 [@dnmellen]: https://github.com/dnmellen
@@ -57,8 +60,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - `rundramatiq` now discovers task packages.  ([@AceFire6], [#46])
-- Tasks in the admin can now be filtered by ``queue_name`` and
-  ``actor_name``. ([@jcass77], [#50])
+- Tasks in the admin can now be filtered by `queue_name` and
+  `actor_name`. ([@jcass77], [#50])
 
 [@AceFire6]: https://github.com/AceFire6
 [#46]: https://github.com/Bogdanp/django_dramatiq/pull/46
@@ -87,7 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.7.1] - 2019-06-06
 ### Added
 
-- Tasks in the admin can now be filtered by ``status``. ([@MightySCollins], [#37])
+- Tasks in the admin can now be filtered by `status`. ([@MightySCollins], [#37])
 - The build now includes Django-specific classifiers. ([@OmenApps], [#39])
 
 [@MightySCollins]: https://github.com/MightySCollins
@@ -219,7 +222,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Tasks modules and packages are now detected using Django's built-in
-  ``module_has_submodule`` helper. ([@rakanalh])
+  `module_has_submodule` helper. ([@rakanalh])
 
 [@rakanalh]: https://github.com/rakanalh
 
