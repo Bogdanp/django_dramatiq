@@ -5,7 +5,10 @@ from collections import Counter
 
 from django import forms
 
+from .apps import DjangoDramatiqConfig
 from . import models
+
+LOAD_GRAPH_QS_FILTER = DjangoDramatiqConfig.load_graph_qs_filter()
 
 
 def _get_actor_choices() -> ((str, str),):
@@ -29,21 +32,15 @@ def _four_hours_ago() -> str:
 
 
 class DramatiqLoadGraphForm(forms.Form):
-    start_date = forms.DateTimeField(
-        label='Period start',
-        widget=forms.DateTimeInput(
-            attrs={'placeholder': 'Period start', 'style': 'width: 9rem;', 'maxlength': '16'}
-        ),
-        initial=_four_hours_ago
-    )
-    end_date = forms.DateTimeField(
-        label='Period end',
-        widget=forms.DateTimeInput(
-            attrs={'placeholder': 'Period end', 'style': 'width: 9rem;', 'maxlength': '16'}
-        ),
-        initial=_now_dt
-    )
-    time_interval = forms.IntegerField(label='Interval sec', initial=10, max_value=60 * 60 * 24)
+    start_date = forms.DateTimeField(label='Period start', initial=_four_hours_ago, widget=forms.DateTimeInput(
+        attrs={'placeholder': 'Period start', 'style': 'width: 8rem;', 'maxlength': '16'}
+    ))
+    end_date = forms.DateTimeField(label='Period end', initial=_now_dt, widget=forms.DateTimeInput(
+        attrs={'placeholder': 'Period end', 'style': 'width: 8rem;', 'maxlength': '16'}
+    ))
+    time_interval = forms.IntegerField(label='Interval sec', initial=10, max_value=60 * 60 * 24, widget=forms.TextInput(
+        attrs={'style': 'width: 4rem;', 'maxlength': '5'}
+    ))
     queue = forms.ChoiceField(choices=_get_queue_choices, required=False, label='Queue')
     actor = forms.ChoiceField(choices=_get_actor_choices, required=False, label='Actor')
     status = forms.ChoiceField(choices=[('', '<All statuses>')] + models.Task.STATUSES, required=False,
@@ -69,13 +66,17 @@ class DramatiqLoadGraphForm(forms.Form):
         queue = cd.get('queue')
         status = cd.get('status')
         # get qs
-        task_qs = models.Task.tasks.filter(created_at__gte=start_date, created_at__lte=end_date).order_by('updated_at')
+        task_qs = models.Task.tasks.filter(
+            created_at__gte=start_date, created_at__lte=end_date
+        ).order_by('updated_at')
         if actor:
             task_qs = task_qs.filter(actor_name=actor)
         if queue:
             task_qs = task_qs.filter(queue_name=queue)
         if status:
             task_qs = task_qs.filter(status=status)
+        if LOAD_GRAPH_QS_FILTER:
+            task_qs = task_qs.filter(LOAD_GRAPH_QS_FILTER)
         if not task_qs.count():
             return {"empty_qs": True}
         categories = []

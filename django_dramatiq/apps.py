@@ -124,7 +124,11 @@ class DjangoDramatiqConfig(AppConfig):
 
     @classmethod
     def load_graph_plotly_lib(cls):
-        return getattr(settings, "DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB", 'https://cdn.plot.ly/plotly-2.0.0.min.js')
+        return getattr(settings, "DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB", 'https://cdn.plot.ly/plotly-2.2.1.min.js')
+
+    @classmethod
+    def load_graph_qs_filter(cls):
+        return getattr(settings, "DRAMATIQ_LOAD_GRAPH_QS_FILTER", None)
 
     @classmethod
     def select_encoder(cls):

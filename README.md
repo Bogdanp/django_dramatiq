@@ -90,8 +90,9 @@ urlpatterns = [
     path('dramatiq_load_graph/', load_graph, name='django_dramatiq_load_graph'),
 ]
 # settings.py
-DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB = 'https://cdn.plot.ly/plotly-2.0.0.min.js'  # by default
+DRAMATIQ_LOAD_GRAPH_PLOTLY_LIB = 'https://cdn.plot.ly/plotly-2.2.1.min.js'  # by default
 DRAMATIQ_LOAD_GRAPH_PERM_FN = custom_perm_fn  # by default for user.is_superuser
+DRAMATIQ_LOAD_GRAPH_QS_FILTER = None  # django.db.models.Q for filter Tasks
 ```
 
 *Load graph example:*
