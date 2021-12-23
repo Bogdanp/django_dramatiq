@@ -46,9 +46,9 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--threads", "-t",
-            default=CPU_COUNT,
+            default=8,
             type=int,
-            help="The number of threads per process to use (default: %d)." % CPU_COUNT,
+            help="The number of threads per process to use (default: 8).",
         )
         parser.add_argument(
             "--path", "-P",

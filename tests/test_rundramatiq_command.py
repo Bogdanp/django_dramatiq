@@ -44,7 +44,7 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -74,7 +74,7 @@ def test_rundramatiq_can_run_dramatiq_reload(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "--watch", ".",
         "django_dramatiq.setup",
@@ -105,7 +105,7 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "--watch", ".",
         "--watch-use-polling",
@@ -137,7 +137,7 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -168,7 +168,7 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -199,7 +199,7 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -246,7 +246,7 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "django_dramatiq.setup",
         "django_dramatiq.tasks",
@@ -273,7 +273,7 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
     )
 
     execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", cores,
+        expected_exec_name, "--path", ".", "--processes", cores, "--threads", "8",
         "--worker-shutdown-timeout", "600000",
         "--fork-function", "a",
         "--fork-function", "b",
