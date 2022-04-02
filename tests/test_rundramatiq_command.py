@@ -286,3 +286,10 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
         "tests.testapp3.tasks.utils",
         "tests.testapp3.tasks.utils.not_a_task",
     ])
+
+
+@patch("os.execvp")
+def test_runperiodiq_suppress_output(execvp_mock):
+    buff = StringIO()
+    call_command("rundramatiq", "-v0", stdout=buff)
+    assert not buff.getvalue()
