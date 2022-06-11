@@ -5,17 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.11.0] - 2022-06-11
 ### Added
 
 - The `DRAMATIQ_AUTODISCOVER_MODULES` setting. ([@thebjorn], [#97], [#98], [#99])
 - The `--worker-shutdown-timeout` flag to `rundramatiq`. ([@b1ngz], [#110])
+
+### Changed
+
+- Initialization is now deferred until the application is ready.  This
+  is somewhat of a major change to how configuration works, but it's
+  more in line with what Django expects from apps.  If you run into
+  issues importing your tasks, consider deferring your imports as much
+  as you can (eg. import tasks in your methods instead of at the top
+  level). ([#103])
 
 [@b1ngz]: https://github.com/b1ngz
 [@thebjorn]: https://github.com/thebjorn
 [#97]: https://github.com/Bogdanp/django_dramatiq/issues/97
 [#98]: https://github.com/Bogdanp/django_dramatiq/issues/98
 [#99]: https://github.com/Bogdanp/django_dramatiq/issues/99
+[#103]: https://github.com/Bogdanp/django_dramatiq/pull/103
 [#110]: https://github.com/Bogdanp/django_dramatiq/pull/110
 
 ## [0.10.0] - 2021-03-21
