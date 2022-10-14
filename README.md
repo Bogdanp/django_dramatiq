@@ -226,6 +226,8 @@ a good idea to garbage collect that data every once in a while.  You
 can use the `delete_old_tasks` actor to achieve this on a cron:
 
 ``` python
+from django_dramatiq.tasks import delete_old_tasks
+
 delete_old_tasks.send(max_task_age=86400)
 ```
 
