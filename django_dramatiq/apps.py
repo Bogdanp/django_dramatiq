@@ -35,7 +35,21 @@ class DjangoDramatiqConfig(AppConfig):
     name = "django_dramatiq"
     verbose_name = "Django Dramatiq"
 
+    def import_models(self):
+        """
+        Initialize Dramatiq configuration right after Django has loaded its models.
+
+        Django calls `ready()` on all apps only after it has loaded all models.
+        Due to the fact that tasks often imported from models, we need to make sure
+        that Dramatiq is fully configured before that happens.
+        """
+        super().import_models()
+        self.ready()
+
     def ready(self):
+        if getattr(self, "_is_ready", False):
+            super().ready()
+
         global RATE_LIMITER_BACKEND
         dramatiq.set_encoder(self.select_encoder())
 
@@ -75,6 +89,8 @@ class DjangoDramatiqConfig(AppConfig):
 
         broker = broker_class(middleware=middleware, **broker_options)
         dramatiq.set_broker(broker)
+
+        self._is_ready = True
 
     @property
     def rate_limiter_backend(self):
