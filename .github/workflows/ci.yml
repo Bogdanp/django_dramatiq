@@ -12,19 +12,17 @@ jobs:
     strategy:
       matrix:
         python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
-        django-version: [ "3.2", "4.0", "4.1" ]
-    name: Test on Python ${{ matrix.python-version }} with Django ${{ matrix.django-version }}
+    name: Test on Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - run: pip install tox
-      - run: tox -e "py${PYTHON_VERSION//[.]/}-cpython-django${DJANGO_VERSION//[.]/}"
+      - run: pip install tox tox-py
+      - run: tox --py current
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
-          DJANGO_VERSION: ${{ matrix.django-version }}
 
   lint:
     runs-on: ubuntu-latest
