@@ -11,3 +11,4 @@
 /htmlcov
 __pycache__
 /.idea
+coverage.xml

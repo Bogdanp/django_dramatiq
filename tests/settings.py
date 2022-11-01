@@ -74,7 +74,7 @@ WSGI_APPLICATION = "django_dramatiq.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sqlite3",
+        "NAME": ":memory:",
     }
 }
 
