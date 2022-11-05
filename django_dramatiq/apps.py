@@ -48,7 +48,8 @@ class DjangoDramatiqConfig(AppConfig):
 
     def ready(self):
         if getattr(self, "_is_ready", False):
-            super().ready()
+            return
+        super().ready()
 
         global RATE_LIMITER_BACKEND
         dramatiq.set_encoder(self.select_encoder())
