@@ -5,4 +5,4 @@ class Testapp1Config(AppConfig):
     name = "tests.testapp1"
 
     def ready(self):
-        from . import tasks
+        from . import tasks  # noqa
