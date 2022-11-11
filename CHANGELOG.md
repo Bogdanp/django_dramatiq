@@ -6,13 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+## [0.11.1] - 2022-11-11
 ### Added
 - Support for Python 3.10 and 3.11
 - Support for Django 4.0 and 4.1
 
+### Changed
+- Fixed issue [#123] in deferred `DjangoDramatiqConfig` initialization. 
+  Dramatiq configuration now happens before loading importing all Django apps models,
+  so loaded tasks will use the correct Dramatiq settings. ([@amureki], [#126])
+
 ### Dropped
 - Support for Python 3.6
 - Support for Django 2.2 and 3.1
+
+[@amureki]:  https://github.com/amureki
+[#123]: https://github.com/Bogdanp/django_dramatiq/issues/123
+[#126]: https://github.com/Bogdanp/django_dramatiq/pull/126
 
 ## [0.11.0] - 2022-06-11
 ### Added
@@ -24,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Initialization is now deferred until the application is ready.  This
   is somewhat of a major change to how configuration works, but it's
-  more in line with what Django expects from apps.  If you run into
+  more in line with what Django expects from apps. If you run into
   issues importing your tasks, consider deferring your imports as much
   as you can (eg. import tasks in your methods instead of at the top
   level). ([#103])
