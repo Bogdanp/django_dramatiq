@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.11.2] - 2022-11-18
+### Changed
+- Replaced `AppConfig.ready` workaround with `__init__` to fix [#133]. ([@amureki], [#137])
+
+[@amureki]:  https://github.com/amureki
+[#133]: https://github.com/Bogdanp/django_dramatiq/issues/133
+[#137]: https://github.com/Bogdanp/django_dramatiq/pull/137
+
 ## [0.11.1] - 2022-11-11
 ### Added
 - Support for Python 3.10 and 3.11
