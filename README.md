@@ -70,7 +70,7 @@ DRAMATIQ_RESULT_BACKEND = {
         "url": "redis://localhost:6379",
     },
     "MIDDLEWARE_OPTIONS": {
-        "result_ttl": 60000
+        "result_ttl": 1000 * 60 * 10
     }
 }
 ```
@@ -229,7 +229,7 @@ can use the `delete_old_tasks` actor to achieve this on a cron:
 ``` python
 from django_dramatiq.tasks import delete_old_tasks
 
-delete_old_tasks.send(max_task_age=86400)
+delete_old_tasks.send(max_task_age=60 * 60 * 24)
 ```
 
 
