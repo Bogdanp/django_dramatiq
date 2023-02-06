@@ -63,4 +63,9 @@ class Task(models.Model):
         return Message.decode(bytes(self.message_data))
 
     def __str__(self):
-        return str(self.message)
+        try:
+            return str(self.message)
+        except Exception as e:
+            # U6
+            return f'Failed to display Task: {e}'
+
