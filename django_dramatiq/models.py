@@ -66,6 +66,5 @@ class Task(models.Model):
         try:
             return str(self.message)
         except Exception as e:
-            # U6
             return f'Failed to display Task: {e}'
 
