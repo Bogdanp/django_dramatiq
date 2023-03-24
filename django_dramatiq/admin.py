@@ -35,7 +35,7 @@ class TaskAdmin(admin.ModelAdmin):
         return datetime.fromtimestamp(timestamp, tz=tz)
 
     def message_details(self, instance):
-        message_details = json.dumps(instance.message._asdict(), indent=4)
+        message_details = json.dumps(instance.message.asdict(), indent=4)
         return mark_safe("<pre>%s</pre>" % message_details)
 
     def traceback(self, instance):
