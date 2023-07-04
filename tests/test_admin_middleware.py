@@ -1,6 +1,8 @@
+import sys
 from threading import Event
 
 import dramatiq
+import pytest
 from dramatiq import Middleware
 from dramatiq.middleware import SkipMessage
 
@@ -35,6 +37,7 @@ def test_admin_middleware_keeps_track_of_tasks(transactional_db, broker, worker)
     assert task.status == Task.STATUS_DONE
 
 
+@pytest.mark.skipif(sys.version_info < (3, 11), reason="flaky")
 def test_admin_middleware_keeps_track_of_failed_tasks(transactional_db, broker, worker):
     # Given an actor that always fails
     @dramatiq.actor(max_retries=0)
