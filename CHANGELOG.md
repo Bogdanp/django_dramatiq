@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+## [0.11.3] - 2023-07-11
 ### Added
 - Store traceback in django admin even when retries=0
 
 ### Dropped
 - Support for Python 3.7
+- Support for Django 4.0
 
 ## [0.11.2] - 2022-11-18
 ### Changed
