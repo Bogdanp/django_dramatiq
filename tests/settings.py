@@ -76,7 +76,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ":memory:",
         "OPTIONS": {
-            "timeout": 20,
+            "timeout": 60,
         },
     }
 }
