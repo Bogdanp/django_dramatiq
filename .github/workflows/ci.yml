@@ -7,31 +7,45 @@ on:
   pull_request:
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
-    name: Test on Python ${{ matrix.python-version }}
+        lint-command:
+          - flake8 .
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
-      - run: pip install tox tox-py
-      - run: tox --py current
-        env:
-          PYTHON_VERSION: ${{ matrix.python-version }}
-
-  lint:
-    runs-on: ubuntu-latest
-    name: Lint
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-          architecture: x64
-      - run: pip install tox
-      - run: tox -e flake8
+          cache: 'pip'
+          cache-dependency-path: 'linter-requirements.txt'
+      - run: python -m pip install -r linter-requirements.txt
+      - run: ${{ matrix.lint-command }}
+
+  test:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        python-version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+        django-version:
+          - "3.2"  # LTS
+          - "4.1"
+          - "4.2"  # LTS
+    steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-python@v4
+          with:
+            python-version: ${{ matrix.python-version }}
+        - run: python setup.py install
+        - run: python -m pip install pytest pytest-cov pytest-django
+        - run: python -m pip install django~=${{ matrix.django-version }}.0
+        - run: python -m pytest
