@@ -41,7 +41,6 @@ setup(
         "Framework :: Django :: 4.0",
         "Framework :: Django :: 4.1",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
@@ -60,6 +59,6 @@ setup(
             "twine",
         ]
     },
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     include_package_data=True,
 )
