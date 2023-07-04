@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from django import db
 from dramatiq.middleware import Middleware
@@ -46,6 +47,12 @@ class AdminMiddleware(Middleware):
 
         if exception is not None:
             status = Task.STATUS_FAILED
+            message.options['traceback'] = ''.join(
+                traceback.format_exception(
+                    exception,
+                    limit=30,
+                )
+            )
         elif status is None:
             status = Task.STATUS_DONE
 

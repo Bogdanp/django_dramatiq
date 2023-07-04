@@ -52,6 +52,7 @@ def test_admin_middleware_keeps_track_of_failed_tasks(transactional_db, broker, 
     task = Task.tasks.get()
     assert task
     assert task.status == Task.STATUS_FAILED
+    assert "RuntimeError" in task.message.options["traceback"]
 
 
 def test_admin_middleware_keeps_track_of_skipped_tasks(transactional_db, broker, worker):
