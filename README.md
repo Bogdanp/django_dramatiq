@@ -8,7 +8,7 @@
 
 ## Requirements
 
-* [Python][python] 3.7+
+* [Python][python] 3.8+
 * [Django][django] 3.2+
 * [Dramatiq][dramatiq] 1.11+
 
