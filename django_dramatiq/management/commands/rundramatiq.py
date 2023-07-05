@@ -19,6 +19,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            "--skip-logging",
+            action="store_true",
+            dest="skip_logging",
+            help="do not call logging.basicConfig()"
+        )
+        parser.add_argument(
             "--reload",
             action="store_true",
             dest="use_watcher",
@@ -83,8 +89,8 @@ class Command(BaseCommand):
             help="timeout for worker shutdown, in milliseconds (default: 10 minutes)"
         )
 
-    def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
-               pid_file, log_file, forks, worker_shutdown_timeout, **options):
+    def handle(self, use_watcher, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
+               queues, pid_file, log_file, forks, worker_shutdown_timeout, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", "."] if use_watcher else []
@@ -126,6 +132,9 @@ class Command(BaseCommand):
 
         if log_file:
             process_args.extend(["--log-file", log_file])
+
+        if skip_logging:
+            process_args.append("--skip-logging")
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
 
