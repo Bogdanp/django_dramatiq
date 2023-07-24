@@ -55,7 +55,7 @@ class AdminMiddleware(Middleware):
                 exc_traceback,
                 limit=30,
             )
-            message.options['traceback'] = ''.join(formatted_exception)
+            message.options["traceback"] = "".join(formatted_exception)
         elif status is None:
             status = Task.STATUS_DONE
 
