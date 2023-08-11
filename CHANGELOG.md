@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.11.5] - 2023-08-11
+### Added
+- Fix exception traceback on Python 3.8
+
 ## [0.11.4] - 2023-07-05
 ### Added
 - Support for Django 4.2
