@@ -41,6 +41,12 @@ jobs:
           - "3.2"  # LTS
           - "4.1"
           - "4.2"  # LTS
+          - "5.0"
+        exclude:
+          - django-version: "5.0" # django 5.0 supports python >=3.10
+            python-version: "3.8"
+          - django-version: "5.0" # django 5.0 supports python >=3.10
+            python-version: "3.9"
     steps:
         - uses: actions/checkout@v3
         - uses: actions/setup-python@v4

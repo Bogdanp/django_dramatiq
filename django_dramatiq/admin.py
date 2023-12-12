@@ -1,9 +1,8 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.conf import settings
 from django.contrib import admin
-from django.utils import timezone
 from django.utils.safestring import mark_safe
 
 from .models import Task
