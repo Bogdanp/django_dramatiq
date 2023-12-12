@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.11.6] - 2023-12-12
 ### Added
 - Support for Python 3.12
+- Support for Django 5.0
 
 ## [0.11.5] - 2023-08-11
 ### Added
