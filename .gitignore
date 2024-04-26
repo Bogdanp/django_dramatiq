@@ -4,7 +4,6 @@
 /.tox
 /.pytest_cache
 /.python-version
-/.idea/
 /benchmark*.svg
 /build
 /dist
