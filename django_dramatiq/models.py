@@ -1,5 +1,7 @@
 from datetime import timedelta
+from typing import Optional
 
+from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.timezone import now
@@ -10,9 +12,19 @@ from .apps import DjangoDramatiqConfig
 #: The database label to use when storing task metadata.
 DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 
+DJANGO_DRAMATIQ_TASKS_NOT_WRITES = getattr(settings, "DJANGO_DRAMATIQ_TASKS_NOT_WRITES", [])
+DJANGO_DRAMATIQ_TASKS_WRITES_ONLY = getattr(settings, "DJANGO_DRAMATIQ_TASKS_WRITES_ONLY", [])
+
 
 class TaskManager(models.Manager):
-    def create_or_update_from_message(self, message, **extra_fields):
+    def create_or_update_from_message(self, message, **extra_fields) -> Optional['Task']:
+
+        # black and write lists
+        if DJANGO_DRAMATIQ_TASKS_WRITES_ONLY and message.actor_name not in DJANGO_DRAMATIQ_TASKS_WRITES_ONLY:
+            return None
+        if DJANGO_DRAMATIQ_TASKS_NOT_WRITES and message.actor_name in DJANGO_DRAMATIQ_TASKS_NOT_WRITES:
+            return None
+
         task, _ = self.using(DATABASE_LABEL).update_or_create(
             id=message.message_id,
             defaults={
