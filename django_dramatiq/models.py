@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from django.db import models
@@ -9,6 +10,8 @@ from .apps import DjangoDramatiqConfig
 
 #: The database label to use when storing task metadata.
 DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
+
+logger = logging.getLogger(__name__)
 
 
 class TaskManager(models.Manager):
@@ -66,4 +69,5 @@ class Task(models.Model):
         try:
             return str(self.message)
         except Exception as e:
+            logger.exception(f'Failed to display Task {self.id}')
             return f'Failed to display Task: {e}'

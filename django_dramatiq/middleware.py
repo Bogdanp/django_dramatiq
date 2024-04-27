@@ -3,7 +3,7 @@ import logging
 from django import db
 from dramatiq.middleware import Middleware
 
-LOGGER = logging.getLogger("django_dramatiq.AdminMiddleware")
+logger = logging.getLogger(__name__)
 
 
 class AdminMiddleware(Middleware):
@@ -13,7 +13,7 @@ class AdminMiddleware(Middleware):
     def after_enqueue(self, broker, message, delay):
         from .models import Task
 
-        LOGGER.debug("Creating Task from message %r.", message.message_id)
+        logger.debug("Creating Task from message %r.", message.message_id)
         status = Task.STATUS_ENQUEUED
         if delay:
             status = Task.STATUS_DELAYED
@@ -28,7 +28,7 @@ class AdminMiddleware(Middleware):
     def before_process_message(self, broker, message):
         from .models import Task
 
-        LOGGER.debug("Updating Task from message %r.", message.message_id)
+        logger.debug("Updating Task from message %r.", message.message_id)
         Task.tasks.create_or_update_from_message(
             message,
             status=Task.STATUS_RUNNING,
@@ -49,7 +49,7 @@ class AdminMiddleware(Middleware):
         elif status is None:
             status = Task.STATUS_DONE
 
-        LOGGER.debug("Updating Task from message %r.", message.message_id)
+        logger.debug("Updating Task from message %r.", message.message_id)
         Task.tasks.create_or_update_from_message(
             message,
             status=status,
