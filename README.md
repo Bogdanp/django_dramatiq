@@ -279,9 +279,6 @@ class CustomDjangoDramatiqConfig(DjangoDramatiqConfig):
     @classmethod
     def middleware_groupcallbacks_kwargs(cls):
         return {"rate_limiter_backend": cls.get_rate_limiter_backend()}
-
-
-CustomDjangoDramatiqConfig.initialize()
 ```
 
 Notice the naming convention, to provide arguments to
