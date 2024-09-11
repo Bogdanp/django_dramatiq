@@ -1,3 +1,4 @@
+import argparse
 import importlib
 import multiprocessing
 import os
@@ -18,11 +19,12 @@ class Command(BaseCommand):
     help = "Runs Dramatiq workers."
 
     def add_arguments(self, parser):
+        parser.formatter_class = argparse.ArgumentDefaultsHelpFormatter
         parser.add_argument(
             "--skip-logging",
             action="store_true",
             dest="skip_logging",
-            help="do not call logging.basicConfig()"
+            help="Do not call logging.basicConfig()."
         )
         parser.add_argument(
             "--reload",
@@ -48,45 +50,45 @@ class Command(BaseCommand):
             "--processes", "-p",
             default=CPU_COUNT,
             type=int,
-            help="The number of processes to run (default: %d)." % CPU_COUNT,
+            help="The number of processes to run.",
         )
         parser.add_argument(
             "--threads", "-t",
             default=CPU_COUNT,
             type=int,
-            help="The number of threads per process to use (default: %d)." % CPU_COUNT,
+            help="The number of threads per process to use.",
         )
         parser.add_argument(
             "--path", "-P",
             default=".",
             nargs="*",
             type=str,
-            help="The import path (default: .).",
+            help="The import path.",
         )
         parser.add_argument(
             "--queues", "-Q",
             nargs="*",
             type=str,
-            help="listen to a subset of queues (default: all queues)",
+            help="Listen to a subset of queues, or all when empty.",
         )
         parser.add_argument(
             "--pid-file",
             type=str,
-            help="write the PID of the master process to a file (default: no pid file)",
+            help="Write the PID of the master process to this file.",
         )
         parser.add_argument(
             "--log-file",
             type=str,
-            help="write all logs to a file (default: sys.stderr)",
+            help="Write all logs to a file, or stderr when empty.)",
         )
         parser.add_argument(
             "--fork-function",
             action="append", dest="forks", default=[],
-            help="fork a subprocess to run the given function",
+            help="Fork a subprocess to run the given function.",
         )
         parser.add_argument(
             "--worker-shutdown-timeout", type=int, default=600000,
-            help="timeout for worker shutdown, in milliseconds (default: 10 minutes)"
+            help="Timeout for worker shutdown, in milliseconds."
         )
 
     def handle(self, use_watcher, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
