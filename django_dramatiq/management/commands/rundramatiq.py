@@ -25,13 +25,13 @@ class Command(BaseCommand):
             "--skip-logging",
             action="store_true",
             dest="skip_logging",
-            help="Do not call logging.basicConfig()."
+            help="Do not call logging.basicConfig()"
         )
         parser.add_argument(
             "--reload",
             action="store_true",
             dest="use_watcher",
-            help="Enable autoreload.",
+            help="Enable autoreload",
         )
         parser.add_argument(
             "--reload-use-polling",
@@ -39,57 +39,57 @@ class Command(BaseCommand):
             dest="use_polling_watcher",
             help=(
                 "Use a poll-based file watcher for autoreload (useful under "
-                "Vagrant and Docker for Mac)."
+                "Vagrant and Docker for Mac)"
             ),
         )
         parser.add_argument(
             "--use-gevent",
             action="store_true",
-            help="Use gevent for worker concurrency.",
+            help="Use gevent for worker concurrency",
         )
         parser.add_argument(
             "--processes", "-p",
             default=CPU_COUNT,
             type=int,
-            help="The number of processes to run.",
+            help="The number of processes to run",
         )
         parser.add_argument(
             "--threads", "-t",
             default=THREAD_COUNT,
             type=int,
-            help="The number of threads per process to use.",
+            help="The number of threads per process to use",
         )
         parser.add_argument(
             "--path", "-P",
             default=".",
             nargs="*",
             type=str,
-            help="The import path.",
+            help="The import path",
         )
         parser.add_argument(
             "--queues", "-Q",
             nargs="*",
             type=str,
-            help="Listen to a subset of queues, or all when empty.",
+            help="Listen to a subset of queues, or all when empty",
         )
         parser.add_argument(
             "--pid-file",
             type=str,
-            help="Write the PID of the master process to this file.",
+            help="Write the PID of the master process to this file",
         )
         parser.add_argument(
             "--log-file",
             type=str,
-            help="Write all logs to a file, or stderr when empty.)",
+            help="Write all logs to a file, or stderr when empty",
         )
         parser.add_argument(
             "--fork-function",
             action="append", dest="forks", default=[],
-            help="Fork a subprocess to run the given function.",
+            help="Fork a subprocess to run the given function",
         )
         parser.add_argument(
             "--worker-shutdown-timeout", type=int, default=600000,
-            help="Timeout for worker shutdown, in milliseconds."
+            help="Timeout for worker shutdown, in milliseconds"
         )
 
     def handle(self, use_watcher, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
