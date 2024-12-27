@@ -42,8 +42,8 @@ class TaskAdmin(admin.ModelAdmin):
         # kwargs payload when a non json encoder is in use
         kwargs_encoder = DjangoDramatiqConfig.select_encoder()
         if not isinstance(kwargs_encoder, JSONEncoder):
-            for k,v in message_dict['kwargs'].items():
-                message_dict['kwargs'][k] = f"<{v}>"
+            for k, v in message_dict["kwargs"].items():
+                message_dict["kwargs"][k] = f"<{v}>"
 
         message_details = json.dumps(message_dict, indent=4)
         return mark_safe("<pre>%s</pre>" % message_details)
