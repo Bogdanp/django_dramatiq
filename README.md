@@ -8,8 +8,8 @@
 
 ## Requirements
 
-* [Python][python] 3.8+
-* [Django][django] 3.2+
+* [Python][python] 3.9+
+* [Django][django] 4.2+
 * [Dramatiq][dramatiq] 1.11+
 
 
@@ -330,7 +330,7 @@ django.setup()
 
 ## Running project tests locally
 
-Install the dev dependencies with `pip install -e '.[dev]'` and then run `tox`.
+Install the dev dependencies with `pip install -e '.[dev]'` and then run `python -m pytest`.
 
 
 ## License

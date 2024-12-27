@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Changed
+- Set thread count to 8 as per dramatiq default. Fix [#153]. ([@andrewgy8], [#170])
+
+[@andrewgy8]: https://github.com/andrewgy8
+[#153]: https://github.com/Bogdanp/django_dramatiq/issues/153
+[#170]: https://github.com/Bogdanp/django_dramatiq/pull/170
+
+### Added
+- Display task details in the admin when JSONEncoder is not used. Fix [#135]. ([@huubbouma], [#136])
+- Support for Python 3.13
+- Support for Django 5.1
+
+[@huubbouma]: https://github.com/huubbouma
+[#135]: https://github.com/Bogdanp/django_dramatiq/issues/135
+[#136]: https://github.com/Bogdanp/django_dramatiq/pull/136
+
+### Dropped
+- Support for Python 3.8
+- Support for Django 3.2
 
 ## [0.11.6] - 2023-12-12
 ### Added
