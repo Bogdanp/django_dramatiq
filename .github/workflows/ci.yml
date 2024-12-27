@@ -32,19 +32,17 @@ jobs:
         os:
           - "ubuntu-latest"
         python-version:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
         django-version:
-          - "3.2"  # LTS
-          - "4.1"
           - "4.2"  # LTS
           - "5.0"
+          - "5.1"
+          - "5.2"
         exclude:
-          - django-version: "5.0" # django 5.0 supports python >=3.10
-            python-version: "3.8"
           - django-version: "5.0" # django 5.0 supports python >=3.10
             python-version: "3.9"
     steps:
