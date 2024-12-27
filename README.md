@@ -330,7 +330,7 @@ django.setup()
 
 ## Running project tests locally
 
-Install the dev dependencies with `pip install -e '.[dev]'` and then run `tox`.
+Install the dev dependencies with `pip install -e '.[dev]'` and then run `python -m pytest`.
 
 
 ## License

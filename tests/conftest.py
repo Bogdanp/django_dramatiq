@@ -10,6 +10,7 @@ def broker():
     yield broker
     broker.middleware = middleware
     broker.flush_all()
+    broker.actors.clear()
 
 
 @pytest.fixture
