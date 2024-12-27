@@ -12,6 +12,7 @@ from django.utils.module_loading import module_has_submodule
 
 #: The number of available CPUs.
 CPU_COUNT = multiprocessing.cpu_count()
+THREAD_COUNT = 8
 
 
 class Command(BaseCommand):
@@ -52,9 +53,9 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--threads", "-t",
-            default=CPU_COUNT,
+            default=THREAD_COUNT,
             type=int,
-            help="The number of threads per process to use (default: %d)." % CPU_COUNT,
+            help="The number of threads per process to use (default: %d)." % THREAD_COUNT,
         )
         parser.add_argument(
             "--path", "-P",
