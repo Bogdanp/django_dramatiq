@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 from django.conf import settings
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from django_dramatiq.apps import DjangoDramatiqConfig
+from dramatiq.encoder import JSONEncoder
 
 from .models import Task
 
@@ -34,7 +36,16 @@ class TaskAdmin(admin.ModelAdmin):
         return datetime.fromtimestamp(timestamp, tz=tz)
 
     def message_details(self, instance):
-        message_details = json.dumps(instance.message._asdict(), indent=4)
+        message_dict = instance.message._asdict()
+
+        # make sure we can still get a representation of the
+        # kwargs payload when a non json encoder is in use
+        kwargs_encoder = DjangoDramatiqConfig.select_encoder()
+        if not isinstance(kwargs_encoder, JSONEncoder):
+            for k,v in message_dict['kwargs'].items():
+                message_dict['kwargs'][k] = f"<{v}>"
+
+        message_details = json.dumps(message_dict, indent=4)
         return mark_safe("<pre>%s</pre>" % message_details)
 
     def traceback(self, instance):
