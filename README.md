@@ -1,17 +1,11 @@
 # django_dramatiq
 
+![Python Version](https://img.shields.io/pypi/pyversions/django-dramatiq)
+![Django Versions](https://img.shields.io/pypi/frameworkversions/django/django-dramatiq)
 [![Build Status](https://github.com/Bogdanp/django_dramatiq/actions/workflows/ci.yml/badge.svg)](https://github.com/Bogdanp/django_dramatiq/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/django-dramatiq.svg)](https://badge.fury.io/py/django-dramatiq)
 
 **django_dramatiq** is a Django app that integrates with [Dramatiq][dramatiq].
-
-
-## Requirements
-
-* [Python][python] 3.9+
-* [Django][django] 4.2+
-* [Dramatiq][dramatiq] 1.11+
-
 
 ## Example
 
@@ -327,11 +321,6 @@ from configurations.importer import install
 install(check_options=True)
 django.setup()
 ```
-
-## Running project tests locally
-
-Install the dev dependencies with `pip install -e '.[dev]'` and then run `python -m pytest`.
-
 
 ## License
 
