@@ -194,6 +194,12 @@ def test_customers_can_be_emailed(transactional_db, broker, worker, mailoutbox):
     assert mailoutbox[0].subject == "Welcome Jim!"
 ```
 
+
+> [!NOTE]  
+> If your tests rely on the results of the actor, you may experience inconsistent results. Due to the nature of the worker and test running in seperate threads, the test DB state may be different. 
+> 
+> To solve this you need to add the addtional `@pytest.mark.django_db(transaction=True)` decorator. 
+
 #### Using unittest
 
 A simple test case has been provided that will automatically set up the
