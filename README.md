@@ -12,6 +12,7 @@
  - [Installation](#installation)
  - [Getting Started](#getting-started)
  - [Testing](#testing)
+ - [Middleware](#middleware)
  - [Advanced Usage](#advanced-usage)
  - [Third-Party Support](#third-party-support)
  - [Example App](#example)
