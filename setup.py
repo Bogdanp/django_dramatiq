@@ -57,7 +57,7 @@ setup(
             "pytest-cov",
             "pytest-django",
             "twine",
-        ]
+        ],
     },
     python_requires=">=3.9",
     include_package_data=True,
