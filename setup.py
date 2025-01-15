@@ -49,7 +49,6 @@ setup(
     ],
     extras_require={
         "dev": [
-            "bumpversion",
             "flake8",
             "flake8-quotes",
             "isort",
