@@ -1,4 +1,4 @@
-# django_dramatiq
+# Django Dramatiq
 
 ![Python Version](https://img.shields.io/pypi/pyversions/django-dramatiq)
 ![Django Versions](https://img.shields.io/pypi/frameworkversions/django/django-dramatiq)
@@ -6,26 +6,32 @@
 [![PyPI version](https://badge.fury.io/py/django-dramatiq.svg)](https://badge.fury.io/py/django-dramatiq)
 [![License](https://img.shields.io/badge/License-Apache_2.0-orange.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**django_dramatiq** is a Django app that integrates with [Dramatiq][dramatiq].
+Seemlessly integrate [Dramatiq][dramatiq] with your Django project!
 
 # Contents
- - [Installation](#installation)
- - [Getting Started](#getting-started)
- - [Testing](#testing)
- - [Middleware](#middleware)
- - [Advanced Usage](#advanced-usage)
- - [Third-Party Support](#third-party-support)
- - [Example App](#example)
+
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [Middleware](#middleware)
+- [Advanced Usage](#advanced-usage)
+- [Third-Party Support](#third-party-support)
+- [Example App](#example)
 
 ## Installation
 
-If you want to install it with RabbitMQ
+To install, ensure both Django Dramtiq and Dramatiq are installed, along with RabbitMQ:
+
+    pip install django-dramatiq 'dramatiq[rabbitmq]'
+
+Or with Redis:
+
+    pip install django-dramatiq 'dramatiq[redis]'
+
+If you would like to install with `watch`:
 
     pip install django-dramatiq 'dramatiq[rabbitmq, watch]'
 
-Or with Redis
-
-    pip install django-dramatiq 'dramatiq[redis, watch]'
 
 Add `django_dramatiq` to installed apps *before* any of your custom
 apps:
@@ -68,7 +74,7 @@ DRAMATIQ_TASKS_DATABASE = "default"
 
 ### Declaring tasks
 
-django_dramatiq will auto-discover tasks defined in `tasks` modules in
+Django Dramatiq will auto-discover tasks defined in `tasks` modules in
 each of your installed apps.  For example, if you have an app named
 `customers`, your tasks for that app should live in a module called
 `customers.tasks`:
@@ -95,7 +101,7 @@ DRAMATIQ_AUTODISCOVER_MODULES = ["tasks", "services"]
 
 ### Running workers
 
-django_dramatiq comes with a management command you can use to
+Django Dramatiq comes with a management command you can use to
 auto-discover task modules and run workers:
 
     python manage.py rundramatiq
@@ -345,7 +351,7 @@ django.setup()
 
 ## Example
 
-You can find an example application built with django_dramatiq [here](/examples/basic/README.md).
+You can find an example application built with Django Dramatiq [here](/examples/basic/README.md).
 
 
 [dramatiq]: https://github.com/Bogdanp/dramatiq
