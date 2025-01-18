@@ -1,6 +1,6 @@
 # Contributors
 
-This file lists the contributors to the `django_dramatiq` project.
+This file lists the contributors to the `Django Dramatiq` project.
 
 | Username                                                               | Name                |
 | :-------                                                               | :---                |
