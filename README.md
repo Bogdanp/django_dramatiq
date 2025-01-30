@@ -82,7 +82,7 @@ DJANGO_DRAMATIQ_TASKS_WRITES_ONLY = ['actor_name_that_writes_only1', 'actor_name
 ```
 
 
-## Usage
+## Getting Started
 
 ### Declaring tasks
 
