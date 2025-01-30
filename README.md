@@ -81,7 +81,7 @@ DJANGO_DRAMATIQ_TASKS_NOT_WRITES = ['actor_name_that_excluded']
 DJANGO_DRAMATIQ_TASKS_WRITES_ONLY = ['actor_name_that_writes_only1', 'actor_name_that_writes_only2']
 ```
 
-## Getting Started
+## Usage
 
 ### Declaring tasks
 
