@@ -11,9 +11,14 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
-#: The number of available CPUs.
-CPU_COUNT = multiprocessing.cpu_count()
-THREAD_COUNT = 8
+from django_dramatiq.utils import getenv_int
+
+
+# Number of processes to use. Default: one per CPU.
+NPROCS = getenv_int("DRAMATIQ_NPROCS", default=multiprocessing.cpu_count)
+
+# Number of threads per process to use. Default: 8.
+NTHREADS = getenv_int("DRAMATIQ_NTHREADS", 8)
 
 
 class Command(BaseCommand):
@@ -49,13 +54,13 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--processes", "-p",
-            default=CPU_COUNT,
+            default=NPROCS,
             type=int,
             help="The number of processes to run",
         )
         parser.add_argument(
             "--threads", "-t",
-            default=THREAD_COUNT,
+            default=NTHREADS,
             type=int,
             help="The number of threads per process to use",
         )

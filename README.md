@@ -20,7 +20,7 @@ Seemlessly integrate [Dramatiq][dramatiq] with your Django project!
 
 ## Installation
 
-To install, ensure both Django Dramtiq and Dramatiq are installed, along with RabbitMQ:
+To install, ensure both Django Dramatiq and Dramatiq are installed, along with RabbitMQ:
 
     pip install django-dramatiq 'dramatiq[rabbitmq]'
 
@@ -104,7 +104,31 @@ DRAMATIQ_AUTODISCOVER_MODULES = ["tasks", "services"]
 Django Dramatiq comes with a management command you can use to
 auto-discover task modules and run workers:
 
+```sh
     python manage.py rundramatiq
+```
+
+By default, `rundramatiq` will adjust the number of processes/threads used
+by Dramatiq based on the number of detected CPUs: one process will be launched
+per CPU, and each process will have 8 worker threads.
+
+The default number of processes, threads per process can be overridden through
+environment variables, which take precedence over the defaults:
+
+```sh
+    export DRAMATIQ_NPROCS=2 DRAMATIQ_NTHREADS=2
+    python manage.py rundramatiq
+```
+
+Or alternatively through command line arguments, which take precedence over the
+defaults and any environment variables:
+
+```sh
+    python manage.py rundramatiq -p 2 -t 2
+```
+
+This is useful e.g. to facilitate faster Dramatiq restarts in your development
+environment.
 
 If your project for some reason has apps with modules named `tasks` that
 are not intended for use with Dramatiq, you can ignore them:
