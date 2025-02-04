@@ -36,8 +36,8 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     assert "Discovered tasks module: 'tests.testapp3.tasks.other_tasks'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -67,8 +67,8 @@ def test_rundramatiq_can_run_dramatiq_reload(execvp_mock):
     call_command("rundramatiq", "--reload", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -99,8 +99,8 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
     call_command("rundramatiq", "--reload", "--reload-use-polling", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -132,8 +132,8 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
     call_command("rundramatiq", "--queues", "A B C", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -164,8 +164,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
     call_command("rundramatiq", "--pid-file", "drama.pid", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -196,8 +196,8 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
     call_command("rundramatiq", "--log-file", "drama.log", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -244,8 +244,8 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
     assert "Ignored tasks module: 'tests.testapp3.tasks.utils.not_a_task'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
@@ -272,8 +272,8 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
     call_command("rundramatiq", "--fork-function", "a", "--fork-function", "b", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
-    cores = str(rundramatiq.CPU_COUNT)
-    threads = str(rundramatiq.THREAD_COUNT)
+    cores = str(rundramatiq.NPROCS)
+    threads = str(rundramatiq.NTHREADS)
     expected_exec_name = "dramatiq"
     expected_exec_path = os.path.join(
         os.path.dirname(sys.executable),
