@@ -17,7 +17,7 @@ DJANGO_DRAMATIQ_TASKS_ALLOWLIST = getattr(settings, "DJANGO_DRAMATIQ_TASKS_ALLOW
 
 
 class TaskManager(models.Manager):
-    def create_or_update_from_message(self, message, **extra_fields) -> Optional['Task']:
+    def create_or_update_from_message(self, message, **extra_fields):
 
         if DJANGO_DRAMATIQ_TASKS_ALLOWLIST and message.actor_name not in DJANGO_DRAMATIQ_TASKS_ALLOWLIST:
             return None
