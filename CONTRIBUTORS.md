@@ -20,3 +20,5 @@ This file lists the contributors to the `Django Dramatiq` project.
 | [@OrazioPirataDelloSpazio](https://github.com/OrazioPirataDelloSpazio) | Lorenzo             |
 | [@timdrijvers](https://github.com/timdrijvers)                         | Tim Drijvers        |
 | [@magraeber](https://github.com/magraeber)                             | magraeber           |
+| [@andrewgy8](https://github.com/andrewgy8)                             | Andrew Graham-Yooll |
+| [@m000](https://github.com/m000)                                       | m000                |
