@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
-### Changed
+## [0.13.0] - 2025-02-24
 
 ### Added
+Set number of processes/threads through DRAMATIQ_NPROCS, DRAMATIQ_NTHREADS. ([m000], [#186])
 
-### Dropped
+[m000]: https://github.com/m000
+[#186]: https://github.com/Bogdanp/django_dramatiq/pull/186
 
 ## [0.12.0] - 2024-12-29
 ### Changed
