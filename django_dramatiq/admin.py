@@ -39,9 +39,11 @@ class TaskAdmin(admin.ModelAdmin):
         message_dict = instance.message._asdict()
 
         # make sure we can still get a representation of the
-        # kwargs payload when a non json encoder is in use
-        kwargs_encoder = DjangoDramatiqConfig.select_encoder()
-        if not isinstance(kwargs_encoder, JSONEncoder):
+        # args + kwargs payload when a non json encoder is in use
+        dramatiq_encoder = DjangoDramatiqConfig.select_encoder()
+        if not isinstance(dramatiq_encoder, JSONEncoder):
+            for k, v in message_dict["args"].items():
+                message_dict["args"][k] = f"<{v}>"
             for k, v in message_dict["kwargs"].items():
                 message_dict["kwargs"][k] = f"<{v}>"
 
