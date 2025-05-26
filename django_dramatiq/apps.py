@@ -84,7 +84,6 @@ class DjangoDramatiqConfig(AppConfig):
 
     @classmethod
     def get_rate_limiter_backend(cls):
-        global RATE_LIMITER_BACKEND
         if RATE_LIMITER_BACKEND is None:
             raise RuntimeError("The rate limiter backend has not been configured.")
 
