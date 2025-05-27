@@ -22,3 +22,4 @@ This file lists the contributors to the `Django Dramatiq` project.
 | [@magraeber](https://github.com/magraeber)                             | magraeber           |
 | [@andrewgy8](https://github.com/andrewgy8)                             | Andrew Graham-Yooll |
 | [@m000](https://github.com/m000)                                       | m000                |
+| [@dbowring](https://github.com/dbowring)                               | Daniel Bowring      |
