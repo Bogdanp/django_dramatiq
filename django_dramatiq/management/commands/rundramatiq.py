@@ -32,11 +32,18 @@ class Command(BaseCommand):
             dest="skip_logging",
             help="Do not call logging.basicConfig()"
         )
-        parser.add_argument(
+        watch_group = parser.add_mutually_exclusive_group()
+        watch_group.add_argument(
             "--reload",
-            action="store_true",
-            dest="use_watcher",
-            help="Enable autoreload",
+            action="store_const",
+            const=".",
+            dest="watch_dir",
+            help="Enable autoreload. Equivalent to '--watch .'",
+        )
+        watch_group.add_argument(
+            "--watch",
+            dest="watch_dir",
+            help="Reload workers when changes are detected in the given directory",
         )
         parser.add_argument(
             "--reload-use-polling",
@@ -97,11 +104,11 @@ class Command(BaseCommand):
             help="Timeout for worker shutdown, in milliseconds"
         )
 
-    def handle(self, use_watcher, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
+    def handle(self, watch_dir, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
                queues, pid_file, log_file, forks, worker_shutdown_timeout, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
-        watch_args = ["--watch", "."] if use_watcher else []
+        watch_args = ["--watch", watch_dir] if watch_dir else []
         if watch_args and use_polling_watcher:
             watch_args.append("--watch-use-polling")
 
