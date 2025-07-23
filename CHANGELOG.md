@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.14.0] - 2025-07-23
+
+- Add support for Django 5.2 (#195)
+- Allow watch directory to be set via CLI (#192)
+- When using the PickleEncoder, fix task view by showing a representation of the args (#189)
+
 ## [0.13.0] - 2025-02-24
 
 ### Added
