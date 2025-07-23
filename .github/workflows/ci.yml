@@ -35,6 +35,7 @@ jobs:
           - "4.2"  # LTS
           - "5.0"
           - "5.1"
+          - ""
         exclude:
           - django-version: "5.0" # django 5.0 supports python >=3.10
             python-version: "3.9"
