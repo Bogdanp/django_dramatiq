@@ -10,15 +10,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
         with:
-          python-version: "3.13"
-
-      - name: Install dependencies
-        run: python -m pip install --upgrade pip build
+          version: "latest"
+      - name: Set up Python
+        run: uv python install 3.13
 
       - name: Build dist packages
-        run: python -m build
+        run: uv build
 
       - name: Upload packages to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

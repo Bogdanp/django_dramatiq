@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
         with:
-          python-version: "3.13"
-      - run: python -m pip install flake8 flake8-quotes isort
-      - run: flake8 .
+          version: "latest"
+      - name: Set up Python
+        run: uv python install 3.13
+      - name: Install dependencies
+        run: uv sync --dev
+      - run: uv run flake8 .
 
   test:
     needs:
@@ -45,11 +49,14 @@ jobs:
             python-version: "3.9"
     steps:
         - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
+        - name: Install uv
+          uses: astral-sh/setup-uv@v4
           with:
-            python-version: ${{ matrix.python-version }}
-        - run: python -m pip install -U pip setuptools wheel
-        - run: python -m pip install .
-        - run: python -m pip install pytest pytest-cov pytest-django
-        - run: python -m pip install django~=${{ matrix.django-version }}.0
-        - run: python -m pytest
+            version: "latest"
+        - name: Set up Python
+          run: uv python install ${{ matrix.python-version }}
+        - name: Install dependencies
+          run: uv sync --dev
+        - name: Install Django version
+          run: uv add django~=${{ matrix.django-version }}.0
+        - run: uv run python -m pytest
