@@ -36,7 +36,6 @@ dev = [
     "pytest",
     "pytest-cov",
     "pytest-django",
-    "twine",
 ]
 
 [project.urls]
@@ -93,5 +92,4 @@ dev-dependencies = [
     "pytest",
     "pytest-cov",
     "pytest-django",
-    "twine",
 ]
