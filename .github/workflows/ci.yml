@@ -48,11 +48,12 @@ jobs:
           - django-version: "5.2" # django 5.0 supports python >=3.10
             python-version: "3.9"
     steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
         - name: Install uv
-          uses: astral-sh/setup-uv@v4
+          uses: astral-sh/setup-uv@v6
           with:
-            version: "${{ matrix.python-version }}"
+            version: "latest"
+            python-version: ${{ matrix.python-version }}
         - name: Install dependencies
           run: uv sync --dev --frozen
         - name: Install Django version
