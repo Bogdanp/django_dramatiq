@@ -71,6 +71,7 @@ inline-quotes = "\""
 multiline-quotes = "\"\"\""
 
 [tool.isort]
+profile = "black"
 not_skip = "__init__.py"
 line_length = 120
 known_first_party = ["django_dramatiq"]
