@@ -30,7 +30,6 @@ jobs:
         os:
           - "ubuntu-latest"
         python-version:
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
@@ -40,13 +39,6 @@ jobs:
           - "5.0"
           - "5.1"
           - "5.2"
-        exclude:
-          - django-version: "5.0" # django 5.0 supports python >=3.10
-            python-version: "3.9"
-          - django-version: "5.1" # django 5.1 supports python >=3.10
-            python-version: "3.9"
-          - django-version: "5.2" # django 5.0 supports python >=3.10
-            python-version: "3.9"
     steps:
         - uses: actions/checkout@v4
         - name: Install uv

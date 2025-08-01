@@ -3,7 +3,7 @@ name = "django_dramatiq"
 version = "0.14.0"
 description = "A Django app for Dramatiq."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
     {name = "Bogdan Popa", email = "bogdan@defn.io"},
