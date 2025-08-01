@@ -55,7 +55,7 @@ jobs:
             version: "latest"
             python-version: ${{ matrix.python-version }}
         - name: Install dependencies
-          run: uv sync --dev --frozen
+          run: uv sync --dev --frozen --python-preference only-managed
         - name: Install Django version
           run: uv add django~=${{ matrix.django-version }} --frozen
         - run: uv run -p ${{ matrix.python-version }} python -m pytest
