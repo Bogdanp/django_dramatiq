@@ -22,19 +22,15 @@ Seemlessly integrate [Dramatiq][dramatiq] with your Django project!
 
 To install, ensure both Django Dramatiq and Dramatiq are installed, along with RabbitMQ:
 
-    uv add django-dramatiq 'dramatiq[rabbitmq]'
+    pip install django-dramatiq 'dramatiq[rabbitmq]'
 
 Or with Redis:
 
-    uv add django-dramatiq 'dramatiq[redis]'
+    pip install django-dramatiq 'dramatiq[redis]'
 
 If you would like to install with `watch`:
 
-    uv add django-dramatiq 'dramatiq[rabbitmq, watch]'
-
-Alternatively, you can still use pip:
-
-    pip install django-dramatiq 'dramatiq[rabbitmq]'
+    pip install django-dramatiq 'dramatiq[rabbitmq, watch]'
 
 
 Add `django_dramatiq` to installed apps *before* any of your custom
