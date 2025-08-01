@@ -136,10 +136,12 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-dev = [
+lint = [
     { name = "flake8" },
     { name = "flake8-quotes" },
     { name = "isort" },
+]
+test = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
@@ -152,10 +154,12 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [
+lint = [
     { name = "flake8" },
     { name = "flake8-quotes" },
     { name = "isort" },
+]
+test = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },

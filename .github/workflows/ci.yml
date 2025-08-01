@@ -14,10 +14,9 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
-          version: "latest"
           python-version: "3.13"
       - name: Install dependencies
-        run: uv sync --dev
+        run: uv sync --group lint
       - run: uv run flake8 .
 
   test:
@@ -43,10 +42,9 @@ jobs:
         - name: Install uv
           uses: astral-sh/setup-uv@v6
           with:
-            version: "latest"
             python-version: ${{ matrix.python-version }}
         - name: Install dependencies
-          run: uv sync --dev --frozen --python-preference only-managed
+          run: uv sync --group test --frozen --python-preference only-managed
         - name: Install Django version
           run: uv add django~=${{ matrix.django-version }} --frozen
         - run: uv run -p ${{ matrix.python-version }} python -m pytest

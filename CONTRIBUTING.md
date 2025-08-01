@@ -14,7 +14,7 @@ All issues reported to Djang Dramatiq MUST follow the issue template. Any issues
 
 1. `git clone` the project
 2. Install [uv](https://docs.astral.sh/uv/) if you haven't already
-3. Install dependencies with `uv sync --dev`
+3. Install dependencies with `uv sync --group test --group lint`
 4. Run tests with `uv run python -m pytest`
 
 Follow the [README.md](/examples/basic/README.md) in the example app for more details. 

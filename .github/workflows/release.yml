@@ -13,7 +13,6 @@ jobs:
       - name: Install uv + python
         uses: astral-sh/setup-uv@v6
         with:
-          version: "latest"
           python-version: "3.13"
       - name: Build dist packages
         run: uv build

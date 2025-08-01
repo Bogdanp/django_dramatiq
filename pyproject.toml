@@ -4,7 +4,7 @@ version = "0.14.0"
 description = "A Django app for Dramatiq."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = {text = "Apache License 2.0"}
 authors = [
     {name = "Bogdan Popa", email = "bogdan@defn.io"},
 ]
@@ -26,6 +26,19 @@ dependencies = [
     "django>=4.2",
     "dramatiq>=1.11",
 ]
+
+[dependency-groups]
+lint = [
+    "flake8",
+    "flake8-quotes",
+    "isort",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+]
+
 
 [project.urls]
 Homepage = "https://github.com/Bogdanp/django_dramatiq"
@@ -58,7 +71,6 @@ inline-quotes = "\""
 multiline-quotes = "\"\"\""
 
 [tool.isort]
-profile = "black"
 not_skip = "__init__.py"
 line_length = 120
 known_first_party = ["django_dramatiq"]
@@ -71,14 +83,4 @@ omit = [
     "django_dramatiq/setup.py",
     "*/migrations/*",
     "*/tests/*",
-]
-
-[tool.uv]
-dev-dependencies = [
-    "flake8",
-    "flake8-quotes", 
-    "isort",
-    "pytest",
-    "pytest-cov",
-    "pytest-django",
 ]
