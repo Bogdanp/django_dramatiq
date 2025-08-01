@@ -28,16 +28,6 @@ dependencies = [
     "dramatiq>=1.11",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "flake8",
-    "flake8-quotes",
-    "isort",
-    "pytest",
-    "pytest-cov",
-    "pytest-django",
-]
-
 [project.urls]
 Homepage = "https://github.com/Bogdanp/django_dramatiq"
 Repository = "https://github.com/Bogdanp/django_dramatiq"
