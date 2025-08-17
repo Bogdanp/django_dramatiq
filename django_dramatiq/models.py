@@ -56,11 +56,13 @@ class TaskManager(models.Manager):
             defaults={
                 "message_data": message.encode(),
                 **extra_fields,
-            }
+            },
         )
         return task
 
-    def create_or_update_from_message_concurrently(self, message, status, **extra_fields):
+    def create_or_update_from_message_concurrently(
+        self, message, status, **extra_fields
+    ):
         """Create or Update Task from given message and status.
         But, ensure Task.status flow will be correct.
 
@@ -68,8 +70,8 @@ class TaskManager(models.Manager):
 
         """
         data = {
-            'message_data': message.encode(),
-            'status': status,
+            "message_data": message.encode(),
+            "status": status,
         }
         data.update(extra_fields)
 
@@ -86,10 +88,7 @@ class TaskManager(models.Manager):
             source_status = obj.status
             status_changed = target_status != source_status or False
 
-            if (
-                status_changed
-                and source_status not in self.transitions[target_status]
-            ):
+            if status_changed and source_status not in self.transitions[target_status]:
                 raise MessageStatusTransitionError(
                     "Incorrect task transition flow",
                     src_status=source_status,
@@ -98,7 +97,7 @@ class TaskManager(models.Manager):
 
             if status_changed:
                 self.logger.debug(
-                    'Updating Task status for message %r: %s -> %s',
+                    "Updating Task status for message %r: %s -> %s",
                     message.message_id,
                     source_status,
                     target_status,
@@ -110,9 +109,7 @@ class TaskManager(models.Manager):
             ).update(**data)
 
             if not updated:
-                raise ConcurrentlyError(
-                    'Message deleted or status changed'
-                )
+                raise ConcurrentlyError("Message deleted or status changed")
 
     def delete_old_tasks(self, max_task_age):
         self.using(DATABASE_LABEL).filter(
