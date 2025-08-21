@@ -19,7 +19,7 @@ with open(rel("django_dramatiq", "__init__.py"), "r") as f:
 
 
 setup(
-    name="django-dramatiq",
+    name="django_dramatiq",
     version=version,
     description="A Django app for Dramatiq.",
     long_description="Visit https://github.com/Bogdanp/django_dramatiq for more information.",
