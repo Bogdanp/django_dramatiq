@@ -1,7 +1,5 @@
 from datetime import timedelta
-from typing import Optional
 
-from django.conf import settings
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.timezone import now
