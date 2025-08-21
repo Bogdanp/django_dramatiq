@@ -172,6 +172,8 @@ DJANGO_DRAMATIQ_TASKS_BLOCKLIST = ['actor_name_that_excluded']
 DJANGO_DRAMATIQ_TASKS_ALLOWLIST = ['actor_name_that_writes_only1', 'actor_name_that_writes_only2']
 ```
 
+`None` value is used to disable access lists, it is set by default.
+
 ## Testing
 
 You should have a separate settings file for test.  In that file,

@@ -118,3 +118,17 @@ class DjangoDramatiqConfig(AppConfig):
     def select_encoder(cls):
         encoder = getattr(settings, "DRAMATIQ_ENCODER", DEFAULT_ENCODER)
         return import_string(encoder)()
+
+    @classmethod
+    def tasks_blocklist(cls):
+        val = getattr(settings, "DJANGO_DRAMATIQ_TASKS_BLOCKLIST", None)
+        if not isinstance(val, (tuple, list, set, type(None))):
+            raise ValueError('DJANGO_DRAMATIQ_TASKS_BLOCKLIST allowed types: tuple, list, set, None')
+        return val if val is None else [str(i) for i in val]
+
+    @classmethod
+    def tasks_allowlist(cls):
+        val = getattr(settings, "DJANGO_DRAMATIQ_TASKS_ALLOWLIST", None)
+        if not isinstance(val, (tuple, list, set, type(None))):
+            raise ValueError('DJANGO_DRAMATIQ_TASKS_ALLOWLIST allowed types: tuple, list, set, None')
+        return val if val is None else [str(i) for i in val]

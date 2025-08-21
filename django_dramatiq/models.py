@@ -12,16 +12,16 @@ from .apps import DjangoDramatiqConfig
 #: The database label to use when storing task metadata.
 DATABASE_LABEL = DjangoDramatiqConfig.tasks_database()
 
-DJANGO_DRAMATIQ_TASKS_BLOCKLIST = getattr(settings, "DJANGO_DRAMATIQ_TASKS_BLOCKLIST", [])
-DJANGO_DRAMATIQ_TASKS_ALLOWLIST = getattr(settings, "DJANGO_DRAMATIQ_TASKS_ALLOWLIST", [])
+TASKS_ALLOWLIST = DjangoDramatiqConfig.tasks_allowlist()
+TASKS_BLOCKLIST = DjangoDramatiqConfig.tasks_blocklist()
 
 
 class TaskManager(models.Manager):
     def create_or_update_from_message(self, message, **extra_fields):
 
-        if DJANGO_DRAMATIQ_TASKS_ALLOWLIST and message.actor_name not in DJANGO_DRAMATIQ_TASKS_ALLOWLIST:
+        if TASKS_ALLOWLIST is not None and message.actor_name not in TASKS_ALLOWLIST:
             return None
-        if DJANGO_DRAMATIQ_TASKS_BLOCKLIST and message.actor_name in DJANGO_DRAMATIQ_TASKS_BLOCKLIST:
+        if TASKS_BLOCKLIST is not None and message.actor_name in TASKS_BLOCKLIST:
             return None
 
         task, _ = self.using(DATABASE_LABEL).update_or_create(

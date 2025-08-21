@@ -83,3 +83,28 @@ def test_admin_middleware_keeps_track_of_skipped_tasks(transactional_db, broker,
     task = Task.tasks.get()
     assert task
     assert task.status == Task.STATUS_SKIPPED
+
+
+def test_tasks_blocklist(transactional_db, broker, worker):
+    @dramatiq.actor
+    def actor_that_not_logged_into_db():
+        pass
+
+    actor_that_not_logged_into_db.send()
+    broker.join(actor_that_not_logged_into_db.queue_name)
+    worker.join()
+
+    assert Task.tasks.all().count() == 0
+
+
+def test_tasks_allowlist(transactional_db, broker, worker):
+    @dramatiq.actor
+    def actor_that_logged_into_db():
+        pass
+
+    actor_that_logged_into_db.send()
+    broker.join(actor_that_logged_into_db.queue_name)
+    worker.join()
+
+    assert Task.tasks.all().count() == 1
+    assert Task.tasks.filter(actor_name='actor_that_logged_into_db').count() == 1
