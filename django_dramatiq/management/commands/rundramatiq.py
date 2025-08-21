@@ -1,3 +1,4 @@
+import argparse
 import importlib
 import multiprocessing
 import os
@@ -10,19 +11,39 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
-#: The number of available CPUs.
-CPU_COUNT = multiprocessing.cpu_count()
+from django_dramatiq.utils import getenv_int
+
+
+# Number of processes to use. Default: one per CPU.
+NPROCS = getenv_int("DRAMATIQ_NPROCS", default=multiprocessing.cpu_count)
+
+# Number of threads per process to use. Default: 8.
+NTHREADS = getenv_int("DRAMATIQ_NTHREADS", 8)
 
 
 class Command(BaseCommand):
     help = "Runs Dramatiq workers."
 
     def add_arguments(self, parser):
+        parser.formatter_class = argparse.ArgumentDefaultsHelpFormatter
         parser.add_argument(
-            "--reload",
+            "--skip-logging",
             action="store_true",
-            dest="use_watcher",
-            help="Enable autoreload.",
+            dest="skip_logging",
+            help="Do not call logging.basicConfig()"
+        )
+        watch_group = parser.add_mutually_exclusive_group()
+        watch_group.add_argument(
+            "--reload",
+            action="store_const",
+            const=".",
+            dest="watch_dir",
+            help="Enable autoreload. Equivalent to '--watch .'",
+        )
+        watch_group.add_argument(
+            "--watch",
+            dest="watch_dir",
+            help="Reload workers when changes are detected in the given directory",
         )
         parser.add_argument(
             "--reload-use-polling",
@@ -30,60 +51,64 @@ class Command(BaseCommand):
             dest="use_polling_watcher",
             help=(
                 "Use a poll-based file watcher for autoreload (useful under "
-                "Vagrant and Docker for Mac)."
+                "Vagrant and Docker for Mac)"
             ),
         )
         parser.add_argument(
             "--use-gevent",
             action="store_true",
-            help="Use gevent for worker concurrency.",
+            help="Use gevent for worker concurrency",
         )
         parser.add_argument(
             "--processes", "-p",
-            default=CPU_COUNT,
+            default=NPROCS,
             type=int,
-            help="The number of processes to run (default: %d)." % CPU_COUNT,
+            help="The number of processes to run",
         )
         parser.add_argument(
             "--threads", "-t",
-            default=CPU_COUNT,
+            default=NTHREADS,
             type=int,
-            help="The number of threads per process to use (default: %d)." % CPU_COUNT,
+            help="The number of threads per process to use",
         )
         parser.add_argument(
             "--path", "-P",
             default=".",
             nargs="*",
             type=str,
-            help="The import path (default: .).",
+            help="The import path",
         )
         parser.add_argument(
             "--queues", "-Q",
             nargs="*",
             type=str,
-            help="listen to a subset of queues (default: all queues)",
+            help="Listen to a subset of queues, or all when empty",
         )
         parser.add_argument(
             "--pid-file",
             type=str,
-            help="write the PID of the master process to a file (default: no pid file)",
+            help="Write the PID of the master process to this file",
         )
         parser.add_argument(
             "--log-file",
             type=str,
-            help="write all logs to a file (default: sys.stderr)",
+            help="Write all logs to a file, or stderr when empty",
         )
         parser.add_argument(
             "--fork-function",
             action="append", dest="forks", default=[],
-            help="fork a subprocess to run the given function",
+            help="Fork a subprocess to run the given function",
+        )
+        parser.add_argument(
+            "--worker-shutdown-timeout", type=int, default=600000,
+            help="Timeout for worker shutdown, in milliseconds"
         )
 
-    def handle(self, use_watcher, use_polling_watcher, use_gevent, path, processes, threads, verbosity, queues,
-               pid_file, log_file, forks, **options):
+    def handle(self, watch_dir, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
+               queues, pid_file, log_file, forks, worker_shutdown_timeout, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
-        watch_args = ["--watch", "."] if use_watcher else []
+        watch_args = ["--watch", watch_dir] if watch_dir else []
         if watch_args and use_polling_watcher:
             watch_args.append("--watch-use-polling")
 
@@ -99,6 +124,7 @@ class Command(BaseCommand):
             "--path", *path,
             "--processes", str(processes),
             "--threads", str(threads),
+            "--worker-shutdown-timeout", str(worker_shutdown_timeout),
 
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,
@@ -121,6 +147,9 @@ class Command(BaseCommand):
 
         if log_file:
             process_args.extend(["--log-file", log_file])
+
+        if skip_logging:
+            process_args.append("--skip-logging")
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
 
