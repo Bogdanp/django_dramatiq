@@ -5,20 +5,117 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [0.14.0] - 2025-07-23
+
+- Add support for Django 5.2 (#195)
+- Allow watch directory to be set via CLI (#192)
+- When using the PickleEncoder, fix task view by showing a representation of the args (#189)
+
+## [0.13.0] - 2025-02-24
+
+### Added
+Set number of processes/threads through DRAMATIQ_NPROCS, DRAMATIQ_NTHREADS. ([m000], [#186])
+
+[m000]: https://github.com/m000
+[#186]: https://github.com/Bogdanp/django_dramatiq/pull/186
+
+## [0.12.0] - 2024-12-29
+### Changed
+- Set thread count to 8 as per dramatiq default. Fix [#153]. ([@andrewgy8], [#170])
+- Use ArgumentDefaultsHelpFormatter to show the defaults for rundramatiq options. (#167)
+
+[@andrewgy8]: https://github.com/andrewgy8
+[#153]: https://github.com/Bogdanp/django_dramatiq/issues/153
+[#170]: https://github.com/Bogdanp/django_dramatiq/pull/170
+
+### Added
+- Display task details in the admin when JSONEncoder is not used. Fix [#135]. ([@huubbouma], [#136])
+- Support for Python 3.13
+- Support for Django 5.1
+
+[@huubbouma]: https://github.com/huubbouma
+[#135]: https://github.com/Bogdanp/django_dramatiq/issues/135
+[#136]: https://github.com/Bogdanp/django_dramatiq/pull/136
+
+### Dropped
+- Support for Python 3.8
+- Support for Django 3.2
+
+## [0.11.6] - 2023-12-12
+### Added
+- Support for Python 3.12
+- Support for Django 5.0
+
+## [0.11.5] - 2023-08-11
+### Added
+- Fix exception traceback on Python 3.8
+
+## [0.11.4] - 2023-07-05
+### Added
+- Support for Django 4.2
+- Add skip-logging flag to `rundramatiq` command
+
+## [0.11.3] - 2023-07-04
+### Added
+- Store traceback in django admin even when retries=0
+
+### Dropped
+- Support for Python 3.7
+- Support for Django 4.0
+
+## [0.11.2] - 2022-11-18
+### Changed
+- Replaced `AppConfig.ready` workaround with `__init__` to fix [#133]. ([@amureki], [#137])
+
+[@amureki]:  https://github.com/amureki
+[#133]: https://github.com/Bogdanp/django_dramatiq/issues/133
+[#137]: https://github.com/Bogdanp/django_dramatiq/pull/137
+
+## [0.11.1] - 2022-11-11
+### Added
+- Support for Python 3.10 and 3.11
+- Support for Django 4.0 and 4.1
+
+### Changed
+- Fixed issue [#123] in deferred `DjangoDramatiqConfig` initialization. 
+  Dramatiq configuration now happens before loading importing all Django apps models,
+  so loaded tasks will use the correct Dramatiq settings. ([@amureki], [#126])
+
+### Dropped
+- Support for Python 3.6
+- Support for Django 2.2 and 3.1
+
+[@amureki]:  https://github.com/amureki
+[#123]: https://github.com/Bogdanp/django_dramatiq/issues/123
+[#126]: https://github.com/Bogdanp/django_dramatiq/pull/126
+
+## [0.11.0] - 2022-06-11
 ### Added
 
-- The ``DRAMATIQ_AUTODISCOVER_MODULES`` setting. ([@thebjorn], [#97], [#98], [#99])
+- The `DRAMATIQ_AUTODISCOVER_MODULES` setting. ([@thebjorn], [#97], [#98], [#99])
+- The `--worker-shutdown-timeout` flag to `rundramatiq`. ([@b1ngz], [#110])
 
+### Changed
+
+- Initialization is now deferred until the application is ready.  This
+  is somewhat of a major change to how configuration works, but it's
+  more in line with what Django expects from apps. If you run into
+  issues importing your tasks, consider deferring your imports as much
+  as you can (eg. import tasks in your methods instead of at the top
+  level). ([#103])
+
+[@b1ngz]: https://github.com/b1ngz
 [@thebjorn]: https://github.com/thebjorn
 [#97]: https://github.com/Bogdanp/django_dramatiq/issues/97
 [#98]: https://github.com/Bogdanp/django_dramatiq/issues/98
 [#99]: https://github.com/Bogdanp/django_dramatiq/issues/99
+[#103]: https://github.com/Bogdanp/django_dramatiq/pull/103
+[#110]: https://github.com/Bogdanp/django_dramatiq/pull/110
 
 ## [0.10.0] - 2021-03-21
 ### Added
 
-- Added the ``--fork-function`` flag to ``rundramatiq``. ([@timdrijvers], [#63])
+- Added the `--fork-function` flag to `rundramatiq`. ([@timdrijvers], [#63])
 - Added support for setting middleware kwargs at runtime. ([@dnmellen], [#83])
 
 [@dnmellen]: https://github.com/dnmellen
@@ -57,8 +154,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - `rundramatiq` now discovers task packages.  ([@AceFire6], [#46])
-- Tasks in the admin can now be filtered by ``queue_name`` and
-  ``actor_name``. ([@jcass77], [#50])
+- Tasks in the admin can now be filtered by `queue_name` and
+  `actor_name`. ([@jcass77], [#50])
 
 [@AceFire6]: https://github.com/AceFire6
 [#46]: https://github.com/Bogdanp/django_dramatiq/pull/46
@@ -87,7 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.7.1] - 2019-06-06
 ### Added
 
-- Tasks in the admin can now be filtered by ``status``. ([@MightySCollins], [#37])
+- Tasks in the admin can now be filtered by `status`. ([@MightySCollins], [#37])
 - The build now includes Django-specific classifiers. ([@OmenApps], [#39])
 
 [@MightySCollins]: https://github.com/MightySCollins
@@ -219,7 +316,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Tasks modules and packages are now detected using Django's built-in
-  ``module_has_submodule`` helper. ([@rakanalh])
+  `module_has_submodule` helper. ([@rakanalh])
 
 [@rakanalh]: https://github.com/rakanalh
 
@@ -232,7 +329,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [@rakanalh]: https://github.com/rakanalh
 
 
-[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/Bogdanp/django_dramatiq/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.11.6...v0.12.0
+[0.10.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/Bogdanp/django_dramatiq/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/Bogdanp/django_dramatiq/compare/v0.7.1...v0.8.0

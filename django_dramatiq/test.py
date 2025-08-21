@@ -4,16 +4,14 @@ from dramatiq import Worker, get_broker
 
 class DramatiqTestCase(TransactionTestCase):
 
-    def _pre_setup(self):
-        super()._pre_setup()
-
+    def setUp(self):
         self.broker = get_broker()
         self.broker.flush_all()
 
         self.worker = Worker(self.broker, worker_timeout=100)
         self.worker.start()
+        super().setUp()
 
-    def _post_teardown(self):
+    def tearDown(self):
+        super().tearDown()
         self.worker.stop()
-
-        super()._post_teardown()

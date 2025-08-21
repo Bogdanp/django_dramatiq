@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+      - run: python -m pip install flake8 flake8-quotes isort
+      - run: flake8 .
+
+  test:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+        django-version:
+          - "4.2"  # LTS
+          - "5.0"
+          - "5.1"
+          - "5.2"
+        exclude:
+          - django-version: "5.0" # django 5.0 supports python >=3.10
+            python-version: "3.9"
+          - django-version: "5.1" # django 5.1 supports python >=3.10
+            python-version: "3.9"
+          - django-version: "5.2" # django 5.0 supports python >=3.10
+            python-version: "3.9"
+    steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-python@v4
+          with:
+            python-version: ${{ matrix.python-version }}
+        - run: python -m pip install -U pip setuptools wheel
+        - run: python -m pip install .
+        - run: python -m pip install pytest pytest-cov pytest-django
+        - run: python -m pip install django~=${{ matrix.django-version }}.0
+        - run: python -m pytest

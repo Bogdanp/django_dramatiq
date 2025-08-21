@@ -10,3 +10,4 @@
 /*.egg-info
 /htmlcov
 __pycache__
+/.idea
