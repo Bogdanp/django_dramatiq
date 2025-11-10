@@ -54,6 +54,12 @@ class Command(BaseCommand):
                 "Vagrant and Docker for Mac)"
             ),
         )
+        _unix_default = "fork" if sys.version_info < (3, 14) else "forkserver"
+        parser.add_argument(
+            "--use-spawn",
+            action="store_true",
+            help=f"start processes by spawning (default: {_unix_default} on unix, spawn on Windows and macOS)",
+        )
         parser.add_argument(
             "--use-gevent",
             action="store_true",
@@ -105,7 +111,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, watch_dir, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
-               queues, pid_file, log_file, forks, worker_shutdown_timeout, **options):
+               queues, pid_file, log_file, forks, worker_shutdown_timeout, use_spawn, **options):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", watch_dir] if watch_dir else []
@@ -150,6 +156,9 @@ class Command(BaseCommand):
 
         if skip_logging:
             process_args.append("--skip-logging")
+
+        if use_spawn:
+            process_args.append("--use-spawn")
 
         self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
 
