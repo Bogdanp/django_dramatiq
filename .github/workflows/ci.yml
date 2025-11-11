@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.13"
+          python-version: "3.14"
       - run: python -m pip install flake8 flake8-quotes isort
       - run: flake8 .
 
@@ -26,23 +26,16 @@ jobs:
         os:
           - "ubuntu-latest"
         python-version:
-          - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
         django-version:
           - "4.2"  # LTS
           - "5.0"
           - "5.1"
           - "5.2"
-        exclude:
-          - django-version: "5.0" # django 5.0 supports python >=3.10
-            python-version: "3.9"
-          - django-version: "5.1" # django 5.1 supports python >=3.10
-            python-version: "3.9"
-          - django-version: "5.2" # django 5.0 supports python >=3.10
-            python-version: "3.9"
     steps:
         - uses: actions/checkout@v3
         - uses: actions/setup-python@v4
