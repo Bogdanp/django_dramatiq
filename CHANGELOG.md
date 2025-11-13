@@ -5,8 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.14.0] - 2025-07-23
+## [0.15.0] - 2025-11-12
+### Added
+- Support for `--use-spawn` (#199)
+- Support for 3.14 (#200)
 
+### Dropped
+- Support for 3.9 (#200)
+
+
+## [0.14.0] - 2025-07-23
+### Added
 - Add support for Django 5.2 (#195)
 - Allow watch directory to be set via CLI (#192)
 - When using the PickleEncoder, fix task view by showing a representation of the args (#189)
