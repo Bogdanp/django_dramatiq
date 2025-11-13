@@ -42,9 +42,7 @@ class AdminMiddleware(Middleware):
 
         self.after_process_message(broker, message, status=Task.STATUS_SKIPPED)
 
-    def after_process_message(
-        self, broker, message, *, result=None, exception=None, status=None
-    ):
+    def after_process_message(self, broker, message, *, result=None, exception=None, status=None):
         from .models import Task
 
         if exception is not None:

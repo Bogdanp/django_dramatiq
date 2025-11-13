@@ -33,9 +33,7 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
     assert "Discovered tasks module: 'tests.testapp1.tasks'" in buff.getvalue()
     assert "Discovered tasks module: 'tests.testapp2.tasks'" in buff.getvalue()
     assert "Discovered tasks module: 'tests.testapp3.tasks.tasks'" in buff.getvalue()
-    assert (
-        "Discovered tasks module: 'tests.testapp3.tasks.other_tasks'" in buff.getvalue()
-    )
+    assert "Discovered tasks module: 'tests.testapp3.tasks.other_tasks'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
     cores = str(rundramatiq.NPROCS)
@@ -351,10 +349,7 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
     assert "Discovered tasks module: 'tests.testapp3.tasks.utils'" in buff.getvalue()
     assert "Ignored tasks module: 'tests.testapp2.tasks'" in buff.getvalue()
     assert "Ignored tasks module: 'tests.testapp3.tasks.other_tasks'" in buff.getvalue()
-    assert (
-        "Ignored tasks module: 'tests.testapp3.tasks.utils.not_a_task'"
-        in buff.getvalue()
-    )
+    assert "Ignored tasks module: 'tests.testapp3.tasks.utils.not_a_task'" in buff.getvalue()
 
     # And execvp should be called with the appropriate arguments
     cores = str(rundramatiq.NPROCS)
@@ -392,9 +387,7 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
     buff = StringIO()
 
     # When I call the rundramatiq command with --log-file
-    call_command(
-        "rundramatiq", "--fork-function", "a", "--fork-function", "b", stdout=buff
-    )
+    call_command("rundramatiq", "--fork-function", "a", "--fork-function", "b", stdout=buff)
 
     # Then execvp should be called with the appropriate arguments
     cores = str(rundramatiq.NPROCS)

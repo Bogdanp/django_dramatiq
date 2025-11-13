@@ -58,9 +58,7 @@ def test_admin_middleware_keeps_track_of_failed_tasks(transactional_db, broker, 
     assert "RuntimeError" in task.message.options["traceback"]
 
 
-def test_admin_middleware_keeps_track_of_skipped_tasks(
-    transactional_db, broker, worker
-):
+def test_admin_middleware_keeps_track_of_skipped_tasks(transactional_db, broker, worker):
     # Given an actor that does nothing
     @dramatiq.actor(max_retries=0)
     def do_work():

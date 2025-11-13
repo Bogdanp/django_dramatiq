@@ -33,10 +33,7 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ("actor_name",)
 
     def eta(self, instance):
-        timestamp = (
-            instance.message.options.get("eta", instance.message.message_timestamp)
-            / 1000
-        )
+        timestamp = instance.message.options.get("eta", instance.message.message_timestamp) / 1000
 
         # Django expects a timezone-aware datetime if USE_TZ is True, and a naive datetime in localtime otherwise.
         tz = timezone.utc if settings.USE_TZ else None

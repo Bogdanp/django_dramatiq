@@ -49,10 +49,7 @@ class Command(BaseCommand):
             "--reload-use-polling",
             action="store_true",
             dest="use_polling_watcher",
-            help=(
-                "Use a poll-based file watcher for autoreload (useful under "
-                "Vagrant and Docker for Mac)"
-            ),
+            help=("Use a poll-based file watcher for autoreload (useful under Vagrant and Docker for Mac)"),
         )
         _unix_default = "fork" if sys.version_info < (3, 14) else "forkserver"
         parser.add_argument(
@@ -193,9 +190,7 @@ class Command(BaseCommand):
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
-        task_module_names = getattr(
-            settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",)
-        )
+        task_module_names = getattr(settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",))
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
         app_configs = []
         for conf in apps.get_app_configs():

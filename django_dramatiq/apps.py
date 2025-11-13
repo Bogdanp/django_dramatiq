@@ -43,19 +43,13 @@ class DjangoDramatiqConfig(AppConfig):
 
         result_backend_settings = self.result_backend_settings()
         if result_backend_settings:
-            result_backend_path = result_backend_settings.get(
-                "BACKEND", "dramatiq.results.backends.StubBackend"
-            )
+            result_backend_path = result_backend_settings.get("BACKEND", "dramatiq.results.backends.StubBackend")
             result_backend_class = import_string(result_backend_path)
             result_backend_options = result_backend_settings.get("BACKEND_OPTIONS", {})
             result_backend = result_backend_class(**result_backend_options)
 
-            results_middleware_options = result_backend_settings.get(
-                "MIDDLEWARE_OPTIONS", {}
-            )
-            results_middleware = Results(
-                backend=result_backend, **results_middleware_options
-            )
+            results_middleware_options = result_backend_settings.get("MIDDLEWARE_OPTIONS", {})
+            results_middleware = Results(backend=result_backend, **results_middleware_options)
         else:
             result_backend = None
             results_middleware = None
@@ -66,20 +60,15 @@ class DjangoDramatiqConfig(AppConfig):
                 "BACKEND", "dramatiq.rate_limits.backends.stub.StubBackend"
             )
             rate_limiter_backend_class = import_string(rate_limiter_backend_path)
-            rate_limiter_backend_options = rate_limiter_backend_settings.get(
-                "BACKEND_OPTIONS", {}
-            )
-            RATE_LIMITER_BACKEND = rate_limiter_backend_class(
-                **rate_limiter_backend_options
-            )
+            rate_limiter_backend_options = rate_limiter_backend_settings.get("BACKEND_OPTIONS", {})
+            RATE_LIMITER_BACKEND = rate_limiter_backend_class(**rate_limiter_backend_options)
 
         broker_settings = self.broker_settings()
         broker_path = broker_settings["BROKER"]
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [
-            load_middleware(path, **self.get_middleware_kwargs(path))
-            for path in broker_settings.get("MIDDLEWARE", [])
+            load_middleware(path, **self.get_middleware_kwargs(path)) for path in broker_settings.get("MIDDLEWARE", [])
         ]
 
         if result_backend is not None:
