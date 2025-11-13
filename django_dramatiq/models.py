@@ -18,7 +18,7 @@ class TaskManager(models.Manager):
             defaults={
                 "message_data": message.encode(),
                 **extra_fields,
-            }
+            },
         )
         return task
 

@@ -30,7 +30,7 @@ class Command(BaseCommand):
             "--skip-logging",
             action="store_true",
             dest="skip_logging",
-            help="Do not call logging.basicConfig()"
+            help="Do not call logging.basicConfig()",
         )
         watch_group = parser.add_mutually_exclusive_group()
         watch_group.add_argument(
@@ -66,26 +66,30 @@ class Command(BaseCommand):
             help="Use gevent for worker concurrency",
         )
         parser.add_argument(
-            "--processes", "-p",
+            "--processes",
+            "-p",
             default=NPROCS,
             type=int,
             help="The number of processes to run",
         )
         parser.add_argument(
-            "--threads", "-t",
+            "--threads",
+            "-t",
             default=NTHREADS,
             type=int,
             help="The number of threads per process to use",
         )
         parser.add_argument(
-            "--path", "-P",
+            "--path",
+            "-P",
             default=".",
             nargs="*",
             type=str,
             help="The import path",
         )
         parser.add_argument(
-            "--queues", "-Q",
+            "--queues",
+            "-Q",
             nargs="*",
             type=str,
             help="Listen to a subset of queues, or all when empty",
@@ -102,16 +106,36 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--fork-function",
-            action="append", dest="forks", default=[],
+            action="append",
+            dest="forks",
+            default=[],
             help="Fork a subprocess to run the given function",
         )
         parser.add_argument(
-            "--worker-shutdown-timeout", type=int, default=600000,
-            help="Timeout for worker shutdown, in milliseconds"
+            "--worker-shutdown-timeout",
+            type=int,
+            default=600000,
+            help="Timeout for worker shutdown, in milliseconds",
         )
 
-    def handle(self, watch_dir, skip_logging, use_polling_watcher, use_gevent, path, processes, threads, verbosity,
-               queues, pid_file, log_file, forks, worker_shutdown_timeout, use_spawn, **options):
+    def handle(
+        self,
+        watch_dir,
+        skip_logging,
+        use_polling_watcher,
+        use_gevent,
+        path,
+        processes,
+        threads,
+        verbosity,
+        queues,
+        pid_file,
+        log_file,
+        forks,
+        worker_shutdown_timeout,
+        use_spawn,
+        **options,
+    ):
         executable_name = "dramatiq-gevent" if use_gevent else "dramatiq"
         executable_path = self._resolve_executable(executable_name)
         watch_args = ["--watch", watch_dir] if watch_dir else []
@@ -127,20 +151,20 @@ class Command(BaseCommand):
         tasks_modules = self.discover_tasks_modules()
         process_args = [
             executable_name,
-            "--path", *path,
-            "--processes", str(processes),
-            "--threads", str(threads),
-            "--worker-shutdown-timeout", str(worker_shutdown_timeout),
-
+            "--path",
+            *path,
+            "--processes",
+            str(processes),
+            "--threads",
+            str(threads),
+            "--worker-shutdown-timeout",
+            str(worker_shutdown_timeout),
             # --watch /path/to/project [--watch-use-polling]
             *watch_args,
-
             # [--fork-function import.path.function]*
             *forks_args,
-
             # -v -v ...
             *verbosity_args,
-
             # django_dramatiq.tasks app1.tasks app2.tasks ...
             *tasks_modules,
         ]
@@ -169,7 +193,9 @@ class Command(BaseCommand):
         os.execvp(executable_path, process_args)
 
     def discover_tasks_modules(self):
-        task_module_names = getattr(settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",))
+        task_module_names = getattr(
+            settings, "DRAMATIQ_AUTODISCOVER_MODULES", ("tasks",)
+        )
         ignored_modules = set(getattr(settings, "DRAMATIQ_IGNORED_MODULES", []))
         app_configs = []
         for conf in apps.get_app_configs():

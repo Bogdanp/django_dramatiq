@@ -5,7 +5,6 @@ from django_dramatiq.test import DramatiqTestCase
 
 
 class TestDramatiqTestCase(DramatiqTestCase):
-
     def test_worker_consumes_tasks(self):
         # Given an actor defined in the test method
         @dramatiq.actor(max_retries=0)

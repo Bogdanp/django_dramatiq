@@ -49,9 +49,7 @@ setup(
     ],
     extras_require={
         "dev": [
-            "flake8",
-            "flake8-quotes",
-            "isort",
+            "ruff",
             "pytest",
             "pytest-cov",
             "pytest-django",

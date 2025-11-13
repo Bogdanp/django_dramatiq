@@ -3,7 +3,6 @@ from dramatiq import Worker, get_broker
 
 
 class DramatiqTestCase(TransactionTestCase):
-
     def setUp(self):
         self.broker = get_broker()
         self.broker.flush_all()
