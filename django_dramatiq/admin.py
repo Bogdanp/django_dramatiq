@@ -13,7 +13,13 @@ from .models import Task
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     exclude = ("message_data",)
-    readonly_fields = ("message_details", "traceback", "status", "queue_name", "actor_name")
+    readonly_fields = (
+        "message_details",
+        "traceback",
+        "status",
+        "queue_name",
+        "actor_name",
+    )
     list_display = (
         "__str__",
         "status",
@@ -27,9 +33,7 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ("actor_name",)
 
     def eta(self, instance):
-        timestamp = (
-            instance.message.options.get("eta", instance.message.message_timestamp) / 1000
-        )
+        timestamp = instance.message.options.get("eta", instance.message.message_timestamp) / 1000
 
         # Django expects a timezone-aware datetime if USE_TZ is True, and a naive datetime in localtime otherwise.
         tz = timezone.utc if settings.USE_TZ else None
