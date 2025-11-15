@@ -151,13 +151,11 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-lint = [
-    { name = "ruff" },
-]
-test = [
+dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
@@ -167,11 +165,11 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-lint = [{ name = "ruff" }]
-test = [
+dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "ruff" },
 ]
 
 [[package]]

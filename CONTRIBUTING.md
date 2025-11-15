@@ -12,16 +12,19 @@ All issues reported to Djang Dramatiq MUST follow the issue template. Any issues
 
 ## Running the Project Locally
 
-1. `git clone` the project.
-2. Create a virtual environment and install the dev dependencies with `pip install -e '.[dev]'`.
-3. Run tests with `python -m pytest`.
+1. `git clone` the project
+2. Use [uv](https://uv.astral.sh/) to install dependencies:
+   ```bash
+   uv sync --group dev
+   ```
+3. Run tests with `uv run pytest`
 
 Follow the [README.md](/examples/basic/README.md) in the example app for more details.
 
 ## Pull Requests
 
 * Make sure any code changes are covered by tests.
-* Run the test suite with command `python -m pytest`.
+* Run the test suite with command `uv run pytest`.
 * If this is your first contribution, add yourself to the [CONTRIBUTORS] file.
 * If your branch is behind master, [rebase] on top of it.
 

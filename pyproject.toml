@@ -29,10 +29,8 @@ dependencies = [
 ]
 
 [dependency-groups]
-lint = [
+dev = [
     "ruff",
-]
-test = [
     "pytest",
     "pytest-cov",
     "pytest-django",

@@ -42,4 +42,4 @@ jobs:
         - name: Install Django version ${{ matrix.django-version }}
           run: uv add django~=${{ matrix.django-version }} --frozen
         - name: Run tests - Python ${{ matrix.python-version }} - Django ${{ matrix.django-version }}
-          run: uv run -p ${{ matrix.python-version }} python -m pytest
+          run: uv run -p ${{ matrix.python-version }} pytest
