@@ -1,0 +1,16 @@
+[tool.ruff]
+exclude = ["migrations"]
+line-length = 120
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+testpaths = ["tests"]
+addopts = "--cov django_dramatiq --cov-report term --cov-fail-under=87"
+
+[tool.coverage.report]
+omit = [
+    "__init__.py",
+    "django_dramatiq/setup.py",
+    "*/migrations/*",
+    "*/tests/*"
+]

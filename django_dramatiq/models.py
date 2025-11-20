@@ -27,14 +27,12 @@ class TaskManager(models.Manager):
             defaults={
                 "message_data": message.encode(),
                 **extra_fields,
-            }
+            },
         )
         return task
 
     def delete_old_tasks(self, max_task_age):
-        self.using(DATABASE_LABEL).filter(
-            created_at__lte=now() - timedelta(seconds=max_task_age)
-        ).delete()
+        self.using(DATABASE_LABEL).filter(created_at__lte=now() - timedelta(seconds=max_task_age)).delete()
 
 
 class Task(models.Model):
