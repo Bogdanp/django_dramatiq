@@ -9,8 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class AdminMiddleware(Middleware):
-    """This middleware keeps track of task executions.
-    """
+    """This middleware keeps track of task executions."""
 
     def after_enqueue(self, broker, message, delay):
         from .models import Task
@@ -69,8 +68,7 @@ class AdminMiddleware(Middleware):
 
 
 class DbConnectionsMiddleware(Middleware):
-    """This middleware cleans up db connections on worker shutdown.
-    """
+    """This middleware cleans up db connections on worker shutdown."""
 
     def _close_old_connections(self, *args, **kwargs):
         db.close_old_connections()

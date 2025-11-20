@@ -44,18 +44,28 @@ def test_rundramatiq_can_run_dramatiq(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -75,19 +85,30 @@ def test_rundramatiq_can_run_dramatiq_reload(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "--watch", ".",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "--watch",
+            ".",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -107,19 +128,30 @@ def test_rundramatiq_can_run_dramatiq_watch(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "--watch", "/path/to/watch/dir",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "--watch",
+            "/path/to/watch/dir",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -139,20 +171,31 @@ def test_rundramatiq_can_run_dramatiq_with_polling(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "--watch", ".",
-        "--watch-use-polling",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "--watch",
+            ".",
+            "--watch-use-polling",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -172,19 +215,30 @@ def test_rundramatiq_can_run_dramatiq_with_only_some_queues(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-        "--queues", "A B C"
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+            "--queues",
+            "A B C",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -204,19 +258,30 @@ def test_rundramatiq_can_run_dramatiq_with_specified_pid_file(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-        "--pid-file", "drama.pid"
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+            "--pid-file",
+            "drama.pid",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -236,19 +301,30 @@ def test_rundramatiq_can_run_dramatiq_with_specified_log_file(execvp_mock):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-        "--log-file", "drama.log"
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+            "--log-file",
+            "drama.log",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -284,15 +360,25 @@ def test_rundramatiq_can_ignore_modules(execvp_mock, settings):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+        ],
+    )
 
 
 @patch("os.execvp")
@@ -312,17 +398,29 @@ def test_rundramatiq_can_fork(execvp_mock, settings):
         expected_exec_name,
     )
 
-    execvp_mock.assert_called_once_with(expected_exec_path, [
-        expected_exec_name, "--path", ".", "--processes", cores, "--threads", threads,
-        "--worker-shutdown-timeout", "600000",
-        "--fork-function", "a",
-        "--fork-function", "b",
-        "django_dramatiq.setup",
-        "django_dramatiq.tasks",
-        "tests.testapp1.tasks",
-        "tests.testapp2.tasks",
-        "tests.testapp3.tasks.other_tasks",
-        "tests.testapp3.tasks.tasks",
-        "tests.testapp3.tasks.utils",
-        "tests.testapp3.tasks.utils.not_a_task",
-    ])
+    execvp_mock.assert_called_once_with(
+        expected_exec_path,
+        [
+            expected_exec_name,
+            "--path",
+            ".",
+            "--processes",
+            cores,
+            "--threads",
+            threads,
+            "--worker-shutdown-timeout",
+            "600000",
+            "--fork-function",
+            "a",
+            "--fork-function",
+            "b",
+            "django_dramatiq.setup",
+            "django_dramatiq.tasks",
+            "tests.testapp1.tasks",
+            "tests.testapp2.tasks",
+            "tests.testapp3.tasks.other_tasks",
+            "tests.testapp3.tasks.tasks",
+            "tests.testapp3.tasks.utils",
+            "tests.testapp3.tasks.utils.not_a_task",
+        ],
+    )

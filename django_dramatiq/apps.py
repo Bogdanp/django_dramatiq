@@ -25,7 +25,7 @@ DEFAULT_BROKER_SETTINGS = {
         "dramatiq.middleware.Retries",
         "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
-    ]
+    ],
 }
 
 RATE_LIMITER_BACKEND = None
@@ -68,8 +68,7 @@ class DjangoDramatiqConfig(AppConfig):
         broker_class = import_string(broker_path)
         broker_options = broker_settings.get("OPTIONS", {})
         middleware = [
-            load_middleware(path, **self.get_middleware_kwargs(path))
-            for path in broker_settings.get("MIDDLEWARE", [])
+            load_middleware(path, **self.get_middleware_kwargs(path)) for path in broker_settings.get("MIDDLEWARE", [])
         ]
 
         if result_backend is not None:
