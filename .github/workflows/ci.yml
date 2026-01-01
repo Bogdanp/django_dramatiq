@@ -30,7 +30,7 @@ jobs:
           - "4.2"  # LTS
           - "5.0"
           - "5.1"
-          - "5.2"
+          - "5.2"  # LTS
           - "6.0"
         exclude:
           # Django 6.0 supports Python >=3.12
