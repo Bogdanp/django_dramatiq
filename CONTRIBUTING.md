@@ -22,6 +22,8 @@ Follow the [README.md](/examples/basic/README.md) in the example app for more de
 
 * Make sure any code changes are covered by tests.
 * Run the test suite with command `python -m pytest`.
+* Make sure your code passes linting with `prek run --all-files`.
+  * Alternatively, you can install the hooks with `prek install` and linting will be done automatically on each commit.
 * If this is your first contribution, add yourself to the [CONTRIBUTORS] file.
 * If your branch is behind master, [rebase] on top of it.
 
