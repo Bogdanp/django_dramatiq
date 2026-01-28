@@ -181,7 +181,7 @@ class Command(BaseCommand):
         if use_spawn:
             process_args.append("--use-spawn")
 
-        self.stdout.write(' * Running dramatiq: "%s"\n\n' % " ".join(process_args))
+        self.stdout.write(' * Running dramatiq: "{}"\n\n'.format(" ".join(process_args)))
 
         if sys.platform == "win32":
             command = [executable_path] + process_args[1:]
@@ -222,21 +222,21 @@ class Command(BaseCommand):
         for conf, task_module in app_configs:
             module = conf.name + "." + task_module
             if is_ignored_module(module):
-                self.stdout.write(" * Ignored tasks module: %r" % module)
+                self.stdout.write(f" * Ignored tasks module: {module!r}")
                 continue
 
             imported_module = importlib.import_module(module)
             if not self._is_package(imported_module):
-                self.stdout.write(" * Discovered tasks module: %r" % module)
+                self.stdout.write(f" * Discovered tasks module: {module!r}")
                 tasks_modules.append(module)
             else:
                 submodules = self._get_submodules(imported_module)
 
                 for submodule in submodules:
                     if is_ignored_module(submodule):
-                        self.stdout.write(" * Ignored tasks module: %r" % submodule)
+                        self.stdout.write(f" * Ignored tasks module: {submodule!r}")
                     else:
-                        self.stdout.write(" * Discovered tasks module: %r" % submodule)
+                        self.stdout.write(f" * Discovered tasks module: {submodule!r}")
                         tasks_modules.append(submodule)
 
         return tasks_modules
