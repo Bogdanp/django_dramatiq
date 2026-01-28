@@ -5,3 +5,9 @@ repos:
     -   id: ruff-check
         args: ["--fix"]
     -   id: ruff-format
+
+-   repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.29.1
+    hooks:
+    -   id: django-upgrade
+        args: [--target-version, "4.2"]
