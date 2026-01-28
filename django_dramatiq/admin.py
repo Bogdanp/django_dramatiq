@@ -52,12 +52,12 @@ class TaskAdmin(admin.ModelAdmin):
                 message_dict["kwargs"][k] = f"<{v}>"
 
         message_details = json.dumps(message_dict, indent=4)
-        return mark_safe("<pre>%s</pre>" % message_details)
+        return mark_safe(f"<pre>{message_details}</pre>")
 
     def traceback(self, instance):
         traceback = instance.message.options.get("traceback", None)
         if traceback:
-            return mark_safe("<pre>%s</pre>" % traceback)
+            return mark_safe(f"<pre>{traceback}</pre>")
         return None
 
     def has_add_permission(self, request):

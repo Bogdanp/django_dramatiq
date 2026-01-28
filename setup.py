@@ -7,7 +7,7 @@ def rel(*xs):
     return os.path.join(os.path.abspath(os.path.dirname(__file__)), *xs)
 
 
-with open(rel("django_dramatiq", "__init__.py"), "r") as f:
+with open(rel("django_dramatiq", "__init__.py")) as f:
     version_marker = "__version__ = "
     for line in f:
         if line.startswith(version_marker):
