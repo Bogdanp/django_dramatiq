@@ -95,8 +95,8 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
         pass
 
     # BLOCKLIST and ALLOWLIST is None - default
-    monkeypatch.setattr('django_dramatiq.models.TASKS_ALLOWLIST', None)
-    monkeypatch.setattr('django_dramatiq.models.TASKS_BLOCKLIST', None)
+    monkeypatch.setattr("django_dramatiq.models.TASKS_ALLOWLIST", None)
+    monkeypatch.setattr("django_dramatiq.models.TASKS_BLOCKLIST", None)
     Task.tasks.all().delete()
     actor_lists_check1.send()
     broker.join(actor_lists_check1.queue_name)
@@ -108,8 +108,8 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
 
     # ALLOWLIST set only
     Task.tasks.all().delete()
-    monkeypatch.setattr('django_dramatiq.models.TASKS_ALLOWLIST', ['actor_lists_check1'])
-    monkeypatch.setattr('django_dramatiq.models.TASKS_BLOCKLIST', None)
+    monkeypatch.setattr("django_dramatiq.models.TASKS_ALLOWLIST", ["actor_lists_check1"])
+    monkeypatch.setattr("django_dramatiq.models.TASKS_BLOCKLIST", None)
     actor_lists_check1.send()
     broker.join(actor_lists_check1.queue_name)
     worker.join()
@@ -117,12 +117,12 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
     broker.join(actor_lists_check2.queue_name)
     worker.join()
     assert Task.tasks.all().count() == 1
-    assert Task.tasks.filter(actor_name='actor_lists_check1').count() == 1
+    assert Task.tasks.filter(actor_name="actor_lists_check1").count() == 1
 
     # BLOCKLIST set only
     Task.tasks.all().delete()
-    monkeypatch.setattr('django_dramatiq.models.TASKS_ALLOWLIST', None)
-    monkeypatch.setattr('django_dramatiq.models.TASKS_BLOCKLIST', ['actor_lists_check1'])
+    monkeypatch.setattr("django_dramatiq.models.TASKS_ALLOWLIST", None)
+    monkeypatch.setattr("django_dramatiq.models.TASKS_BLOCKLIST", ["actor_lists_check1"])
     actor_lists_check1.send()
     broker.join(actor_lists_check1.queue_name)
     worker.join()
@@ -130,14 +130,14 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
     broker.join(actor_lists_check2.queue_name)
     worker.join()
     assert Task.tasks.all().count() == 1
-    assert Task.tasks.filter(actor_name='actor_lists_check2').count() == 1
+    assert Task.tasks.filter(actor_name="actor_lists_check2").count() == 1
 
     # BLOCKLIST and ALLOWLIST set
     Task.tasks.all().delete()
     monkeypatch.setattr(
-        'django_dramatiq.models.TASKS_ALLOWLIST', ['actor_lists_check1', 'actor_lists_check3'])
+        "django_dramatiq.models.TASKS_ALLOWLIST", ["actor_lists_check1", "actor_lists_check3"])
     monkeypatch.setattr(
-        'django_dramatiq.models.TASKS_BLOCKLIST', ['actor_lists_check2', 'actor_lists_check4'])
+        "django_dramatiq.models.TASKS_BLOCKLIST", ["actor_lists_check2", "actor_lists_check4"])
     actor_lists_check1.send()
     broker.join(actor_lists_check1.queue_name)
     worker.join()
@@ -145,10 +145,10 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
     broker.join(actor_lists_check2.queue_name)
     worker.join()
     assert Task.tasks.all().count() == 1
-    assert Task.tasks.filter(actor_name='actor_lists_check1').count() == 1
+    assert Task.tasks.filter(actor_name="actor_lists_check1").count() == 1
 
     # get_string_sequence_from_settings
-    assert get_string_sequence_from_settings('DJANGO_DRAMATIQ_TASKS_ALLOWLIST') is None
-    assert get_string_sequence_from_settings('DJANGO_DRAMATIQ_TASKS_BLOCKLIST') is None
+    assert get_string_sequence_from_settings("DJANGO_DRAMATIQ_TASKS_ALLOWLIST") is None
+    assert get_string_sequence_from_settings("DJANGO_DRAMATIQ_TASKS_BLOCKLIST") is None
     with pytest.raises(ValueError):
-        get_string_sequence_from_settings('_CHECK_GET_STRING_SEQUENCE_FROM_SETTINGS')
+        get_string_sequence_from_settings("_CHECK_GET_STRING_SEQUENCE_FROM_SETTINGS")

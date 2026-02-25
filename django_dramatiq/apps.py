@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 import dramatiq
 from django.apps import AppConfig
 from django.conf import settings
@@ -33,30 +31,29 @@ DEFAULT_BROKER_SETTINGS = {
 RATE_LIMITER_BACKEND = None
 
 
-def get_string_sequence_from_settings(settings_var_name: str) -> Optional[List[str]]:
+def get_string_sequence_from_settings(settings_var_name: str) -> list[str] | None:
     """
     Extracts a sequence of strings from Django settings by configuration variable name.
     Args:
         settings_var_name (str): name of the configuration variable in Django settings
     Returns:
-        Optional[List[str]]: list of strings from the setting, or None
+        list[str] or None:: list of strings from the setting, or None
     Raises:
         ValueError:
             * the setting type is not list/tuple/set/None
             * any element in the sequence is not a string
     Example:
-        >>> get_string_sequence_from_settings('DJANGO_DRAMATIQ_TASKS_BLOCKLIST')
-        ['actor_1', 'actor_2']
+        >>> get_string_sequence_from_settings("DJANGO_DRAMATIQ_TASKS_BLOCKLIST")
+        ["actor_1", "actor_2"]
     """
     val = getattr(settings, settings_var_name, None)
     if not isinstance(val, (tuple, list, set, type(None))):
-        raise ValueError(f'{settings_var_name} allowed types: tuple, list, set, None')
+        raise ValueError(f"{settings_var_name} allowed types: tuple, list, set, None")
     if val is None:
         return None
     for actor_name in val:
         if not isinstance(actor_name, str):
-            raise ValueError(
-                f'{settings_var_name} Bad actor name: {actor_name}, str expected')
+            raise ValueError(f"{settings_var_name} Bad actor name: {actor_name}, str expected")
     return [str(i) for i in val]
 
 
@@ -149,8 +146,8 @@ class DjangoDramatiqConfig(AppConfig):
 
     @classmethod
     def tasks_blocklist(cls):
-        return get_string_sequence_from_settings('DJANGO_DRAMATIQ_TASKS_BLOCKLIST')
+        return get_string_sequence_from_settings("DJANGO_DRAMATIQ_TASKS_BLOCKLIST")
 
     @classmethod
     def tasks_allowlist(cls):
-        return get_string_sequence_from_settings('DJANGO_DRAMATIQ_TASKS_ALLOWLIST')
+        return get_string_sequence_from_settings("DJANGO_DRAMATIQ_TASKS_ALLOWLIST")
