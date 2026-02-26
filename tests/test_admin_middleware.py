@@ -134,10 +134,8 @@ def test_tasks_allowlist_and_blocklist(transactional_db, broker, worker, monkeyp
 
     # BLOCKLIST and ALLOWLIST set
     Task.tasks.all().delete()
-    monkeypatch.setattr(
-        "django_dramatiq.models.TASKS_ALLOWLIST", ["actor_lists_check1", "actor_lists_check3"])
-    monkeypatch.setattr(
-        "django_dramatiq.models.TASKS_BLOCKLIST", ["actor_lists_check2", "actor_lists_check4"])
+    monkeypatch.setattr("django_dramatiq.models.TASKS_ALLOWLIST", ["actor_lists_check1", "actor_lists_check3"])
+    monkeypatch.setattr("django_dramatiq.models.TASKS_BLOCKLIST", ["actor_lists_check2", "actor_lists_check4"])
     actor_lists_check1.send()
     broker.join(actor_lists_check1.queue_name)
     worker.join()
