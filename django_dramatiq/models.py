@@ -16,7 +16,6 @@ TASKS_BLOCKLIST = DjangoDramatiqConfig.tasks_blocklist()
 
 class TaskManager(models.Manager):
     def create_or_update_from_message(self, message, **extra_fields):
-
         if TASKS_ALLOWLIST is not None and message.actor_name not in TASKS_ALLOWLIST:
             return None
         if TASKS_BLOCKLIST is not None and message.actor_name in TASKS_BLOCKLIST:
