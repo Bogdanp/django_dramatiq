@@ -26,3 +26,4 @@ This file lists the contributors to the `Django Dramatiq` project.
 | [@michael-provision](https://github.com/michael-provision)             | michael-provision   |
 | [@antonio-lm-jr](https://github.com/antonio-lm-jr)                     | antonio-lm-jr       |
 | [@ulgens](https://github.com/ulgens)                                   | Ülgen Sarıkavak     |
+| [@ikvk](https://github.com/ikvk)                                       | Vladimir Kaukin     |
