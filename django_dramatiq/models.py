@@ -67,5 +67,5 @@ class Task(models.Model):
         try:
             return str(self.message)
         except Exception as e:
-            logger.exception(f'Failed to display Task {self.id}')
-            return f'Failed to display Task: {e}'
+            logger.exception(f"Failed to display Task {self.id}")
+            return f"Failed to display Task: {e}"
