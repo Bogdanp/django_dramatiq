@@ -25,3 +25,4 @@ This file lists the contributors to the `Django Dramatiq` project.
 | [@dbowring](https://github.com/dbowring)                               | Daniel Bowring      |
 | [@michael-provision](https://github.com/michael-provision)             | michael-provision   |
 | [@antonio-lm-jr](https://github.com/antonio-lm-jr)                     | antonio-lm-jr       |
+| [@ulgens](https://github.com/ulgens)                                   | Ülgen Sarıkavak     |

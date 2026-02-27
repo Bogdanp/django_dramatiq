@@ -7,7 +7,7 @@ def rel(*xs):
     return os.path.join(os.path.abspath(os.path.dirname(__file__)), *xs)
 
 
-with open(rel("django_dramatiq", "__init__.py"), "r") as f:
+with open(rel("django_dramatiq", "__init__.py")) as f:
     version_marker = "__version__ = "
     for line in f:
         if line.startswith(version_marker):
@@ -30,7 +30,7 @@ setup(
         "django_dramatiq.migrations",
     ],
     install_requires=[
-        "django>=4.2",
+        "django>=4.2,!=5.0.*,!=5.1.*",
         "dramatiq>=1.11",
     ],
     classifiers=[
@@ -38,8 +38,8 @@ setup(
         "Operating System :: OS Independent",
         "Framework :: Django",
         "Framework :: Django :: 4.2",
-        "Framework :: Django :: 5.0",
-        "Framework :: Django :: 5.1",
+        "Framework :: Django :: 5.2",
+        "Framework :: Django :: 6.0",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

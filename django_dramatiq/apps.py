@@ -92,7 +92,7 @@ class DjangoDramatiqConfig(AppConfig):
     def get_middleware_kwargs(cls, path):
         if isinstance(path, str):
             middleware_path = path.rsplit(".", 1)[1].lower()
-            middleware_kwargs_method = "middleware_{}_kwargs".format(middleware_path)
+            middleware_kwargs_method = f"middleware_{middleware_path}_kwargs"
             if hasattr(cls, middleware_kwargs_method):
                 return getattr(cls, middleware_kwargs_method)()
         return {}
