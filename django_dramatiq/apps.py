@@ -18,7 +18,7 @@ DEFAULT_BROKER_SETTINGS = {
         "connection_attempts": 5,
     },
     "MIDDLEWARE": [
-        "dramatiq.middleware.Prometheus",
+        "dramatiq.middleware.prometheus.Prometheus",
         "dramatiq.middleware.AgeLimit",
         "dramatiq.middleware.TimeLimit",
         "dramatiq.middleware.Callbacks",

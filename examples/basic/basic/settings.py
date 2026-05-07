@@ -127,7 +127,7 @@ DRAMATIQ_BROKER = {
         "url": "redis://localhost:6379",
     },
     "MIDDLEWARE": [
-        "dramatiq.middleware.Prometheus",
+        "dramatiq.middleware.prometheus.Prometheus",
         "dramatiq.middleware.AgeLimit",
         "dramatiq.middleware.TimeLimit",
         "dramatiq.middleware.Callbacks",

@@ -3,7 +3,7 @@
 This file lists the contributors to the `Django Dramatiq` project.
 
 | Username                                                               | Name                |
-| :-------                                                               | :---                |
+|:-----------------------------------------------------------------------|:--------------------|
 | [@rakanalh](https://github.com/rakanalh)                               | Rakan Alhneiti      |
 | [@rpkilby](https://github.com/rpkilby)                                 | Ryan P Kilby        |
 | [@nachopro](https://github.com/nachopro)                               | nachopro            |
@@ -26,3 +26,4 @@ This file lists the contributors to the `Django Dramatiq` project.
 | [@michael-provision](https://github.com/michael-provision)             | michael-provision   |
 | [@antonio-lm-jr](https://github.com/antonio-lm-jr)                     | antonio-lm-jr       |
 | [@ulgens](https://github.com/ulgens)                                   | Ülgen Sarıkavak     |
+| [@scpaes](https://github.com/scpaes)                                   | Samuel Paes         |

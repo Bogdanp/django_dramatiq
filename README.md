@@ -55,7 +55,7 @@ DRAMATIQ_BROKER = {
         "url": "amqp://localhost:5672",
     },
     "MIDDLEWARE": [
-        "dramatiq.middleware.Prometheus",
+        "dramatiq.middleware.prometheus.Prometheus",
         "dramatiq.middleware.AgeLimit",
         "dramatiq.middleware.TimeLimit",
         "dramatiq.middleware.Callbacks",
