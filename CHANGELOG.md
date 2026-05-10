@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] -
+### Changed
+- Update dramatiq Prometheus middleware path in docs examples (#217)
+
 ## [0.15.0] - 2025-11-12
 ### Added
 - Support for `--use-spawn` (#199)
@@ -86,7 +90,7 @@ Set number of processes/threads through DRAMATIQ_NPROCS, DRAMATIQ_NTHREADS. ([m0
 - Support for Django 4.0 and 4.1
 
 ### Changed
-- Fixed issue [#123] in deferred `DjangoDramatiqConfig` initialization. 
+- Fixed issue [#123] in deferred `DjangoDramatiqConfig` initialization.
   Dramatiq configuration now happens before loading importing all Django apps models,
   so loaded tasks will use the correct Dramatiq settings. ([@amureki], [#126])
 
